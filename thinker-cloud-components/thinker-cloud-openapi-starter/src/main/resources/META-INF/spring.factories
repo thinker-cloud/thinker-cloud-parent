@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.thinker.cloud.swagger.properties.SwaggerProperties,\
+com.thinker.cloud.swagger.config.SwaggerAutoConfiguration,\
+com.thinker.cloud.swagger.config.WebFluxSwaggerConfiguration,\
+com.thinker.cloud.swagger.config.GatewaySwaggerAutoConfiguration

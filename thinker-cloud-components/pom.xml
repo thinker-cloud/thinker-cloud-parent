@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.thinker.cloud</groupId>
+        <artifactId>thinker-cloud-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>thinker-cloud-components</artifactId>
+    <name>thinker-cloud-components</name>
+    <packaging>pom</packaging>
+    <description>Thinker Cloud Components</description>
+    <url>https://www.isexcuse.com</url>
+
+    <modules>
+        <module>thinker-cloud-core-starter</module>
+        <module>thinker-cloud-db-starter</module>
+        <module>thinker-cloud-dubbo-starter</module>
+        <module>thinker-cloud-elasticsearch-starter</module>
+        <module>thinker-cloud-feign-starter</module>
+        <module>thinker-cloud-kafka-starter</module>
+        <module>thinker-cloud-log-starter</module>
+        <module>thinker-cloud-mqtt-starter</module>
+        <module>thinker-cloud-openapi-starter</module>
+        <module>thinker-cloud-redis-starter</module>
+        <module>thinker-cloud-rocketmq-starter</module>
+        <module>thinker-cloud-seata-starter</module>
+        <module>thinker-cloud-sentinel-starter</module>
+        <module>thinker-cloud-task-starter</module>
+        <module>thinker-cloud-tools-starter</module>
+        <module>thinker-cloud-web-starter</module>
+        <module>thinker-cloud-websocket-starter</module>
+        <module>thinker-cloud-zookeeper-starter</module>
+    </modules>
+
+</project>
