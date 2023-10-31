@@ -18,7 +18,7 @@ public enum ResponseCode implements IEnumDict<Integer> {
     UNAUTHORIZED(401, "身份未认证"),
     INVALID_TOKEN(401, "Token失效，请重新登录"),
     NOT_FOUND(404, "请求路径不存在"),
-    FAILURE(500, "服务器异常，请联系管理员"),
+    SERVER_FAILURE(500, "服务器异常，请联系管理员"),
     UNAVAILABLE(503, "依赖服务异常，请稍后再试"),
     ;
 

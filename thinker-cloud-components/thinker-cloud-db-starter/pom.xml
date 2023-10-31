@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-core-starter</artifactId>
+            <artifactId>thinker-cloud-security-starter</artifactId>
         </dependency>
 
         <!-- mysql驱动 -->
@@ -37,9 +37,25 @@
         <dependency>
             <groupId>ru.yandex.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- mybaitis-plus -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+
+        <!-- mybatis-plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>

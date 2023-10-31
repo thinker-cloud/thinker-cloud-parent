@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.io.Serial;
 
 /**
- * 自定义通用异常类
+ * 自定义业务异常类
  *
  * @author admin
  */

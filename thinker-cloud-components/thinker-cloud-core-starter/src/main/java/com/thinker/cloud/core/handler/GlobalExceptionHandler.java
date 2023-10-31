@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<Void> handleGlobalException(Exception e) {
         log.error("全局异常信息，ex={}", e.getMessage(), e);
-        return Result.buildFailure(ResponseCode.FAILURE);
+        return Result.buildFailure(ResponseCode.SERVER_FAILURE);
     }
 
     /**

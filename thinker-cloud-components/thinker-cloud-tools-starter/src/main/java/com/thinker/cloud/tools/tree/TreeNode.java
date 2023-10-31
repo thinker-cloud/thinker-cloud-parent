@@ -6,7 +6,6 @@ import java.util.List;
  * 树节点
  *
  * @author admin
- * @since 2020/12/31 18:04
  */
 public interface TreeNode<T extends TreeNode<T>> {
     /**

@@ -1,7 +1,7 @@
 package com.thinker.cloud.core.cache.fast;
 
 import com.alibaba.fastjson.JSON;
-import com.thinker.cloud.core.utils.DeflaterUtils;
+import com.thinker.cloud.core.utils.DeflaterUtil;
 import lombok.ToString;
 
 /**
@@ -49,7 +49,7 @@ public class DyKey implements IDyKey {
             if (!keyBuild.isEmpty()) {
                 keyBuild.append(separator);
             }
-            keyBuild.append(DeflaterUtils.zipString(JSON.toJSONString(key)));
+            keyBuild.append(DeflaterUtil.zipString(JSON.toJSONString(key)));
             return this;
         }
 

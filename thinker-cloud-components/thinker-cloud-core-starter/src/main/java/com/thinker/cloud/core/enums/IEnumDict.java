@@ -1,5 +1,6 @@
 package com.thinker.cloud.core.enums;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.alibaba.fastjson.serializer.ObjectSerializer;
 import com.alibaba.fastjson2.annotation.JSONType;
@@ -9,8 +10,6 @@ import com.thinker.cloud.core.serializer.jackson.enums.EnumDictDeserializer;
 import com.thinker.cloud.core.serializer.jackson.enums.EnumDictSerializer;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 枚举字典 支持将对象反序列化枚举,由于fastJson目前的版本还不支持从父类获取注解
@@ -58,7 +57,7 @@ public interface IEnumDict<V> extends ObjectSerializer {
     @Override
     default void write(JSONSerializer jsonSerializer, Object object, Object fieldName, Type fieldType, int features) {
         if (this.isWriteJsonObjectEnabled()) {
-            Map<String, Object> jsonObject = new HashMap<>(2);
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("value", this.getValue());
             jsonObject.put("desc", this.getDesc());
             jsonSerializer.write(jsonObject);

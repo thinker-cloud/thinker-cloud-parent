@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-core-starter</artifactId>
+            <artifactId>thinker-cloud-security-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>

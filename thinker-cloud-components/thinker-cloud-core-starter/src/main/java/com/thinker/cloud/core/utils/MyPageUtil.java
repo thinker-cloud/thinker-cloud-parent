@@ -4,7 +4,7 @@ import cn.hutool.core.util.PageUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.thinker.cloud.core.constants.CommonConstant;
+import com.thinker.cloud.core.constants.CommonConstants;
 import com.thinker.cloud.core.model.query.PageQuery;
 import com.thinker.cloud.core.xss.SqlFilter;
 import lombok.experimental.UtilityClass;
@@ -81,7 +81,7 @@ public class MyPageUtil {
 
         // 前端字段排序
         if (StringUtils.isNotEmpty(orderField)) {
-            if (CommonConstant.ASC.equalsIgnoreCase(order)) {
+            if (CommonConstants.ASC.equalsIgnoreCase(order)) {
                 return page.addOrder(OrderItem.asc(orderField));
             } else {
                 return page.addOrder(OrderItem.desc(orderField));
@@ -100,5 +100,33 @@ public class MyPageUtil {
             page.addOrder(OrderItem.desc(defaultOrderField));
         }
         return page;
+    }
+
+    /**
+     * 根据分页参数截取list
+     *
+     * @param list  数据列表
+     * @param page  page
+     * @param limit limit
+     * @param <T>   <T>
+     * @return List<T>
+     */
+    public static <T> List<T> subList(List<T> list, long page, long limit) {
+        long pageSize = Math.min(page * limit, list.size());
+        return list.subList((int) ((page - 1) * limit), (int) pageSize);
+    }
+
+    /**
+     * 根据总数计算总页数
+     *
+     * @param totalCount 总数
+     * @param pageSize   每页数
+     * @return 总页数
+     */
+    public static long totalPage(long totalCount, long pageSize) {
+        if (pageSize == 0) {
+            return 0;
+        }
+        return totalCount % pageSize == 0 ? (totalCount / pageSize) : (totalCount / pageSize + 1);
     }
 }

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.thinker.cloud.core.enums.IEnumDict;
 import com.thinker.cloud.core.exception.ValidationException;
-import com.thinker.cloud.core.utils.EnumDictUtil;
+import com.thinker.cloud.core.utils.enums.EnumDictUtil;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

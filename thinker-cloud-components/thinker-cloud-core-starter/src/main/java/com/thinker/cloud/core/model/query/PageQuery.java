@@ -1,8 +1,8 @@
 package com.thinker.cloud.core.model.query;
 
-import com.thinker.cloud.core.utils.MyPageUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.thinker.cloud.core.constants.CommonConstant;
+import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.core.utils.MyPageUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -28,13 +28,13 @@ public class PageQuery extends Query implements Serializable {
      * 当前页
      */
     @Range(min = 1, message = "页数（page）必须大于0")
-    private Long page = 1L;
+    private Integer page = 1;
 
     /**
      * 每页显示条数
      */
     @Range(min = 1, message = "显示条数（limit）必须大于0")
-    private Long limit = 10L;
+    private Integer limit = 10;
 
     /**
      * 排序字段
@@ -44,7 +44,7 @@ public class PageQuery extends Query implements Serializable {
     /**
      * 排序方式
      */
-    private String order = CommonConstant.DESC;
+    private String order = CommonConstants.DESC;
 
     /**
      * 生成分页组件

@@ -6,7 +6,6 @@ import java.util.List;
  * 树节点
  *
  * @author admin
- * @since 2020/12/31 18:04
  */
 public interface TreeNodeCode<T extends TreeNodeCode<T>> {
     /**
@@ -15,6 +14,7 @@ public interface TreeNodeCode<T extends TreeNodeCode<T>> {
      * @return id
      */
     Long getId();
+
     /**
      * 节点code
      *

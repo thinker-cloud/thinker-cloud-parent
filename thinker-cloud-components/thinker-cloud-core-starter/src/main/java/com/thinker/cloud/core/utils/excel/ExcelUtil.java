@@ -7,31 +7,42 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import cn.afterturn.easypoi.handler.inter.IWriter;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ZipUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinker.cloud.core.enums.ResponseCode;
 import com.thinker.cloud.core.excel.BaseVerifyHandler;
+import com.thinker.cloud.core.excel.ExcelExportTask;
 import com.thinker.cloud.core.exception.FailException;
-import com.thinker.cloud.core.utils.MyJsonTools;
+import com.thinker.cloud.core.utils.MyJsonUtil;
+import com.thinker.cloud.core.utils.thread.BatchTaskThreadPool;
+import com.thinker.cloud.core.utils.thread.BatchTaskUtil;
+import com.thinker.cloud.tools.generator.IDGenerator;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddressList;
-import org.apache.poi.xssf.usermodel.XSSFDataValidation;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.function.LongFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -59,7 +70,7 @@ public class ExcelUtil {
             }
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setContentType("application/vnd.ms-excel;charset=utf-8");
-            response.setHeader("Content-Disposition", "attachment; filename=import-template.xlsx");
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=import-template.xlsx");
             @Cleanup OutputStream outputStream = response.getOutputStream();
             int len;
             byte[] data = new byte[1024];
@@ -72,6 +83,44 @@ public class ExcelUtil {
         } catch (Exception e) {
             log.error("下载模板文件失败，ex={}", e.getMessage(), e);
             throw new FailException("下载模板文件失败");
+        }
+    }
+
+    /**
+     * 下载zip文件
+     *
+     * @param zipFilePath zip文件地址
+     * @param response    response
+     */
+    public static void downloadZipFile(String zipFilePath, HttpServletResponse response) {
+        File file = FileUtil.file(zipFilePath);
+        downloadZipFile(file, response);
+    }
+
+    /**
+     * 下载zip文件
+     *
+     * @param zipFile  zip文件
+     * @param response response
+     */
+    public static void downloadZipFile(File zipFile, HttpServletResponse response) {
+        try (FileInputStream inputStream = new FileInputStream(zipFile)) {
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            response.setContentType("application/octet-stream;charset=utf-8");
+            String filename = URLEncoder.encode(zipFile.getName(), StandardCharsets.UTF_8.name());
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename + ".zip");
+            @Cleanup OutputStream outputStream = response.getOutputStream();
+            int len;
+            byte[] data = new byte[1024];
+            // 读取模板文件
+            while ((len = inputStream.read(data)) != -1) {
+                outputStream.write(data, 0, len);
+            }
+        } catch (FileNotFoundException e) {
+            throw FailException.of("文件不存在");
+        } catch (Exception e) {
+            log.error("下载zip文件失败，ex={}", e.getMessage(), e);
+            throw FailException.of("下载zip文件失败");
         }
     }
 
@@ -100,13 +149,109 @@ public class ExcelUtil {
      * @param response response
      */
     @SneakyThrows
-    private static void exportExcel(String fileName, Workbook workbook, HttpServletResponse response) {
+    public static void exportExcel(String fileName, Workbook workbook, HttpServletResponse response) {
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
         String filename = URLEncoder.encode(fileName, StandardCharsets.UTF_8);
         response.setHeader("Content-Disposition", "attachment;filename=" + filename + ".xlsx");
         @Cleanup OutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);
+    }
+
+    /**
+     * 将数据导出到Excel 大数据导出
+     *
+     * @param total    导出数据总条数
+     * @param limit    单次查询数据库条数
+     * @param supplier 导出数据获取过程
+     * @param fileName 导出文件名称
+     * @param aClass   导出数据对象Class
+     * @param <T>      导出数据对象类型
+     * @param response response
+     */
+    public static <T> void exportBigExcel(long total, long limit, LongFunction<List<T>> supplier
+            , String fileName, Class<T> aClass, HttpServletResponse response) {
+        ExportParams exportParams = new ExportParams();
+        exportParams.setType(ExcelType.XSSF);
+        @Cleanup IWriter<Workbook> writer = ExcelExportUtil.exportBigExcel(exportParams, aClass);
+
+        // 分批次查询并写入Excel
+        BatchTaskUtil.batchQuery(total, limit, supplier, writer::write);
+
+        // 导出Excel
+        exportExcel(fileName, writer.get(), response);
+    }
+
+    /**
+     * 将数据导出到多个Excel 导出文件数量超过1个则自动打包成zip下载
+     *
+     * @param total       导出数据总条数
+     * @param limit       单次查询数据库条数
+     * @param supplier    导出数据获取过程
+     * @param excelMaxNum 单个Excel文件存储最大条数
+     * @param fileName    导出文件名称
+     * @param aClass      导出数据对象Class
+     * @param <T>         导出数据对象类型
+     * @param response    response
+     */
+    public static <T> void exportMultipleExcel(long total, long limit, LongFunction<List<T>> supplier
+            , Integer excelMaxNum, String fileName, Class<T> aClass, HttpServletResponse response) {
+        // 计算导出任务
+        List<Callable<Boolean>> excelExportTasks = genExportExcelTasks(total, limit, supplier
+                , excelMaxNum, fileName, aClass, "");
+
+        // 如果导出任务只有一个，则直接导出
+        if (excelExportTasks.isEmpty() || excelExportTasks.size() == 1) {
+            exportBigExcel(total, limit, supplier, fileName, aClass, response);
+            return;
+        }
+
+        // 导出任务大于1个，则将数据导出到zip压缩文件
+        File zipFile = exportMultipleExcelToZip(total, limit, supplier, excelMaxNum, fileName, aClass);
+        downloadZipFile(zipFile, response);
+    }
+
+    /**
+     * 将数据导出到Excel并压缩成zip文件
+     *
+     * @param total       导出数据总条数
+     * @param limit       单次查询数据库条数
+     * @param supplier    导出数据获取过程
+     * @param excelMaxNum 单个Excel文件存储最大条数
+     * @param fileName    导出文件名称
+     * @param aClass      导出数据对象Class
+     * @param <T>         导出数据对象类型
+     * @return File zip文件
+     */
+    public static <T> File exportMultipleExcelToZip(long total, long limit, LongFunction<List<T>> supplier
+            , Integer excelMaxNum, String fileName, Class<T> aClass) {
+        // 导出临时文件存放目录路径
+        File file = FileUtil.mkdir(File.separator + "excel_export" +
+                File.separator + "temp" + File.separator + IDGenerator.SNOW_FLAKE.generate());
+
+        // 生成导出任务
+        List<Callable<Boolean>> excelExportTasks = genExportExcelTasks(total, limit, supplier
+                , excelMaxNum, fileName, aClass, file.getPath());
+
+        try {
+            // 批量生成导出文件
+            List<Boolean> allTask = BatchTaskThreadPool.invokeAllTask(excelExportTasks, 10);
+            if (!allTask.stream().allMatch(Boolean::booleanValue)) {
+                throw FailException.of("导出文件失败");
+            }
+
+            // 将临时文件目录下的文件打成压缩包
+            String zipPath = file.getPath() + ".zip";
+
+            // 返回压缩文件
+            return ZipUtil.zip(file.getPath(), zipPath);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw FailException.of("导出文件失败");
+        } finally {
+            // 删除临时文件目录
+            FileUtil.del(file.getPath());
+        }
     }
 
     /**
@@ -143,10 +288,29 @@ public class ExcelUtil {
     public static <T> void exportExcelByTemplate(String templateFileName, List<T> list, HttpServletResponse response) {
         Map<String, Object> dataMap = Maps.newHashMap();
         List<JSONObject> melist = list.stream()
-                .map(MyJsonTools::toJsonObject)
+                .map(MyJsonUtil::toJsonObject)
                 .collect(Collectors.toList());
         dataMap.put("list", melist);
         exportExcelByTemplate(templateFileName, dataMap, response);
+    }
+
+    /**
+     * 导入Excel 取表格第一列数据
+     *
+     * @param file      file
+     * @param titleRows 表格标题行数 0：表示没有标题
+     * @return List<T>
+     */
+    @SneakyThrows
+    public static List<String> importExcel(MultipartFile file, Integer titleRows) {
+        List<String> list = Lists.newArrayList();
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+        Sheet sheet1 = workbook.getSheetAt(0);
+        for (int i = titleRows; i <= sheet1.getLastRowNum(); i++) {
+            String value = ExcelRowUtil.getCellValue(sheet1.getRow(i), 0);
+            Optional.ofNullable(value).filter(StrUtil::isNotBlank).ifPresent(list::add);
+        }
+        return list;
     }
 
     /**
@@ -186,7 +350,7 @@ public class ExcelUtil {
         ExcelImportResult<T> result = ExcelImportUtil.importExcelMore(inputStream, aClass, params);
         if (!CollectionUtils.isEmpty(result.getFailList())) {
             // 这里导入正常、失败的数据集合都返回，根据业务自己处理
-            throw new FailException(result, ResponseCode.FAILURE.getCode(), "导入失败");
+            throw new FailException(result, ResponseCode.SERVER_FAILURE.getCode(), "导入失败");
         }
         return result.getList();
     }
@@ -210,46 +374,51 @@ public class ExcelUtil {
     }
 
     /**
-     * 生成下拉框
-     * firstRow 开始行号(下标0开始)
-     * lastRow  结束行号，最大65535
-     * firstCol 区域中第一个单元格的列号 (下标0开始)
-     * lastCol 区域中最后一个单元格的列号
-     * dataArray 下拉内容
-     * sheetHidden 影藏的sheet编号（例如1,2,3），多个下拉数据不能使用同一个
+     * 生成导出 Excel任务对象
+     *
+     * @param total       导出数据总条数
+     * @param limit       单次查询数据库条数
+     * @param supplier    导出数据获取过程
+     * @param excelMaxNum 单个Excel文件存储最大条数
+     * @param fileName    导出文件名称
+     * @param aClass      导出数据对象Class
+     * @param filepath    导出文件路径
+     * @param <T>         导出数据对象类型
+     * @return zip文件地址
      */
-    public static void selectList(Workbook workbook, int firstRow, int lastRow, int firstCol, int lastCol, String[] dataArray, int sheetHidden) {
-        String hiddenName = "hidden_" + System.currentTimeMillis() + (int) ((Math.random() * 9 + 1) * 100 + (Math.random() * 9 + 1) * 1000);
-        Sheet sheet = workbook.getSheetAt(0);
-        Sheet hidden = workbook.createSheet(hiddenName);
+    private static <T> List<Callable<Boolean>> genExportExcelTasks(long total, long limit, LongFunction<List<T>> supplier
+            , Integer excelMaxNum, String fileName, Class<T> aClass, String filepath) {
+        // 根据数据总数计算生成文件数量
+        long fileTotal = total / excelMaxNum + (total % excelMaxNum > 0 ? 1 : 0);
 
-        for (int i = 0; i < dataArray.length; i++) {
-            String name = dataArray[i];
-            Row row = hidden.createRow(i);
-            Cell cell = row.createCell(0);
-            cell.setCellValue(name);
+        List<Callable<Boolean>> excelExportTasks = Lists.newArrayList();
+        for (int i = 1; i <= fileTotal; i++) {
+            String filePath = filepath + File.separator + fileName + i + ".xlsx";
+            ExcelExportTask<T> excelExportTask = new ExcelExportTask<>(filePath, aClass, supplier);
+            excelExportTask.generatePage(excelMaxNum, limit, i);
+
+            // 只用存一个文件
+            if (fileTotal == 1) {
+                excelExportTasks.add(excelExportTask.setTotal(total));
+                return excelExportTasks;
+            }
+
+            // 计算最后一个文件实际存放多少数据
+            // 少于excel最大存储数的10分之一，则直接放入当前文件中
+            long lastFileDataCount = total - ((fileTotal - 1) * excelMaxNum);
+            if (i == (fileTotal - 1) && lastFileDataCount < (excelMaxNum / 10)) {
+                long fileDataTotal = excelMaxNum + lastFileDataCount;
+                excelExportTasks.add(excelExportTask.setTotal(fileDataTotal));
+                return excelExportTasks;
+            }
+
+            // 最后一个文件
+            if (i == fileTotal && lastFileDataCount > 0) {
+                excelExportTask.setTotal(lastFileDataCount);
+            }
+
+            excelExportTasks.add(excelExportTask);
         }
-
-        Name namedCell = workbook.createName();
-        namedCell.setNameName(hiddenName);
-        namedCell.setRefersToFormula(hiddenName + "!$A$1:$A$" + dataArray.length);
-
-        // 设置数据有效性加载在哪个单元格上,四个参数分别是：起始行、终止行、起始列、终止列
-        DataValidationHelper dataValidationHelper = hidden.getDataValidationHelper();
-        CellRangeAddressList addressList = new CellRangeAddressList(firstRow, lastRow, firstCol, lastCol);
-        DataValidationConstraint constraint = dataValidationHelper.createFormulaListConstraint(hiddenName);
-        DataValidation createValidation = dataValidationHelper.createValidation(constraint, addressList);
-
-        // 处理Excel兼容性问题
-        if (createValidation instanceof XSSFDataValidation) {
-            createValidation.setShowErrorBox(true);
-            createValidation.setSuppressDropDownArrow(true);
-        } else {
-            createValidation.setSuppressDropDownArrow(false);
-        }
-
-        // 将sheet设置为隐藏
-        workbook.setSheetHidden(sheetHidden, true);
-        sheet.addValidationData(createValidation);
+        return excelExportTasks;
     }
 }

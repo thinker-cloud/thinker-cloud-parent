@@ -90,11 +90,11 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> buildFailure() {
-        return buildFailure(ResponseCode.FAILURE);
+        return buildFailure(ResponseCode.SERVER_FAILURE);
     }
 
     public static <T> Result<T> buildFailure(String message) {
-        return buildFailure(ResponseCode.FAILURE.getCode(), message);
+        return buildFailure(ResponseCode.SERVER_FAILURE.getCode(), message);
     }
 
     public static <T> Result<T> buildFailure(Integer code, String message) {
@@ -106,7 +106,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> buildFailure(String message, Object... agsArray) {
-        return buildFailure(ResponseCode.FAILURE.getCode(), StrUtil.format(message, agsArray));
+        return buildFailure(ResponseCode.SERVER_FAILURE.getCode(), StrUtil.format(message, agsArray));
     }
 
     public static <T> Result<T> buildFailure(Integer code, String message, Object... agsArray) {
@@ -114,7 +114,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> buildFailure(T data, String message) {
-        return buildFailure(data, ResponseCode.FAILURE.getCode(), message);
+        return buildFailure(data, ResponseCode.SERVER_FAILURE.getCode(), message);
     }
 
     public static <T> Result<T> buildFailure(T data, String message, Object... agsArray) {

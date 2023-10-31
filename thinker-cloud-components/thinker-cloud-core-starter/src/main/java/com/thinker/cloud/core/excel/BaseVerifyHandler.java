@@ -9,7 +9,6 @@ import com.thinker.cloud.core.utils.ValidatorUtil;
  * 基础校验处理器
  *
  * @author admin
- * @since 2023/08/05 16:58
  **/
 public class BaseVerifyHandler<T> implements IExcelVerifyHandler<T> {
 

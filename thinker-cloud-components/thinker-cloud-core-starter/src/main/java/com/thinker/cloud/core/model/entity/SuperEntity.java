@@ -34,7 +34,6 @@ public class SuperEntity extends BaseEntity implements Serializable {
     /**
      * 逻辑删除标识
      */
-    @JsonIgnore
     @TableLogic
     private Boolean deleted;
 
