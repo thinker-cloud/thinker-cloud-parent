@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  *
  * @author admin
  */
-public class DefaultDataScopeHandle implements DataScopeHandle {
+public class DefaultDataScopeHandler implements DataScopeHandler {
 
     @Override
     public Integer getDataScopeType() {

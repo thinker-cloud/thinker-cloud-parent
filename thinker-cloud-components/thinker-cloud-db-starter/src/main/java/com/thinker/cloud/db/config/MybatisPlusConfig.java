@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
-import com.thinker.cloud.db.datascope.DataScopeHandle;
+import com.thinker.cloud.db.datascope.DataScopeHandler;
 import com.thinker.cloud.db.datascope.DataScopeInterceptor;
-import com.thinker.cloud.db.datascope.DefaultDataScopeHandle;
-import com.thinker.cloud.db.handler.MyMetaObjectHandler;
+import com.thinker.cloud.db.datascope.DefaultDataScopeHandler;
+import com.thinker.cloud.db.handler.FieldFillMetaObjectHandler;
 import com.thinker.cloud.db.properties.DbConfigProperties;
 import com.thinker.cloud.db.tenant.TenantMaintenanceHandler;
 import jakarta.annotation.Resource;
@@ -36,12 +36,32 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
     @Resource
     private DbConfigProperties dbConfigProperties;
 
+    /**
+     * 数据权限处理器对象
+     */
     @Bean
     @ConditionalOnMissingBean
-    public DataScopeHandle dataScopeHandle() {
-        return new DefaultDataScopeHandle();
+    public DataScopeHandler dataScopeHandler() {
+        return new DefaultDataScopeHandler();
     }
 
+    /**
+     * 创建租户维护处理器对象
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public TenantMaintenanceHandler tenantMaintenanceHandler() {
+        return new TenantMaintenanceHandler();
+    }
+
+    /**
+     * 字段自动填充处理器对象
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public FieldFillMetaObjectHandler fieldFillMetaObjectHandler() {
+        return new FieldFillMetaObjectHandler();
+    }
 
     /**
      * mybatis plus 拦截器配置
@@ -51,34 +71,17 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 多租户支持
         TenantLineInnerInterceptor tenantLineInnerInterceptor = new TenantLineInnerInterceptor();
-        tenantLineInnerInterceptor.setTenantLineHandler(digitTenantHandler());
+        tenantLineInnerInterceptor.setTenantLineHandler(tenantMaintenanceHandler());
         interceptor.addInnerInterceptor(tenantLineInnerInterceptor);
 
         // 数据权限
         DataScopeInterceptor dataScopeInterceptor = new DataScopeInterceptor();
-        dataScopeInterceptor.setDataScopeHandle(dataScopeHandle());
+        dataScopeInterceptor.setDataScopeHandler(dataScopeHandler());
         interceptor.addInnerInterceptor(dataScopeInterceptor);
 
         // 分页支持
         DbType dbType = DbType.getDbType(dbConfigProperties.getDbType());
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(dbType));
         return interceptor;
-    }
-
-    /**
-     * 创建租户维护处理器对象
-     *
-     * @return 处理后的租户维护处理器
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public TenantMaintenanceHandler digitTenantHandler() {
-        return new TenantMaintenanceHandler();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public MyMetaObjectHandler myMetaObjectHandler() {
-        return new MyMetaObjectHandler();
     }
 }

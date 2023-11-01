@@ -7,7 +7,7 @@ import java.util.Collection;
  *
  * @author admin
  */
-public interface DataScopeHandle {
+public interface DataScopeHandler {
 
     /**
      * 获取用户权限类型

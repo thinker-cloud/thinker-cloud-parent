@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author admin
  */
 @Slf4j
-public class MyMetaObjectHandler implements MetaObjectHandler {
+public class FieldFillMetaObjectHandler implements MetaObjectHandler {
 
     private static final String CREATE_TIME = "createTime";
     private static final String CREATE_BY = "createBy";

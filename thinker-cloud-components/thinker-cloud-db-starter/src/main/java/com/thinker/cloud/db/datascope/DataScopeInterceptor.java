@@ -22,7 +22,7 @@ import java.util.Map;
 public class DataScopeInterceptor implements InnerInterceptor {
 
     @Setter
-    private DataScopeHandle dataScopeHandle;
+    private DataScopeHandler dataScopeHandler;
 
     @Override
     public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds,
@@ -34,7 +34,7 @@ public class DataScopeInterceptor implements InnerInterceptor {
 
         // 查找参数中包含DataScope类型的参数
         DataScope dataScope = findDataScopeObject(parameterObject);
-        dataScopeHandle.calcScope(originalSql, dataScope);
+        dataScopeHandler.calcScope(originalSql, dataScope);
         mpBs.sql(originalSql);
     }
 

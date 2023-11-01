@@ -21,7 +21,6 @@ public class TenantMaintenanceHandler implements TenantLineHandler {
 
     /**
      * 获取租户值
-     * <p>
      *
      * @return 租户值
      */
@@ -47,8 +46,7 @@ public class TenantMaintenanceHandler implements TenantLineHandler {
     }
 
     /**
-     * 根据表名或租户id
-     * 判断是否进行过滤
+     * 根据表名或租户id，判断是否进行过滤
      *
      * @param tableName 表名
      * @return 是否进行过滤
