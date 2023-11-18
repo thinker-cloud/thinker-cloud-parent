@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.alibaba.fastjson.serializer.ObjectSerializer;
 import com.alibaba.fastjson2.annotation.JSONType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.thinker.cloud.core.serializer.jackson.enums.EnumDictDeserializer;
@@ -41,6 +42,7 @@ public interface IEnumDict<V> extends ObjectSerializer {
      *
      * @return boolean
      */
+    @JsonIgnore
     default boolean isWriteJsonObjectEnabled() {
         return true;
     }

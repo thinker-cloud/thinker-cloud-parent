@@ -1,7 +1,6 @@
 package com.thinker.cloud.db.properties;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +16,6 @@ import java.util.List;
 @Data
 @RefreshScope
 @Configuration
-@EnableAutoConfiguration
 @ConfigurationProperties(prefix = "thinker-cloud.db")
 public class DbConfigProperties {
 
@@ -43,9 +41,9 @@ public class DbConfigProperties {
         private String column = "tenant_id";
 
         /**
-         * 多租户的数据表集合
+         * 忽略多租户的数据表集合
          */
-        private List<String> tables = new ArrayList<>();
+        private List<String> ignoreTables = new ArrayList<>();
 
         /**
          * 忽略租户ids集合

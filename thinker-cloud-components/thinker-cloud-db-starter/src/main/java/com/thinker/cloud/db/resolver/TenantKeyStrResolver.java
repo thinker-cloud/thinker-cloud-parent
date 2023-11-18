@@ -3,7 +3,6 @@ package com.thinker.cloud.db.resolver;
 
 import com.thinker.cloud.core.resolver.KeyStrResolver;
 import com.thinker.cloud.db.tenant.TenantContextHolder;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
  * @author admin
  */
 @Configuration
-@EnableAutoConfiguration
 public class TenantKeyStrResolver implements KeyStrResolver {
 
     /**

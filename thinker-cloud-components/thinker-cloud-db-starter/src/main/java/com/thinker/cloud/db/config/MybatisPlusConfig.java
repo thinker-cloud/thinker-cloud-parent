@@ -7,12 +7,12 @@ import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerIntercept
 import com.thinker.cloud.db.datascope.DataScopeHandler;
 import com.thinker.cloud.db.datascope.DataScopeInterceptor;
 import com.thinker.cloud.db.datascope.DefaultDataScopeHandler;
-import com.thinker.cloud.db.handler.FieldFillMetaObjectHandler;
+import com.thinker.cloud.db.handler.BaseMetaObjectHandler;
+import com.thinker.cloud.db.injector.EnhanceSqlInjector;
 import com.thinker.cloud.db.properties.DbConfigProperties;
 import com.thinker.cloud.db.tenant.TenantMaintenanceHandler;
 import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -28,7 +28,6 @@ import javax.sql.DataSource;
  * @author admin
  */
 @Configuration
-@EnableAutoConfiguration
 @ConditionalOnBean(DataSource.class)
 @AutoConfigureAfter({DataSourceAutoConfiguration.class, DbConfigProperties.class})
 public class MybatisPlusConfig implements WebMvcConfigurer {
@@ -59,8 +58,16 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
      */
     @Bean
     @ConditionalOnMissingBean
-    public FieldFillMetaObjectHandler fieldFillMetaObjectHandler() {
-        return new FieldFillMetaObjectHandler();
+    public BaseMetaObjectHandler baseMetaObjectHandler() {
+        return new BaseMetaObjectHandler();
+    }
+
+    /**
+     * 增强自定义方法注入对象
+     */
+    @Bean
+    public EnhanceSqlInjector enhanceSqlInjector() {
+        return new EnhanceSqlInjector();
     }
 
     /**

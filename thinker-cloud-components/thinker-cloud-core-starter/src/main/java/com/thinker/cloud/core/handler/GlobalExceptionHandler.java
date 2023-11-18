@@ -1,10 +1,7 @@
 package com.thinker.cloud.core.handler;
 
 import com.thinker.cloud.core.enums.ResponseCode;
-import com.thinker.cloud.core.exception.FailException;
-import com.thinker.cloud.core.exception.IdempotentException;
-import com.thinker.cloud.core.exception.LockException;
-import com.thinker.cloud.core.exception.ValidationException;
+import com.thinker.cloud.core.exception.*;
 import com.thinker.cloud.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -87,6 +84,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IdempotentException.class)
     public Result<Void> handleIdempotentException(IdempotentException e) {
         log.error("幂等异常信息，ex={}", e.getMessage());
+        return Result.buildFailure(e.getCode(), e.getMessage());
+    }
+
+    /**
+     * 缓存异常
+     *
+     * @param e exception
+     * @return Result
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(CacheableException.class)
+    public Result<Void> handleCacheableException(CacheableException e) {
+        log.error("缓存异常信息，ex={}", e.getMessage());
         return Result.buildFailure(e.getCode(), e.getMessage());
     }
 

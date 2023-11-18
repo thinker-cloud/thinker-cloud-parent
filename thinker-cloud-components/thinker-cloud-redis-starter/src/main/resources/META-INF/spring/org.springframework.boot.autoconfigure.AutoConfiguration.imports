@@ -1,0 +1,2 @@
+com.thinker.cloud.redis.config.IdempotentAutoConfiguration
+com.thinker.cloud.redis.cache.generator.CacheKeyGenerator

@@ -58,10 +58,12 @@ public class TenantMaintenanceHandler implements TenantLineHandler {
         // 租户配置
         DbConfigProperties.TenantConfigProperties tenant = properties.getTenant();
 
-        // 租户中ID 为空，查询全部，不进行过滤
+        // 忽略租户id
         if (tenantId != null && tenant.getIgnoreTenantIds().contains(tenantId)) {
             return Boolean.TRUE;
         }
-        return tenant.getTables().contains(tableName);
+
+        // 忽略表
+        return tenant.getIgnoreTables().contains(tableName);
     }
 }

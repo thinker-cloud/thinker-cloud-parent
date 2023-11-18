@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.thinker.cloud.core.serializer.jackson.datetime.JavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -35,10 +34,9 @@ import java.util.TimeZone;
  * @author admin
  */
 @Configuration
-@EnableAutoConfiguration
 @ConditionalOnClass(ObjectMapper.class)
 @AutoConfigureBefore(JacksonAutoConfiguration.class)
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.ANY)
 public class JacksonConfiguration implements WebMvcConfigurer {
 
     private static final String ASIA_SHANGHAI = "Asia/Shanghai";

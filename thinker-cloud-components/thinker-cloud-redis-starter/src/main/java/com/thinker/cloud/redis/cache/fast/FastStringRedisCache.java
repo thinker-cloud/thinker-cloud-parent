@@ -1,4 +1,4 @@
-package com.thinker.cloud.redis.cache;
+package com.thinker.cloud.redis.cache.fast;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSONArray;
@@ -7,9 +7,8 @@ import com.alibaba.fastjson.TypeReference;
 import com.google.common.collect.Lists;
 import com.thinker.cloud.core.cache.fast.IDyKey;
 import com.thinker.cloud.core.cache.fast.IFastCache;
-import lombok.AllArgsConstructor;
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
@@ -21,11 +20,10 @@ import java.util.function.Supplier;
  *
  * @author admin
  */
-@Service
-@AllArgsConstructor
 public class FastStringRedisCache implements IFastCache {
 
-    private final StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void cache(String cacheKey, Object value, TimeUnit timeUnit, int expire) {
