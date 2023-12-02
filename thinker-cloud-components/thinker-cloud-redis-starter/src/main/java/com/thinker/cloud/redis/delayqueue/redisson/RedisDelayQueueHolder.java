@@ -41,11 +41,11 @@ public class RedisDelayQueueHolder implements DelayQueueHolder {
     @Override
     public <T> void addTask(String queueName, T value, long delay, TimeUnit timeUnit) {
         try {
-            log.info("添加到延时队列【{}】【{}-{}】【{}】", value, delay, timeUnit.name(), queueName);
+            log.info("添加到延时队列【{}】【{}】【{}-{}】", queueName, value, delay, timeUnit.name());
             RDelayedQueue<T> delayedQueue = this.initDelayQueue(queueName);
             delayedQueue.offer(value, delay, timeUnit);
         } catch (Exception e) {
-            log.error("添加到延时队列失败： value:{}  queueName:{} error:{}", value, queueName, e.getMessage(), e);
+            log.error("添加到延时队列失败：queueName:{}, value:{}, error:{}", value, queueName, e.getMessage(), e);
             throw new DelayedQueueException("添加到延时队列失败");
         }
     }
