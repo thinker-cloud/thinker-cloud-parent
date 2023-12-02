@@ -1,4 +1,4 @@
-package com.thinker.cloud.redis.config;
+package com.thinker.cloud.redis.idempotent.config;
 
 import com.thinker.cloud.redis.idempotent.aspect.IdempotentAspect;
 import com.thinker.cloud.core.aspect.expression.ExpressionResolver;

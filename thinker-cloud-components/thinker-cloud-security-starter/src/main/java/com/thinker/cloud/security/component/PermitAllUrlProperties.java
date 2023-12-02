@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
  */
 @Getter
 @Slf4j
-@ConfigurationProperties(prefix = "thinker-cloud.security.oauth2.ignore")
+@ConfigurationProperties(prefix = "thinker.cloud.security.oauth2.ignore")
 public class PermitAllUrlProperties implements InitializingBean {
 
     private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");

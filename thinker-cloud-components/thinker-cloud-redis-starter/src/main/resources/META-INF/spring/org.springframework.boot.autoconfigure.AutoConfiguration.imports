@@ -1,2 +1,5 @@
-com.thinker.cloud.redis.config.IdempotentAutoConfiguration
+com.thinker.cloud.redis.idempotent.config.IdempotentAutoConfiguration
 com.thinker.cloud.redis.cache.generator.CacheKeyGenerator
+com.thinker.cloud.redis.delayqueue.config.DelayQueueProperties
+com.thinker.cloud.redis.delayqueue.config.DelayQueueAutoConfiguration
+

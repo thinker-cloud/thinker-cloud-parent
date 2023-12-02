@@ -1,0 +1,52 @@
+package com.thinker.cloud.redis.delayqueue.config;
+
+import lombok.Data;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * 延迟队列线程池配置
+ *
+ * @author admin
+ */
+@Data
+@RefreshScope
+@Configuration
+@ConditionalOnProperty(prefix = "thinker.cloud.redis.delayQueue", havingValue = "enable")
+public class DelayQueueProperties {
+
+    /**
+     * 是否启用延迟队列
+     */
+    private boolean enable;
+
+    /**
+     * 线程池配置
+     */
+    private ThreadPoolProperties threadPool;
+
+    @Data
+    public static class ThreadPoolProperties {
+
+        /**
+         * 核心线程数 默认：2
+         */
+        private Integer corePoolSize = 2;
+
+        /**
+         * 最大线程数 默认：4
+         */
+        private Integer maxPoolSize = 4;
+
+        /**
+         * 队列容量大小 默认：200
+         */
+        private Integer queueCapacity = 100;
+
+        /**
+         * 保持活动秒 默认：60秒
+         */
+        private Integer keepAliveSeconds = 60;
+    }
+}

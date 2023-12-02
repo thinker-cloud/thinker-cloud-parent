@@ -1,4 +1,4 @@
-package com.thinker.cloud.redis.config;
+package com.thinker.cloud.redis.cache.config;
 
 import com.thinker.cloud.core.aspect.expression.ExpressionResolver;
 import com.thinker.cloud.redis.cache.aspect.CacheableAspect;

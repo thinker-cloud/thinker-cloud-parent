@@ -36,6 +36,19 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 统一业务异常
+     *
+     * @param e exception
+     * @return Result
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(AbstractException.class)
+    public Result<Void> handleValidateException(AbstractException e) {
+        log.error("统一业务异常，ex={}", e.getMessage());
+        return Result.buildFailure(e.getCode(), e.getMessage());
+    }
+
+    /**
      * 验证异常
      *
      * @param e exception
