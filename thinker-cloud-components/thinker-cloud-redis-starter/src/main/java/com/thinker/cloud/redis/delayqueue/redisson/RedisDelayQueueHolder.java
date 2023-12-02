@@ -45,7 +45,7 @@ public class RedisDelayQueueHolder implements DelayQueueHolder {
             RDelayedQueue<T> delayedQueue = this.initDelayQueue(queueName);
             delayedQueue.offer(value, delay, timeUnit);
         } catch (Exception e) {
-            log.error("添加到延时队列失败：queueName:{}, value:{}, error:{}", value, queueName, e.getMessage(), e);
+            log.error("添加到延时队列失败：queueName:{}, value:{}, error:{}", queueName, value, e.getMessage(), e);
             throw new DelayedQueueException("添加到延时队列失败");
         }
     }
