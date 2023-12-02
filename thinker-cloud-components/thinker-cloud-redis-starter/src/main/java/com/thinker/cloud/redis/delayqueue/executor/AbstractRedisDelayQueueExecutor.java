@@ -7,14 +7,14 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 延迟队列顶层接口抽象类
+ * Redis延迟队列顶层接口抽象类
  *
  * @author admin
  * @since 2023-12-02 16:07
  **/
 @Slf4j
 @Getter
-public abstract class AbstractDelayQueueExecutor<T extends DelayMessage> implements DelayQueueExecutor<T> {
+public abstract class AbstractRedisDelayQueueExecutor<T extends DelayMessage> implements DelayQueueExecutor<T> {
 
     @Resource
     private DelayQueueHolder redisDelayQueueHolder;

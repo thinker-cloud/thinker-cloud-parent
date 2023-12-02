@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @RefreshScope
 @Configuration
 @ConfigurationProperties(prefix = "thinker-cloud.redis.delay-queue")
-@ConditionalOnExpression("${thinker.cloud.redis.delay-queue.enabled:false}")
+@ConditionalOnExpression("${thinker-cloud.redis.delay-queue.enabled:false}")
 public class DelayQueueProperties {
 
     /**
@@ -26,7 +26,7 @@ public class DelayQueueProperties {
     /**
      * 线程池配置
      */
-    private ThreadPoolProperties threadPool;
+    private ThreadPoolProperties threadPool = new ThreadPoolProperties();
 
     @Data
     public static class ThreadPoolProperties {

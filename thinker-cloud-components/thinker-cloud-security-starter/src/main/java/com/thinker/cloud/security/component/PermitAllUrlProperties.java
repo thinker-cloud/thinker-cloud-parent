@@ -24,6 +24,8 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -37,8 +39,10 @@ import java.util.regex.Pattern;
  *
  * @author admin
  */
-@Getter
 @Slf4j
+@Getter
+@RefreshScope
+@Configuration
 @ConfigurationProperties(prefix = "thinker-cloud.security.oauth2.ignore")
 public class PermitAllUrlProperties implements InitializingBean {
 
