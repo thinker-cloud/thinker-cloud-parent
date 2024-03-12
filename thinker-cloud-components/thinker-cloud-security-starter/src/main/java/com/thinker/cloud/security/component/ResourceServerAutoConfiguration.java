@@ -17,6 +17,7 @@
 package com.thinker.cloud.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thinker.cloud.security.properties.PermitProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
@@ -28,7 +29,7 @@ import org.springframework.context.annotation.Bean;
  * @author admin
  */
 @RequiredArgsConstructor
-@EnableConfigurationProperties(PermitAllUrlProperties.class)
+@EnableConfigurationProperties(PermitProperties.class)
 public class ResourceServerAutoConfiguration {
 
     /**
@@ -48,7 +49,7 @@ public class ResourceServerAutoConfiguration {
      * @return BearerTokenExtractor
      */
     @Bean
-    public BearerTokenExtractor pigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
+    public BearerTokenExtractor bearerTokenExtractor(PermitProperties urlProperties) {
         return new BearerTokenExtractor(urlProperties);
     }
 

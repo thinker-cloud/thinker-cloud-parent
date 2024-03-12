@@ -45,10 +45,10 @@ public class DefaultDataScopeHandler implements DataScopeHandler {
      * 计算用户数据权限
      */
     @Override
-    public void calcScope(String originalSql, DataScope dataScope) {
+    public String calcScope(String originalSql, DataScope dataScope) {
         DigitUser digitUser = SecurityUtils.getUser();
         if (ObjectUtil.isEmpty(digitUser)) {
-            return;
+            return originalSql;
         }
 
         if (ObjectUtil.isEmpty(dataScope)) {
@@ -59,22 +59,23 @@ public class DefaultDataScopeHandler implements DataScopeHandler {
 
         // 查询全部
         if (DataScopeTypeEnum.ALL.getType().equals(dataScope.getType())) {
-            return;
+            return originalSql;
         }
 
         // 当前用户
         if (DataScopeTypeEnum.OWN_USER.getType().equals(dataScope.getType())
                 && StrUtil.containsIgnoreCase(originalSql, "create_by")) {
-            originalSql = String.format("SELECT * FROM (%s) temp_data_scope WHERE temp_data_scope.create_by = %s",
+            return String.format("SELECT * FROM (%s) temp_data_scope WHERE temp_data_scope.create_by = %s",
                     originalSql, digitUser.getId());
-            return;
         }
 
         if (StrUtil.containsIgnoreCase(originalSql, dataScope.getScopeName())
                 && CollUtil.isNotEmpty(dataScope.getDataScopeIds())) {
             String join = CollectionUtil.join(dataScope.getDataScopeIds(), ",");
-            originalSql = String.format("SELECT * FROM (%s) temp_data_scope WHERE temp_data_scope.%s IN (%s)",
+            return String.format("SELECT * FROM (%s) temp_data_scope WHERE temp_data_scope.%s IN (%s)",
                     originalSql, dataScope.getScopeName(), join);
         }
+
+        return originalSql;
     }
 }

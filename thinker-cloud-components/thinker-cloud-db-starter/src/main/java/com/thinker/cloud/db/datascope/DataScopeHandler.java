@@ -28,6 +28,7 @@ public interface DataScopeHandler {
      *
      * @param originalSql 原始Sql
      * @param dataScope   数据权限
+     * @return String
      */
-    void calcScope(String originalSql, DataScope dataScope);
+    String calcScope(String originalSql, DataScope dataScope);
 }

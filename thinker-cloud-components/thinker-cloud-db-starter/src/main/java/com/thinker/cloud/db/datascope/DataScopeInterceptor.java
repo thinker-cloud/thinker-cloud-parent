@@ -34,8 +34,8 @@ public class DataScopeInterceptor implements InnerInterceptor {
 
         // 查找参数中包含DataScope类型的参数
         DataScope dataScope = findDataScopeObject(parameterObject);
-        dataScopeHandler.calcScope(originalSql, dataScope);
-        mpBs.sql(originalSql);
+        String sql = dataScopeHandler.calcScope(originalSql, dataScope);
+        mpBs.sql(sql);
     }
 
     /**

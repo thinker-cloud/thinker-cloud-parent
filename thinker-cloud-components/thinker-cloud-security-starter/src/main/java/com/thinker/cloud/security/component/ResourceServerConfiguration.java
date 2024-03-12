@@ -16,6 +16,7 @@
 
 package com.thinker.cloud.security.component;
 
+import com.thinker.cloud.security.properties.PermitProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -43,16 +44,16 @@ public class ResourceServerConfiguration {
 
     protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
-    private final PermitAllUrlProperties permitAllUrl;
+    private final PermitProperties permitProperties;
 
-    private final BearerTokenExtractor pigBearerTokenExtractor;
+    private final BearerTokenExtractor bearerTokenExtractor;
 
     private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AntPathRequestMatcher[] requestMatchers = permitAllUrl.getUrls()
+        AntPathRequestMatcher[] requestMatchers = permitProperties.getUrls()
                 .stream()
                 .map(AntPathRequestMatcher::new)
                 .toList()
@@ -65,7 +66,7 @@ public class ResourceServerConfiguration {
                 .oauth2ResourceServer(
                         oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
                                 .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-                                .bearerTokenResolver(pigBearerTokenExtractor))
+                                .bearerTokenResolver(bearerTokenExtractor))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable);
 

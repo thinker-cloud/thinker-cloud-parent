@@ -16,6 +16,7 @@
 
 package com.thinker.cloud.security.component;
 
+import com.thinker.cloud.security.properties.PermitProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -46,15 +47,15 @@ public class BearerTokenExtractor implements BearerTokenResolver {
 
     private final PathMatcher pathMatcher = new AntPathMatcher();
 
-    private final PermitAllUrlProperties urlProperties;
+    private final PermitProperties permitProperties;
 
-    public BearerTokenExtractor(PermitAllUrlProperties urlProperties) {
-        this.urlProperties = urlProperties;
+    public BearerTokenExtractor(PermitProperties urlProperties) {
+        this.permitProperties = urlProperties;
     }
 
     @Override
     public String resolve(HttpServletRequest request) {
-        boolean match = urlProperties.getUrls()
+        boolean match = permitProperties.getUrls()
                 .stream()
                 .anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
 

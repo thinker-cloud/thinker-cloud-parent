@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.thinker.cloud.security.component;
+package com.thinker.cloud.security.properties;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.thinker.cloud.security.annotation.Inner;
+import com.thinker.cloud.security.annotation.InnerAuth;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -40,17 +40,24 @@ import java.util.regex.Pattern;
  * @author admin
  */
 @Slf4j
+@Setter
 @Getter
 @RefreshScope
 @Configuration
 @ConfigurationProperties(prefix = "thinker-cloud.security.oauth2.ignore")
-public class PermitAllUrlProperties implements InitializingBean {
+public class PermitProperties implements InitializingBean {
 
-    private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
+    private static final Pattern PATTERN = Pattern.compile("\\{(.*?)}");
 
-    private static final String[] DEFAULT_IGNORE_URLS = new String[]{"/actuator/**", "/error", "/v3/api-docs"};
+    /**
+     * 监控中心和swagger需要访问的url
+     */
+    private static final String[] DEFAULT_IGNORE_URLS = new String[]{
+            "/actuator/**", "/error", "/doc.html", "/v3/api-docs/**",
+            "/swagger-ui/**", "/webjars/**", "/druid/**", "/css/**",
+            "/js/**", "/images/**", "/favicon.ico"
+    };
 
-    @Setter
     private List<String> urls = new ArrayList<>();
 
     @Override
@@ -63,16 +70,16 @@ public class PermitAllUrlProperties implements InitializingBean {
             HandlerMethod handlerMethod = map.get(info);
 
             // 获取方法上边的注解 替代path variable 为 *
-            Inner method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Inner.class);
+            InnerAuth method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), InnerAuth.class);
             Optional.ofNullable(method)
-                    .ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+                    .ifPresent(innerAuth -> Objects.requireNonNull(info.getPathPatternsCondition())
                             .getPatternValues()
                             .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
             // 获取类上边的注解, 替代path variable 为 *
-            Inner controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Inner.class);
+            InnerAuth controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), InnerAuth.class);
             Optional.ofNullable(controller)
-                    .ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+                    .ifPresent(innerAuth -> Objects.requireNonNull(info.getPathPatternsCondition())
                             .getPatternValues()
                             .forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
         });
