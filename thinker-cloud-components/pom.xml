@@ -15,7 +15,6 @@
     <url>https://www.isexcuse.com</url>
 
     <modules>
-        <module>thinker-cloud-common-starter</module>
         <module>thinker-cloud-core-starter</module>
         <module>thinker-cloud-db-starter</module>
         <module>thinker-cloud-dubbo-starter</module>
@@ -30,7 +29,6 @@
         <module>thinker-cloud-security-starter</module>
         <module>thinker-cloud-sentinel-starter</module>
         <module>thinker-cloud-task-starter</module>
-        <module>thinker-cloud-tools-starter</module>
         <module>thinker-cloud-web-starter</module>
         <module>thinker-cloud-websocket-starter</module>
         <module>thinker-cloud-zookeeper-starter</module>

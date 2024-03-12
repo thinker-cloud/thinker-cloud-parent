@@ -26,6 +26,7 @@
     </properties>
 
     <modules>
+        <module>thinker-cloud-analysis</module>
         <module>thinker-cloud-components</module>
         <module>thinker-cloud-starter</module>
     </modules>
@@ -40,7 +41,7 @@
             </dependency>
             <dependency>
                 <groupId>com.thinker.cloud</groupId>
-                <artifactId>thinker-cloud-common-starter</artifactId>
+                <artifactId>thinker-cloud-analysis</artifactId>
                 <version>${thinker-cloud.version}</version>
             </dependency>
             <dependency>
@@ -111,11 +112,6 @@
             <dependency>
                 <groupId>com.thinker.cloud</groupId>
                 <artifactId>thinker-cloud-task-starter</artifactId>
-                <version>${thinker-cloud.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.thinker.cloud</groupId>
-                <artifactId>thinker-cloud-tools-starter</artifactId>
                 <version>${thinker-cloud.version}</version>
             </dependency>
             <dependency>

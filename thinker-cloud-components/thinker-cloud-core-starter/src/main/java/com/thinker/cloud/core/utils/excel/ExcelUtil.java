@@ -21,7 +21,7 @@ import com.thinker.cloud.core.exception.FailException;
 import com.thinker.cloud.core.utils.MyJsonUtil;
 import com.thinker.cloud.core.utils.thread.BatchTaskThreadPool;
 import com.thinker.cloud.core.utils.thread.BatchTaskUtil;
-import com.thinker.cloud.tools.generator.IDGenerator;
+import com.thinker.cloud.core.generator.IDGenerator;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Cleanup;
 import lombok.SneakyThrows;

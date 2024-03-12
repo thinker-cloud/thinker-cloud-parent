@@ -1,7 +1,7 @@
 package com.thinker.cloud.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thinker.cloud.core.utils.SpringContextHolder;
+import com.thinker.cloud.core.utils.spring.SpringContextHolder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpOutputMessage;
