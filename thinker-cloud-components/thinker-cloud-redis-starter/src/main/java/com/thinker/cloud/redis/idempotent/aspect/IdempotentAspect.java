@@ -31,7 +31,7 @@ public class IdempotentAspect {
 
     private final ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<>();
 
-    private static final String CACHE_KEY = "idempotent";
+    private static final String CACHE_KEY = "idempotent:";
     private static final String KEY = "key";
     private static final String DEL_KEY = "delKey";
 

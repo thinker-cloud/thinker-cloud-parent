@@ -14,6 +14,7 @@ import java.io.Serial;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 public abstract class AbstractException extends RuntimeException {
+
     @Serial
     private static final long serialVersionUID = -2709941529299230717L;
 

@@ -1,4 +1,4 @@
-package com.thinker.cloud.redis.delayqueue.config;
+package com.thinker.cloud.redis.delayqueue.properties;
 
 import lombok.Data;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -50,5 +50,10 @@ public class DelayQueueProperties {
          * 保持活动秒 默认：60秒
          */
         private Integer keepAliveSeconds = 60;
+
+        /**
+         * 线程前缀
+         */
+        private String threadNamePrefix = "thinker-delay-queue-thread-";
     }
 }

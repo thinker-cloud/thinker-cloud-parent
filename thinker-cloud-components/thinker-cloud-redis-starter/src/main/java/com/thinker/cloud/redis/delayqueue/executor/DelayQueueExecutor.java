@@ -1,6 +1,6 @@
 package com.thinker.cloud.redis.delayqueue.executor;
 
-import com.thinker.cloud.redis.delayqueue.DelayMessage;
+import com.thinker.cloud.redis.delayqueue.core.DelayMessage;
 
 /**
  * 延迟队列顶层接口

@@ -2,7 +2,6 @@ package com.thinker.cloud.core.exception;
 
 import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.core.enums.IEnumDict;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.io.Serial;
@@ -13,8 +12,8 @@ import java.io.Serial;
  * @author admin
  */
 @Getter
-@EqualsAndHashCode(callSuper = true)
 public class FailException extends AbstractException {
+
     @Serial
     private static final long serialVersionUID = -3400616766096741409L;
 

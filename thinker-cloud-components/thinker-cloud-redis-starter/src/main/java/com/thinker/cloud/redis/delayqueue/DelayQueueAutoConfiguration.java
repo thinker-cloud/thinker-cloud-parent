@@ -1,9 +1,11 @@
-package com.thinker.cloud.redis.delayqueue.config;
+package com.thinker.cloud.redis.delayqueue;
 
-import com.thinker.cloud.redis.delayqueue.config.DelayQueueProperties.ThreadPoolProperties;
+import com.thinker.cloud.core.thread.ThinkerThreadPoolTaskExecutor;
 import com.thinker.cloud.redis.delayqueue.executor.DelayQueueExecutorFactory;
-import com.thinker.cloud.redis.delayqueue.redisson.RedisDelayQueueHolder;
-import jakarta.annotation.Resource;
+import com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties;
+import com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties.ThreadPoolProperties;
+import com.thinker.cloud.redis.delayqueue.redisson.RedissonDelayQueueHolder;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -22,32 +24,28 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Slf4j
 @Configuration
+@AllArgsConstructor
 @ConditionalOnBean(DelayQueueProperties.class)
 public class DelayQueueAutoConfiguration {
 
-    @Resource
-    private DelayQueueProperties delayQueueProperties;
+    private final DelayQueueProperties delayQueueProperties;
 
     @Bean("delayQueueThreadPoolExecutor")
     public ThreadPoolTaskExecutor threadPoolExecutor() {
         ThreadPoolProperties threadPoolProperties = delayQueueProperties.getThreadPool();
-        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThinkerThreadPoolTaskExecutor();
         // 线程核心数目
         threadPoolTaskExecutor.setCorePoolSize(threadPoolProperties.getCorePoolSize());
         threadPoolTaskExecutor.setKeepAliveSeconds(threadPoolProperties.getKeepAliveSeconds());
-
         // 最大线程数
         threadPoolTaskExecutor.setMaxPoolSize(threadPoolProperties.getMaxPoolSize());
-
         // 配置队列大小
         threadPoolTaskExecutor.setQueueCapacity(threadPoolProperties.getQueueCapacity());
-
         // 队列线程名称
-        threadPoolTaskExecutor.setThreadNamePrefix("delay-queue-thread-");
-
+        threadPoolTaskExecutor.setThreadNamePrefix(threadPoolProperties.getThreadNamePrefix());
         // 配置拒绝策略
         threadPoolTaskExecutor.setRejectedExecutionHandler((r, executor) -> {
-            log.info("线程池内加入任务被拒绝,使用当前线程执行: {}", r);
+            log.info("线程池内加入任务被拒绝, 使用当前线程执行: {}", r);
             // 抛异常
             new ThreadPoolExecutor.CallerRunsPolicy();
         });
@@ -58,14 +56,15 @@ public class DelayQueueAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(DelayQueueExecutorFactory.class)
     public DelayQueueExecutorFactory delayQueueExecutorFactory() {
         return new DelayQueueExecutorFactory(threadPoolExecutor());
     }
 
     @Bean
     @ConditionalOnClass(RedissonClient.class)
-    @ConditionalOnMissingBean(RedisDelayQueueHolder.class)
-    public RedisDelayQueueHolder redisDelayQueueHolder(RedissonClient redissonClient) {
-        return new RedisDelayQueueHolder(redissonClient);
+    @ConditionalOnMissingBean(RedissonDelayQueueHolder.class)
+    public RedissonDelayQueueHolder redissonDelayQueueHolder(RedissonClient redissonClient) {
+        return new RedissonDelayQueueHolder(redissonClient);
     }
 }

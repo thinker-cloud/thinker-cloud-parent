@@ -2,7 +2,6 @@ package com.thinker.cloud.core.exception;
 
 import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.core.enums.IEnumDict;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 
@@ -11,8 +10,8 @@ import java.io.Serial;
  *
  * @author admin
  */
-@EqualsAndHashCode(callSuper = true)
 public class CacheableException extends AbstractException {
+
     @Serial
     private static final long serialVersionUID = 6610083281801529147L;
 

@@ -1,4 +1,4 @@
-package com.thinker.cloud.redis.delayqueue;
+package com.thinker.cloud.redis.delayqueue.core;
 
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.TimeUnit;

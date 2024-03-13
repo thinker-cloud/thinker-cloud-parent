@@ -1,7 +1,7 @@
 package com.thinker.cloud.redis.delayqueue.executor;
 
 import cn.hutool.core.thread.ThreadUtil;
-import com.thinker.cloud.redis.delayqueue.DelayMessage;
+import com.thinker.cloud.redis.delayqueue.core.DelayMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.RedissonShutdownException;
@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class DelayQueueExecutorFactory implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final ThreadPoolTaskExecutor threadPoolExecutor;
+    private final ThreadPoolTaskExecutor delayQueueThreadPoolExecutor;
 
     /**
      * 延迟队列执行器集合
@@ -59,7 +59,7 @@ public class DelayQueueExecutorFactory implements ApplicationListener<ContextRef
                     log.info("获取到队列「{}」到期消息：{}", queueName, delayMessage);
 
                     if (Objects.nonNull(delayMessage)) {
-                        threadPoolExecutor.execute(() -> executor.execute(delayMessage));
+                        delayQueueThreadPoolExecutor.execute(() -> executor.execute(delayMessage));
                     }
                 } catch (RedissonShutdownException ex) {
                     log.error("收到 RedissonShutdownException 结束延迟队列[{}]异常, ex={}", queueName, ex.getMessage(), ex);
