@@ -1,4 +1,4 @@
-package com.thinker.cloud.core.serializer.jackson.datetime;
+package com.thinker.cloud.core.jackson.serializers.datetime;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

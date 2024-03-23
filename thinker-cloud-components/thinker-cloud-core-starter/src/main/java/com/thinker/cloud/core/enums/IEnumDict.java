@@ -7,8 +7,8 @@ import com.alibaba.fastjson2.annotation.JSONType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.thinker.cloud.core.serializer.jackson.enums.EnumDictDeserializer;
-import com.thinker.cloud.core.serializer.jackson.enums.EnumDictSerializer;
+import com.thinker.cloud.core.jackson.serializers.enums.EnumDictDeserializer;
+import com.thinker.cloud.core.jackson.serializers.enums.EnumDictSerializer;
 
 import java.lang.reflect.Type;
 

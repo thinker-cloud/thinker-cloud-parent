@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import com.thinker.cloud.core.serializer.jackson.datetime.JavaTimeModule;
+import com.thinker.cloud.core.jackson.serializers.datetime.JavaTimeModule;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;

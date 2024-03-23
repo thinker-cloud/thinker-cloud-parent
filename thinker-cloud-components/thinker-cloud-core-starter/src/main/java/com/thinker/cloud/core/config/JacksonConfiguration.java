@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.thinker.cloud.core.serializer.jackson.datetime.JavaTimeModule;
+import com.thinker.cloud.core.jackson.converters.StrIntegerTrimZeroConverter;
+import com.thinker.cloud.core.jackson.converters.StrLongTrimZeroConverter;
+import com.thinker.cloud.core.jackson.serializers.datetime.JavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -59,6 +61,11 @@ public class JacksonConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(@NonNull FormatterRegistry formatterRegistry) {
+        // 注册数据转换器
+        formatterRegistry.addConverter(StrLongTrimZeroConverter.INSTANCE);
+        formatterRegistry.addConverter(StrIntegerTrimZeroConverter.INSTANCE);
+
+        // 注册日期格式化器
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
         registrar.setTimeFormatter(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN));
         registrar.setDateFormatter(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN));

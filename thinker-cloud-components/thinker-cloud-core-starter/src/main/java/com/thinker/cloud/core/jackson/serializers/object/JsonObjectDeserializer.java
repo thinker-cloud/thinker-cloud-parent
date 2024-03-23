@@ -1,4 +1,4 @@
-package com.thinker.cloud.core.serializer.jackson.object;
+package com.thinker.cloud.core.jackson.serializers.object;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

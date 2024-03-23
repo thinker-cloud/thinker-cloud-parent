@@ -1,4 +1,4 @@
-package com.thinker.cloud.core.serializer.jackson.enums;
+package com.thinker.cloud.core.jackson.serializers.enums;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.parser.DefaultJSONParser;

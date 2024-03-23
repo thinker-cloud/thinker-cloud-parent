@@ -1,5 +1,6 @@
 package com.thinker.cloud.core.handler;
 
+import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.core.enums.ResponseCode;
 import com.thinker.cloud.core.exception.*;
 import com.thinker.cloud.core.model.Result;
@@ -9,6 +10,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 
@@ -121,11 +123,39 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
-    public Result<Void> handleBodyValidException(MethodArgumentNotValidException e) {
+    public Result<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
         String errorMessage = fieldErrors.get(0).getDefaultMessage();
         log.error("参数绑定异常，ex={}", errorMessage);
         return Result.buildFailure(HttpStatus.BAD_REQUEST.value(), errorMessage);
+    }
+
+    /**
+     * 参数类型转换异常
+     *
+     * @param e exception
+     * @return Result
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class})
+    public Result<Void> handlerMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        log.error("参数类型转换异常，ex={}", e.getMessage(), e);
+        String message = StrUtil.format("参数类型错误，参数：[{}]:[{}]，错误：{}"
+                , e.getName(), e.getRequiredType(), e.getMessage());
+        return Result.buildFailure(HttpStatus.BAD_REQUEST.value(), message);
+    }
+
+    /**
+     * 数字格式化异常
+     *
+     * @param e exception
+     * @return Result
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({NumberFormatException.class})
+    public Result<Void> handleNumberFormatException(NumberFormatException e) {
+        log.error("数字格式化异常，ex={}", e.getMessage(), e);
+        return Result.buildFailure(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
     /**
