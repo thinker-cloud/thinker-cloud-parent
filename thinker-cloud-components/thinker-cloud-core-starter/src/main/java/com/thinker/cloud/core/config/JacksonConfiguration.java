@@ -62,8 +62,8 @@ public class JacksonConfiguration implements WebMvcConfigurer {
     @Override
     public void addFormatters(@NonNull FormatterRegistry formatterRegistry) {
         // 注册数据转换器
-        formatterRegistry.addConverter(StrLongTrimZeroConverter.INSTANCE);
-        formatterRegistry.addConverter(StrIntegerTrimZeroConverter.INSTANCE);
+        /*formatterRegistry.addConverter(StrLongTrimZeroConverter.INSTANCE);
+        formatterRegistry.addConverter(StrIntegerTrimZeroConverter.INSTANCE);*/
 
         // 注册日期格式化器
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
