@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.thinker.cloud.core.jackson.converters.StrIntegerTrimZeroConverter;
-import com.thinker.cloud.core.jackson.converters.StrLongTrimZeroConverter;
 import com.thinker.cloud.core.jackson.serializers.datetime.JavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
