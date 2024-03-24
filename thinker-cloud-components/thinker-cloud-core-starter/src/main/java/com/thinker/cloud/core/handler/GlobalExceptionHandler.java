@@ -146,6 +146,19 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 参数异常
+     *
+     * @param e exception
+     * @return Result
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Result<Void> handleIllegalArgumentException(IllegalArgumentException e) {
+        log.error("非法参数异常，ex={}", e.getMessage(), e);
+        return Result.buildFailure("参数不合法，请检查");
+    }
+
+    /**
      * 数字格式化异常
      *
      * @param e exception
