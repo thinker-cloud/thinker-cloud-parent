@@ -1,5 +1,10 @@
 package com.thinker.cloud.rocketmq.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum DelayTimeLevel {
     /**
      * 1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
@@ -24,13 +29,5 @@ public enum DelayTimeLevel {
     HOUR_2(18),
     ;
 
-    private int level;
-
-    DelayTimeLevel(int level) {
-        this.level = level;
-    }
-
-    public int getLevel() {
-        return level;
-    }
+    private final int level;
 }

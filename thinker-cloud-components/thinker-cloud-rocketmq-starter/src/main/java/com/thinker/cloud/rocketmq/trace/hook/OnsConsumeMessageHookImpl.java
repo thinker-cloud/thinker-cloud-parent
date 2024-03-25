@@ -1,4 +1,4 @@
-package com.thinker.cloud.rocketmq.trace.tracehook;
+package com.thinker.cloud.rocketmq.trace.hook;
 
 
 import com.thinker.cloud.rocketmq.trace.common.OnsTraceBean;

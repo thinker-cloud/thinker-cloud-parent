@@ -1,5 +1,10 @@
 package com.thinker.cloud.rocketmq.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ConsumeMode {
     /**
      * CONCURRENTLY
@@ -12,13 +17,6 @@ public enum ConsumeMode {
      */
     ORDERLY("ORDERLY");
 
-    private String mode;
+    private final String mode;
 
-    ConsumeMode(String mode) {
-        this.mode = mode;
-    }
-
-    public String getMode() {
-        return mode;
-    }
 }

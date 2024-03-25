@@ -6,7 +6,7 @@ import com.thinker.cloud.rocketmq.base.MessageExtConst;
 import com.thinker.cloud.rocketmq.trace.common.OnsTraceConstants;
 import com.thinker.cloud.rocketmq.trace.dispatch.impl.AsyncTraceAppender;
 import com.thinker.cloud.rocketmq.trace.dispatch.impl.AsyncTraceDispatcher;
-import com.thinker.cloud.rocketmq.trace.tracehook.OnsConsumeMessageHookImpl;
+import com.thinker.cloud.rocketmq.trace.hook.OnsConsumeMessageHookImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;

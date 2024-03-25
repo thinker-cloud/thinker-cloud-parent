@@ -55,17 +55,18 @@
         <git.commit.plugin.version>4.9.9</git.commit.plugin.version>
 
         <!-- 基础依赖 -->
-        <spring-boot.version>3.1.5</spring-boot.version>
-        <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
+        <spring-boot.version>3.2.4</spring-boot.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.0.0-RC1</spring-cloud-alibaba.version>
 
         <!-- 中间件 -->
         <xxl-job.version>2.4.0</xxl-job.version>
-        <rocketmq-client.version>5.1.3</rocketmq-client.version>
+        <rocketmq-client.version>5.2.0</rocketmq-client.version>
         <spring-boot-admin.version>3.1.5</spring-boot-admin.version>
+        <spring-boot-rocketmq.version>2.3.0</spring-boot-rocketmq.version>
 
         <!-- RPC 框架 -->
-        <dubbo.version>3.2.3</dubbo.version>
+        <spring-boot-dubbo.version>3.2.11</spring-boot-dubbo.version>
 
         <!-- 工具包 -->
         <redisson.version>3.22.1</redisson.version>
@@ -74,15 +75,15 @@
         <dynamic-datasource.version>4.1.3</dynamic-datasource.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
-        <hutool.version>5.8.21</hutool.version>
-        <easypoi.version>4.4.0</easypoi.version>
+        <hutool.version>5.8.26</hutool.version>
+        <easypoi.version>4.5.0</easypoi.version>
         <fastjson.version>2.0.39</fastjson.version>
         <guava.version>32.1.2-jre</guava.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <commons-io.version>2.13.0</commons-io.version>
         <org.jetbrains.version>13.0</org.jetbrains.version>
-        <transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
-        <springdoc-openapi-starter.version>2.2.0</springdoc-openapi-starter.version>
+        <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
+        <springdoc-openapi-starter.version>2.4.0</springdoc-openapi-starter.version>
         <therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
 
         <!-- docker -->
@@ -131,8 +132,8 @@
             <!-- 消息队列 rocketMq -->
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
-                <artifactId>rocketmq-client</artifactId>
-                <version>${rocketmq-client.version}</version>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${spring-boot-rocketmq.version}</version>
             </dependency>
 
             <!-- admin 监控 -->
@@ -150,8 +151,14 @@
             <!-- dubbo -->
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo</artifactId>
-                <version>${dubbo.version}</version>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${spring-boot-dubbo.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>fastjson2</artifactId>
+                        <groupId>com.alibaba.fastjson2</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- redisson -->
@@ -250,6 +257,12 @@
                 <groupId>cn.afterturn</groupId>
                 <artifactId>easypoi-spring-boot-starter</artifactId>
                 <version>${easypoi.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.javassist</groupId>
+                        <artifactId>javassist</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- transmittable-thread-local -->
