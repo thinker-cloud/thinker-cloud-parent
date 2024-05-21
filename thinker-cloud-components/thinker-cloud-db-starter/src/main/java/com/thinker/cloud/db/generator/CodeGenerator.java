@@ -36,9 +36,9 @@ public class CodeGenerator {
     /**
      * JDBC相关配置
      */
-    private static final String URL = "jdbc:mysql://localhost:13306/ycyd_assets?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false";
+    private static final String URL = "jdbc:mysql://192.168.8.203:3306/operator-cloud?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false";
     private static final String USER_NAME = "root";
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "123456!";
 
     /**
      * 数据库类型
@@ -48,7 +48,7 @@ public class CodeGenerator {
     /**
      * 生成在哪个包下
      */
-    private static final String PARENT_PACKAGE_NAME = "com.thinker.cloud.account";
+    private static final String PARENT_PACKAGE_NAME = "com.yungo.operator";
 
     /**
      * 代码生成者
@@ -72,16 +72,17 @@ public class CodeGenerator {
      */
     public static void main(String[] args) {
         GlobalConfig globalConfig = globalConfig();
+        PackageConfig packageConfig = packageConfig();
 
         new AutoGenerator(dataSourceConfig())
                 // 全局配置
                 .global(globalConfig)
                 // 包配置
-                .packageInfo(packageConfig())
+                .packageInfo(packageConfig)
                 // 策略配置
                 .strategy(strategyConfig())
                 // 自定义配置
-                .injection(injectionConfig(globalConfig))
+                .injection(injectionConfig(globalConfig, packageConfig))
                 // 配置模板
                 .template(initTemplateConfig())
                 // 使用Freemarker模板引擎生成
@@ -189,9 +190,10 @@ public class CodeGenerator {
      * 自定义生成配置
      *
      * @param gc globalConfig
+     * @param pc packageConfig
      * @return InjectionConfig
      */
-    private static InjectionConfig injectionConfig(GlobalConfig gc) {
+    private static InjectionConfig injectionConfig(GlobalConfig gc, PackageConfig pc) {
         List<CustomFile> customFiles = new ArrayList<>();
 
         // 自定义配置会被优先输出
@@ -202,7 +204,7 @@ public class CodeGenerator {
             String outPutDir = gc.getOutputDir() + "/";
 
             // entity
-            String entityPackage = PARENT_PACKAGE_NAME + ".model.entity";
+            String entityPackage = pc.getParent() + ".model.entity";
             customFiles.add(new CustomFile.Builder()
                     .templatePath("/templates/entity.java.ftl")
                     .packageName(entityPackage)
@@ -213,7 +215,7 @@ public class CodeGenerator {
             customMap.put("entityPackage", entityPackage);
 
             // Query
-            String queryPackage = PARENT_PACKAGE_NAME + ".model.query";
+            String queryPackage = pc.getParent() + ".model.query";
             customFiles.add(new CustomFile.Builder()
                     .templatePath("/templates/query.java.ftl")
                     .packageName(queryPackage)
@@ -225,7 +227,7 @@ public class CodeGenerator {
             customMap.put("queryPackage", queryPackage);
 
             // DTO
-            String dtoPackage = PARENT_PACKAGE_NAME + ".model.dto";
+            String dtoPackage = pc.getParent() + ".model.dto";
             customFiles.add(new CustomFile.Builder()
                     .templatePath("/templates/DTO.java.ftl")
                     .packageName(dtoPackage)
@@ -236,7 +238,7 @@ public class CodeGenerator {
             customMap.put("dtoPackage", dtoPackage);
 
             // VO
-            String voPackage = PARENT_PACKAGE_NAME + ".model.vo";
+            String voPackage = pc.getParent() + ".model.vo";
             customFiles.add(new CustomFile.Builder()
                     .templatePath("/templates/VO.java.ftl")
                     .packageName(voPackage)
@@ -247,7 +249,7 @@ public class CodeGenerator {
             customMap.put("voPackage", voPackage);
 
             // converter
-            String converterPackage = PARENT_PACKAGE_NAME + ".converter";
+            String converterPackage = pc.getParent() + ".converter";
             customFiles.add(new CustomFile.Builder()
                     .templatePath("/templates/converter.java.ftl")
                     .packageName(converterPackage)
