@@ -76,7 +76,7 @@ public class DefaultDataScopeHandler implements DataScopeHandler {
             }
 
             if (StrUtil.containsIgnoreCase(originalSql, dataScope.getScopeName())) {
-                return String.format("SELECT * FROM (%s) temp_data_scope WHERE temp_data_scope.%s = %s"
+                return String.format("select * from (%s) temp_data_scope where temp_data_scope.%s = %s"
                         , originalSql, dataScope.getScopeName(), SecurityUtils.getUserId());
             }
 
@@ -91,7 +91,7 @@ public class DefaultDataScopeHandler implements DataScopeHandler {
         if (StrUtil.containsIgnoreCase(originalSql, dataScope.getScopeName())
                 && CollUtil.isNotEmpty(dataScope.getDataScopeIds())) {
             String join = CollectionUtil.join(dataScope.getDataScopeIds(), ",");
-            return String.format("SELECT * FROM (%s) temp_data_scope WHERE temp_data_scope.%s IN (%s)"
+            return String.format("select * from (%s) temp_data_scope where temp_data_scope.%s in (%s)"
                     , originalSql, dataScope.getScopeName(), join);
         }
         return originalSql;
@@ -105,19 +105,24 @@ public class DefaultDataScopeHandler implements DataScopeHandler {
      * @return boolean
      */
     public boolean ignoreDataScope(String originalSql, DataScope dataScope) {
+        if (ObjectUtil.isEmpty(SecurityUtils.getUser())) {
+            return true;
+        }
+
         if (Objects.isNull(dataScope)) {
             dataScope = new DataScope();
             dataScope.setType(getDataScopeType());
             dataScope.setDataScopeIds(getDataScopeIds());
         }
 
-        if (ObjectUtil.isEmpty(SecurityUtils.getUser())) {
-            return true;
-        }
-
         // 查询全部或自定义权限则忽略
         if (IGNORE_DATA_SCOPE_TYPES.contains(dataScope.getType())) {
             return true;
+        }
+
+        // 没有指定表则不处理
+        if (properties.getIgnoreTables().isEmpty()) {
+            return false;
         }
 
         Set<String> tables = Sets.newHashSet();
