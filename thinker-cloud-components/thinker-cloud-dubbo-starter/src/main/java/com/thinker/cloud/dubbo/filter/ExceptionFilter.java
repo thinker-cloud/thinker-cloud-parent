@@ -51,9 +51,9 @@ public class ExceptionFilter implements Filter, Filter.Listener {
                 }
 
                 // for the exception not found in method's signature, print ERROR message in server's log.
-                log.error("Got unchecked and undeclared exception which called by " + RpcContext.getServiceContext().getRemoteHost() + ". service: "
-                        + invoker.getInterface().getName() + ", method: " + invocation.getMethodName()
-                        + ", exception: " + exception.getClass().getName() + ": " + exception.getMessage(), exception);
+                log.error("Got unchecked and undeclared exception which called by {}. service: {}, method: {}, exception: {}: {}"
+                        , RpcContext.getServiceContext().getRemoteHost(), invoker.getInterface().getName()
+                        , invocation.getMethodName(), exception.getClass().getName(), exception.getMessage(), exception);
 
                 // directly throw if exception class and interface class are in the same jar file.
                 String serviceFile = ReflectUtils.getCodeBase(invoker.getInterface());
@@ -81,17 +81,17 @@ public class ExceptionFilter implements Filter, Filter.Listener {
                 // otherwise, wrap with RuntimeException and throw back to the client
                 result.setException(new RuntimeException(StringUtils.toString(exception)));
             } catch (Throwable e) {
-                log.warn("Fail to ExceptionFilter when called by " + RpcContext.getServiceContext().getRemoteHost()
-                        + ". service: " + invoker.getInterface().getName() + ", method: " + invocation.getMethodName()
-                        + ", exception: " + e.getClass().getName() + ": " + e.getMessage(), e);
+                log.warn("Fail to ExceptionFilter when called by {}. service: {}, method: {}, exception: {}: {}"
+                        , RpcContext.getServiceContext().getRemoteHost(), invoker.getInterface().getName()
+                        , invocation.getMethodName(), e.getClass().getName(), e.getMessage(), e);
             }
         }
     }
 
     @Override
     public void onError(Throwable e, Invoker<?> invoker, Invocation invocation) {
-        log.error("Got unchecked and undeclared exception which called by " + RpcContext.getServiceContext().getRemoteHost()
-                + ". service: " + invoker.getInterface().getName() + ", method: " + invocation.getMethodName()
-                + ", exception: " + e.getClass().getName() + ": " + e.getMessage(), e);
+        log.error("Got unchecked and undeclared exception which called by {}. service: {}, method: {}, exception: {}: {}"
+                , RpcContext.getServiceContext().getRemoteHost(), invoker.getInterface().getName()
+                , invocation.getMethodName(), e.getClass().getName(), e.getMessage(), e);
     }
 }

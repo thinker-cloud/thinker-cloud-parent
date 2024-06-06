@@ -7,6 +7,7 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -36,6 +37,14 @@ public class DeflaterUtil {
      * public static final int SYNC_FLUSH = 2;                  用于清除所有未决输出的压缩刷新模式; 可能会降低某些压缩算法的压缩率。
      */
     public static String zipString(String unzipString) {
+        if (Objects.isNull(unzipString)) {
+            return null;
+        }
+
+        if (unzipString.trim().isEmpty()) {
+            return unzipString;
+        }
+
         // 使用指定的压缩级别创建一个新的压缩器。
         Deflater deflater = new Deflater(Deflater.BEST_COMPRESSION);
         // 设置压缩输入数据。
@@ -63,6 +72,14 @@ public class DeflaterUtil {
      * 解压缩
      */
     public static String unzipString(String zipString) {
+        if (Objects.isNull(zipString)) {
+            return null;
+        }
+
+        if (zipString.trim().isEmpty()) {
+            return zipString;
+        }
+
         byte[] decode = Base64.decodeBase64(zipString);
         // 使用指定的压缩级别创建一个新的压缩器。
         Inflater inflater = new Inflater();

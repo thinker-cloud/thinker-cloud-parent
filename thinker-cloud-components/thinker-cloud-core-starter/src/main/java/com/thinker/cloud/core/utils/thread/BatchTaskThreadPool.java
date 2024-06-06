@@ -34,6 +34,34 @@ public class BatchTaskThreadPool {
             , new ThreadPoolExecutor.CallerRunsPolicy());
 
     /**
+     * 异步处理数据
+     */
+    public static void execute(Runnable runnable) {
+        try {
+            EXECUTOR_SERVICE.execute(runnable);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new FailException("未知异常，请联系管理员", e);
+        }
+    }
+
+    /**
+     * 异步处理数据
+     *
+     * @param data    数据
+     * @param handler 处理逻辑
+     * @param <T>     <T>
+     */
+    public static <T> void execute(@NonNull T data, @NonNull Consumer<T> handler) {
+        try {
+            EXECUTOR_SERVICE.execute(() -> handler.accept(data));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new FailException("未知异常，请联系管理员", e);
+        }
+    }
+
+    /**
      * 批量处理数据
      *
      * @param dataList 数据列表

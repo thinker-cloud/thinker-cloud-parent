@@ -79,6 +79,7 @@ public class EnumDictUtil {
                 || enumDict.getValue() == value
                 || enumDict.getValue().equals(value)
                 || String.valueOf(enumDict.getValue()).equalsIgnoreCase(String.valueOf(value))
+                || enumDict.name().equals(value)
                 || enumDict.getDesc().equalsIgnoreCase(String.valueOf(value));
     }
 }

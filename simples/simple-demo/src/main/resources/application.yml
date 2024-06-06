@@ -1,0 +1,32 @@
+server:
+  port: 8088
+  undertow:
+    buffer-size: 1024
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: simple-demo
+  # jackson时间格式化
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    urls:
+      - name: simple-demo
+        url: /v3/api-docs
+
+thinker-cloud:
+  redis:
+    delayQueue:
+      enabled: true

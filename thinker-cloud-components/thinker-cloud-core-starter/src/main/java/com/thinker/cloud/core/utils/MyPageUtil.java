@@ -3,10 +3,11 @@ package com.thinker.cloud.core.utils;
 import cn.hutool.core.util.PageUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.core.exception.FailException;
 import com.thinker.cloud.core.model.query.PageQuery;
-import com.thinker.cloud.core.xss.SqlFilter;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,16 +23,15 @@ import java.util.Objects;
 public class MyPageUtil {
 
     /**
-     * java程序分页
+     * 内存分页
      *
      * @param page     mybatis page
      * @param dataList 查询出的所有数据列表
      * @param <T>      数据类型
      * @return 分页后的列表
      */
-    @SuppressWarnings("UnusedReturnValue")
     public static <T> List<T> page(IPage<T> page, List<T> dataList) {
-        if (page == null) {
+        if (Objects.isNull(page)) {
             return dataList;
         }
         PageUtil.setFirstPageNo(1);
@@ -46,9 +46,9 @@ public class MyPageUtil {
         return pageResult;
     }
 
-    public static <T> IPage<T> iPage(PageQuery params, List<T> dataList) {
-        IPage<T> page = params.generatePage();
-        if (Objects.isNull(params.getPage()) && Objects.isNull(params.getLimit())) {
+    public static <T> IPage<T> iPage(PageQuery query, List<T> dataList) {
+        IPage<T> page = query.generatePage();
+        if (Objects.isNull(query.getPage()) && Objects.isNull(query.getLimit())) {
             return page.setRecords(dataList);
         }
         return iPage(page, dataList);
@@ -59,45 +59,31 @@ public class MyPageUtil {
         return page;
     }
 
-    public static <T> IPage<T> generatePage(PageQuery queryParams) {
-        return generatePage(queryParams, null, false);
-    }
-
     /**
      * 构建分页对象
      *
-     * @param queryParams       分页参数
-     * @param defaultOrderField 默认排序字段
-     * @param isAsc             是否默认升序
+     * @param query   分页参数
      * @return IPage
      */
-    public static <T> IPage<T> generatePage(PageQuery queryParams, String defaultOrderField, boolean isAsc) {
+    public static <T> IPage<T> generatePage(PageQuery query) {
         // 分页对象
-        Page<T> page = new Page<>(queryParams.getPage(), queryParams.getLimit());
+        Page<T> page = new Page<>(query.getPage(), query.getLimit());
 
-        // 防止SQL注入（因为sidx、order是通过拼接SQL实现排序的，会有SQL注入风险）
-        String orderField = SqlFilter.sqlInject(queryParams.getOrderField());
-        String order = queryParams.getOrder();
-
-        // 前端字段排序
+        // 排序字段
+        String orderField = query.getOrderField();
         if (StringUtils.isNotEmpty(orderField)) {
-            if (CommonConstants.ASC.equalsIgnoreCase(order)) {
-                return page.addOrder(OrderItem.asc(orderField));
-            } else {
-                return page.addOrder(OrderItem.desc(orderField));
+            // SQL注入检查
+            if (SqlInjectionUtils.check(orderField)) {
+                throw new FailException("包含非法字符");
             }
-        }
 
-        // 没有排序字段，则不排序
-        if (StringUtils.isBlank(defaultOrderField)) {
-            return page;
-        }
+            // 正序
+            if (CommonConstants.ASC.equalsIgnoreCase(query.getOrder())) {
+                return page.addOrder(OrderItem.asc(orderField));
+            }
 
-        // 默认排序
-        if (isAsc) {
-            page.addOrder(OrderItem.asc(defaultOrderField));
-        } else {
-            page.addOrder(OrderItem.desc(defaultOrderField));
+            // 倒序
+            return page.addOrder(OrderItem.desc(orderField));
         }
         return page;
     }

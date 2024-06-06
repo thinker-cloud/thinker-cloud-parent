@@ -1,5 +1,6 @@
 package com.thinker.cloud.db.properties;
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -22,7 +23,7 @@ public class DbConfigProperties {
     /**
      * 数据库类型
      */
-    private String dbType = "postgresql";
+    private String dbType = DbType.MYSQL.getDb();
 
     /**
      * 租户配置
