@@ -2,7 +2,7 @@ package com.thinker.cloud.db.datascope;
 
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -19,10 +19,10 @@ import java.util.Map;
  * @author admin
  */
 @Slf4j
+@AllArgsConstructor
 public class DataScopeInterceptor implements InnerInterceptor {
 
-    @Setter
-    private DataScopeHandler dataScopeHandler;
+    private final DataScopeHandler dataScopeHandler;
 
     @Override
     public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds,
@@ -33,7 +33,7 @@ public class DataScopeInterceptor implements InnerInterceptor {
         Object parameterObject = boundSql.getParameterObject();
 
         // 查找参数中包含DataScope类型的参数
-        DataScope dataScope = findDataScopeObject(parameterObject);
+        DataScope dataScope = this.findDataScopeObject(parameterObject);
         String sql = dataScopeHandler.calcScope(originalSql, dataScope);
         mpBs.sql(sql);
     }

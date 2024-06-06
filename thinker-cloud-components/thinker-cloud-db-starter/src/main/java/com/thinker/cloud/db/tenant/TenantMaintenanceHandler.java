@@ -2,7 +2,7 @@ package com.thinker.cloud.db.tenant;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.thinker.cloud.db.properties.DbConfigProperties;
-import jakarta.annotation.Resource;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
@@ -14,10 +14,10 @@ import net.sf.jsqlparser.expression.NullValue;
  * @author admin
  */
 @Slf4j
+@AllArgsConstructor
 public class TenantMaintenanceHandler implements TenantLineHandler {
 
-    @Resource
-    private DbConfigProperties properties;
+    private final DbConfigProperties.TenantConfigProperties properties;
 
     /**
      * 获取租户值
@@ -27,7 +27,7 @@ public class TenantMaintenanceHandler implements TenantLineHandler {
     @Override
     public Expression getTenantId() {
         Long tenantId = TenantContextHolder.getTenantId();
-        log.debug("当前租户为 >> {}", tenantId);
+        log.debug("当前租户为 >> {}" , tenantId);
 
         if (tenantId == null) {
             return new NullValue();
@@ -42,7 +42,7 @@ public class TenantMaintenanceHandler implements TenantLineHandler {
      */
     @Override
     public String getTenantIdColumn() {
-        return properties.getTenant().getColumn();
+        return properties.getColumn();
     }
 
     /**
@@ -55,15 +55,12 @@ public class TenantMaintenanceHandler implements TenantLineHandler {
     public boolean ignoreTable(String tableName) {
         Long tenantId = TenantContextHolder.getTenantId();
 
-        // 租户配置
-        DbConfigProperties.TenantConfigProperties tenant = properties.getTenant();
-
         // 忽略租户id
-        if (tenantId != null && tenant.getIgnoreTenantIds().contains(tenantId)) {
+        if (tenantId != null && properties.getIgnoreTenantIds().contains(tenantId)) {
             return Boolean.TRUE;
         }
 
         // 忽略表
-        return tenant.getIgnoreTables().contains(tableName);
+        return properties.getIgnoreTables().contains(tableName);
     }
 }

@@ -20,15 +20,15 @@ public class DataScope extends HashMap<String, Object> {
     /**
      * 限制范围的字段名称
      */
-    private String scopeName = "organization_id";
-
-    /**
-     * 具体的数据权限范围
-     */
-    private Collection<String> dataScopeIds = new ArrayList<>();
+    private String scopeName;
 
     /**
      * 数据权限类型
      */
     private Integer type = DataScopeTypeEnum.ALL.getType();
+
+    /**
+     * 具体的数据权限范围
+     */
+    private Collection<String> dataScopeIds = new ArrayList<>();
 }

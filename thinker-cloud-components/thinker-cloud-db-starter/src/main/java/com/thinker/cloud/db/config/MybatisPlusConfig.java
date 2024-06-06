@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
-import com.thinker.cloud.db.datascope.DataScopeHandler;
 import com.thinker.cloud.db.datascope.DataScopeInterceptor;
 import com.thinker.cloud.db.datascope.DefaultDataScopeHandler;
 import com.thinker.cloud.db.handler.BaseMetaObjectHandler;
@@ -20,38 +19,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.sql.DataSource;
-
 /**
  * Mybatis-Plus 配置类
  *
  * @author admin
  */
 @Configuration
-@ConditionalOnBean(DataSource.class)
-@AutoConfigureAfter({DataSourceAutoConfiguration.class, DbConfigProperties.class})
+@AutoConfigureAfter(DbConfigProperties.class)
+@ConditionalOnBean(DataSourceAutoConfiguration.class)
 public class MybatisPlusConfig implements WebMvcConfigurer {
 
     @Resource
     private DbConfigProperties dbConfigProperties;
-
-    /**
-     * 数据权限处理器对象
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public DataScopeHandler dataScopeHandler() {
-        return new DefaultDataScopeHandler();
-    }
-
-    /**
-     * 创建租户维护处理器对象
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public TenantMaintenanceHandler tenantMaintenanceHandler() {
-        return new TenantMaintenanceHandler();
-    }
 
     /**
      * 字段自动填充处理器对象
@@ -66,6 +45,7 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
      * 增强自定义方法注入对象
      */
     @Bean
+    @ConditionalOnMissingBean
     public EnhanceSqlInjector enhanceSqlInjector() {
         return new EnhanceSqlInjector();
     }
@@ -74,17 +54,23 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
      * mybatis plus 拦截器配置
      */
     @Bean
+    @ConditionalOnMissingBean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        // 多租户支持
-        TenantLineInnerInterceptor tenantLineInnerInterceptor = new TenantLineInnerInterceptor();
-        tenantLineInnerInterceptor.setTenantLineHandler(tenantMaintenanceHandler());
-        interceptor.addInnerInterceptor(tenantLineInnerInterceptor);
 
-        // 数据权限
-        DataScopeInterceptor dataScopeInterceptor = new DataScopeInterceptor();
-        dataScopeInterceptor.setDataScopeHandler(dataScopeHandler());
-        interceptor.addInnerInterceptor(dataScopeInterceptor);
+        // 多租户支持
+        if (dbConfigProperties.getTenant().getEnable()) {
+            TenantLineInnerInterceptor tenantLineInnerInterceptor = new TenantLineInnerInterceptor();
+            tenantLineInnerInterceptor.setTenantLineHandler(new TenantMaintenanceHandler(dbConfigProperties.getTenant()));
+            interceptor.addInnerInterceptor(tenantLineInnerInterceptor);
+        }
+
+        // 数据权限支持
+        if (dbConfigProperties.getDataScope().getEnable()) {
+            DefaultDataScopeHandler dataScopeHandler = new DefaultDataScopeHandler(dbConfigProperties.getDataScope());
+            DataScopeInterceptor dataScopeInterceptor = new DataScopeInterceptor(dataScopeHandler);
+            interceptor.addInnerInterceptor(dataScopeInterceptor);
+        }
 
         // 分页支持
         DbType dbType = DbType.getDbType(dbConfigProperties.getDbType());
@@ -92,3 +78,4 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
         return interceptor;
     }
 }
+

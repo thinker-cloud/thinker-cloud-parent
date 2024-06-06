@@ -1,6 +1,7 @@
 package com.thinker.cloud.db.enums;
 
 import com.thinker.cloud.core.enums.IEnumDict;
+import com.thinker.cloud.core.utils.enums.EnumCacheUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -53,5 +54,15 @@ public enum DataScopeTypeEnum implements IEnumDict<Integer> {
     @Override
     public Integer getValue() {
         return this.type;
+    }
+
+    /**
+     * 根据类型获取数据权限枚举
+     *
+     * @param type type
+     * @return DataScopeTypeEnum
+     */
+    public static DataScopeTypeEnum resolver(Integer type) {
+        return EnumCacheUtil.loadEnumValue(DataScopeTypeEnum.class, type, ALL);
     }
 }

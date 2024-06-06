@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * 数据库配置
@@ -26,15 +26,52 @@ public class DbConfigProperties {
     private String dbType = DbType.MYSQL.getDb();
 
     /**
+     * 数据权限配置
+     */
+    private DataScopeProperties dataScope = new DataScopeProperties();
+
+    /**
      * 租户配置
      */
     private TenantConfigProperties tenant = new TenantConfigProperties();
+
+    /**
+     * 数据权限配置
+     */
+    @Data
+    public static class DataScopeProperties {
+
+        /**
+         * 是否开启数据权限
+         */
+        private Boolean enable = true;
+
+        /**
+         * 限制范围的字段名称
+         */
+        private String scopeName = "organization_id";
+
+        /**
+         * 限制用户权限范围的字段名称
+         */
+        private String userScopeName = "create_by";
+
+        /**
+         * 忽略数据权限过滤的数据表集合
+         */
+        private Set<String> ignoreTables = Collections.emptySet();
+    }
 
     /**
      * 租户配置
      */
     @Data
     public static class TenantConfigProperties {
+
+        /**
+         * 是否开启租户隔离
+         */
+        private Boolean enable = true;
 
         /**
          * 维护租户列名称
@@ -44,11 +81,11 @@ public class DbConfigProperties {
         /**
          * 忽略多租户的数据表集合
          */
-        private List<String> ignoreTables = new ArrayList<>();
+        private Set<String> ignoreTables = Collections.emptySet();
 
         /**
          * 忽略租户ids集合
          */
-        private List<Long> ignoreTenantIds = new ArrayList<>();
+        private Set<Long> ignoreTenantIds = Collections.emptySet();
     }
 }
