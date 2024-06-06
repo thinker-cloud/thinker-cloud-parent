@@ -83,8 +83,6 @@ public class CodeGenerator {
                 .strategy(strategyConfig())
                 // 自定义配置
                 .injection(injectionConfig(globalConfig, packageConfig))
-                // 配置模板
-                .template(initTemplateConfig())
                 // 使用Freemarker模板引擎生成
                 .execute(new EnhanceFreemarkerTemplateEngine());
     }
@@ -142,13 +140,14 @@ public class CodeGenerator {
      * @return StrategyConfig
      */
     private static StrategyConfig strategyConfig() {
-        return new StrategyConfig.Builder()
+        StrategyConfig config = new StrategyConfig.Builder()
                 .disableSqlFilter()
                 .addInclude(scanner("表名，多个英文逗号分割").split(","))
                 .addTablePrefix("tb_")
 
                 // entity文件策略
                 .entityBuilder()
+                .disable()
                 // 开启 lombok 模型
                 .enableLombok()
                 // 允许文件覆盖
@@ -168,10 +167,10 @@ public class CodeGenerator {
                 .versionColumnName("version")
                 // 添加表字段填充
                 .addTableFills(
-                        new Column("create_by", FieldFill.INSERT),
-                        new Column("create_time", FieldFill.INSERT),
-                        new Column("update_by", FieldFill.INSERT_UPDATE),
-                        new Column("update_time", FieldFill.INSERT_UPDATE)
+                        new Column("create_by" , FieldFill.INSERT),
+                        new Column("create_time" , FieldFill.INSERT),
+                        new Column("update_by" , FieldFill.INSERT_UPDATE),
+                        new Column("update_time" , FieldFill.INSERT_UPDATE)
                 )
 
                 // controller文件策略
@@ -183,6 +182,17 @@ public class CodeGenerator {
                 // service文件策略
                 .serviceBuilder()
                 .enableFileOverride()
+
+                .build();
+
+        // 验证配置项
+        config.validate();
+
+        // 不是第一次生成，则禁用以下模板
+        return IS_INIT_CODE_GENERATOR ? config : config.controllerBuilder()
+                .disable()
+                .serviceBuilder().disable()
+                .mapperBuilder().disable()
                 .build();
     }
 
@@ -198,7 +208,7 @@ public class CodeGenerator {
 
         // 自定义配置会被优先输出
         Map<String, Object> customMap = Maps.newHashMap();
-        customMap.put("isGenerateAllDefaultCondition", IS_GENERATE_ALL_DEFAULT_CONDITION);
+        customMap.put("isGenerateAllDefaultCondition" , IS_GENERATE_ALL_DEFAULT_CONDITION);
 
         if (IS_INIT_CODE_GENERATOR) {
             String outPutDir = gc.getOutputDir() + "/";
@@ -212,7 +222,7 @@ public class CodeGenerator {
                     .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Entity")
                     .fileName(".java")
                     .build());
-            customMap.put("entityPackage", entityPackage);
+            customMap.put("entityPackage" , entityPackage);
 
             // Query
             String queryPackage = pc.getParent() + ".model.query";
@@ -223,8 +233,8 @@ public class CodeGenerator {
                     .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Query")
                     .fileName(".java")
                     .build());
-            customMap.put("querySuperClass", PageQuery.class);
-            customMap.put("queryPackage", queryPackage);
+            customMap.put("querySuperClass" , PageQuery.class);
+            customMap.put("queryPackage" , queryPackage);
 
             // DTO
             String dtoPackage = pc.getParent() + ".model.dto";
@@ -235,7 +245,7 @@ public class CodeGenerator {
                     .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "DTO")
                     .fileName(".java")
                     .build());
-            customMap.put("dtoPackage", dtoPackage);
+            customMap.put("dtoPackage" , dtoPackage);
 
             // VO
             String voPackage = pc.getParent() + ".model.vo";
@@ -246,7 +256,7 @@ public class CodeGenerator {
                     .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "VO")
                     .fileName(".java")
                     .build());
-            customMap.put("voPackage", voPackage);
+            customMap.put("voPackage" , voPackage);
 
             // converter
             String converterPackage = pc.getParent() + ".converter";
@@ -257,7 +267,7 @@ public class CodeGenerator {
                     .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Converter")
                     .fileName(".java")
                     .build());
-            customMap.put("converterPackage", converterPackage);
+            customMap.put("converterPackage" , converterPackage);
         }
 
         // 自定义属性注入
@@ -265,34 +275,6 @@ public class CodeGenerator {
                 .customMap(customMap)
                 .customFile(customFiles)
                 .build();
-    }
-
-    /**
-     * 根据自己的需要，修改哪些包下面的 要覆盖还是不覆盖
-     *
-     * @return TemplateConfig
-     */
-    private static TemplateConfig initTemplateConfig() {
-        // 配置自定义输出模板
-        // 指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        TemplateConfig templateConfig = new TemplateConfig.Builder()
-                .disable(TemplateType.ENTITY)
-                .controller("/templates/controller.java")
-                .service("/templates/service.java")
-                .serviceImpl("/templates/serviceImpl.java")
-                .mapper("/templates/mapper.java")
-                .xml("/templates/mapper.xml")
-                .build();
-
-        // 不是第一次生成，则不生成以下类
-        if (!IS_INIT_CODE_GENERATOR) {
-            templateConfig.disable(TemplateType.CONTROLLER);
-            templateConfig.disable(TemplateType.SERVICE);
-            templateConfig.disable(TemplateType.SERVICE_IMPL);
-            templateConfig.disable(TemplateType.MAPPER);
-            templateConfig.disable(TemplateType.XML);
-        }
-        return templateConfig;
     }
 
     /**
@@ -308,11 +290,11 @@ public class CodeGenerator {
 
             // 定义类名
             Map<String, Object> objectMap = super.getObjectMap(config, tableInfo);
-            objectMap.put("queryName", entityName + "Query");
-            objectMap.put("dtoName", entityName + "DTO");
-            objectMap.put("entityName", entityName + "Entity");
-            objectMap.put("voName", entityName + "VO");
-            objectMap.put("converterName", entityName + "Converter");
+            objectMap.put("queryName" , entityName + "Query");
+            objectMap.put("dtoName" , entityName + "DTO");
+            objectMap.put("entityName" , entityName + "Entity");
+            objectMap.put("voName" , entityName + "VO");
+            objectMap.put("converterName" , entityName + "Converter");
             return objectMap;
         }
     }
@@ -324,7 +306,7 @@ public class CodeGenerator {
      */
     private static String getCurrentProjectPath() {
         String userDir = System.getProperty("user.dir");
-        String modelPath = System.getProperty("java.class.path").replaceFirst("[/|\\\\]target[/|\\\\].*$", "");
+        String modelPath = System.getProperty("java.class.path").replaceFirst("[/|\\\\]target[/|\\\\].*$" , "");
         if (userDir.equals(modelPath)) {
             return userDir;
         }
