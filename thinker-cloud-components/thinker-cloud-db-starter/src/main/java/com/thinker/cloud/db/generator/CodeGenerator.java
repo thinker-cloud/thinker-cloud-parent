@@ -56,11 +56,6 @@ public class CodeGenerator {
     private static final String AUTHOR = "admin";
 
     /**
-     * 是否初始化生成,设为false则不会覆盖除entity以外的代码
-     */
-    private static final boolean IS_INIT_CODE_GENERATOR = true;
-
-    /**
      * 是否生成所有默认查询条件
      */
     private static final boolean IS_GENERATE_ALL_DEFAULT_CONDITION = true;
@@ -93,10 +88,9 @@ public class CodeGenerator {
      * @return DataSourceConfig
      */
     private static DataSourceConfig dataSourceConfig() {
-        DbQueryRegistry registry = new DbQueryRegistry();
         return new DataSourceConfig
                 .Builder(URL, USER_NAME, PASSWORD)
-                .dbQuery(registry.getDbQuery(DB_TYPE))
+                .dbQuery(new DbQueryRegistry().getDbQuery(DB_TYPE))
                 .typeConvert(TypeConverts.getTypeConvert(DB_TYPE))
                 .build();
     }
@@ -112,7 +106,7 @@ public class CodeGenerator {
                 .outputDir(getCurrentProjectPath() + "/src/main/java")
                 // 作者名
                 .author(AUTHOR)
-                // 开启 springdoc 模式
+                // 开启 springdoc 模式，自动生成 swagger3 注解
 //                .enableSpringdoc()
                 // 注释日期
                 .commentDate(DatePattern.NORM_DATETIME_PATTERN)
@@ -167,10 +161,10 @@ public class CodeGenerator {
                 .versionColumnName("version")
                 // 添加表字段填充
                 .addTableFills(
-                        new Column("create_by" , FieldFill.INSERT),
-                        new Column("create_time" , FieldFill.INSERT),
-                        new Column("update_by" , FieldFill.INSERT_UPDATE),
-                        new Column("update_time" , FieldFill.INSERT_UPDATE)
+                        new Column("create_by", FieldFill.INSERT),
+                        new Column("create_time", FieldFill.INSERT),
+                        new Column("update_by", FieldFill.INSERT_UPDATE),
+                        new Column("update_time", FieldFill.INSERT_UPDATE)
                 )
 
                 // controller文件策略
@@ -183,17 +177,16 @@ public class CodeGenerator {
                 .serviceBuilder()
                 .enableFileOverride()
 
+                // mapper文件策略
+                .mapperBuilder()
+                .enableFileOverride()
+
                 .build();
 
         // 验证配置项
         config.validate();
 
-        // 不是第一次生成，则禁用以下模板
-        return IS_INIT_CODE_GENERATOR ? config : config.controllerBuilder()
-                .disable()
-                .serviceBuilder().disable()
-                .mapperBuilder().disable()
-                .build();
+        return config;
     }
 
     /**
@@ -208,67 +201,69 @@ public class CodeGenerator {
 
         // 自定义配置会被优先输出
         Map<String, Object> customMap = Maps.newHashMap();
-        customMap.put("isGenerateAllDefaultCondition" , IS_GENERATE_ALL_DEFAULT_CONDITION);
+        customMap.put("isGenerateAllDefaultCondition", IS_GENERATE_ALL_DEFAULT_CONDITION);
+        String outPutDir = gc.getOutputDir() + "/";
 
-        if (IS_INIT_CODE_GENERATOR) {
-            String outPutDir = gc.getOutputDir() + "/";
+        // entity
+        String entityPackage = pc.getParent() + ".model.entity";
+        customFiles.add(new CustomFile.Builder()
+                .templatePath("/templates/entity.java.ftl")
+                .packageName(entityPackage)
+                .filePath(outPutDir)
+                .enableFileOverride()
+                .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Entity")
+                .fileName(".java")
+                .build());
+        customMap.put("entityPackage", entityPackage);
 
-            // entity
-            String entityPackage = pc.getParent() + ".model.entity";
-            customFiles.add(new CustomFile.Builder()
-                    .templatePath("/templates/entity.java.ftl")
-                    .packageName(entityPackage)
-                    .filePath(outPutDir)
-                    .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Entity")
-                    .fileName(".java")
-                    .build());
-            customMap.put("entityPackage" , entityPackage);
+        // Query
+        String queryPackage = pc.getParent() + ".model.query";
+        customFiles.add(new CustomFile.Builder()
+                .templatePath("/templates/query.java.ftl")
+                .packageName(queryPackage)
+                .filePath(outPutDir)
+                .enableFileOverride()
+                .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Query")
+                .fileName(".java")
+                .build());
+        customMap.put("querySuperClass", PageQuery.class);
+        customMap.put("queryPackage", queryPackage);
 
-            // Query
-            String queryPackage = pc.getParent() + ".model.query";
-            customFiles.add(new CustomFile.Builder()
-                    .templatePath("/templates/query.java.ftl")
-                    .packageName(queryPackage)
-                    .filePath(outPutDir)
-                    .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Query")
-                    .fileName(".java")
-                    .build());
-            customMap.put("querySuperClass" , PageQuery.class);
-            customMap.put("queryPackage" , queryPackage);
+        // DTO
+        String dtoPackage = pc.getParent() + ".model.dto";
+        customFiles.add(new CustomFile.Builder()
+                .templatePath("/templates/DTO.java.ftl")
+                .packageName(dtoPackage)
+                .filePath(outPutDir)
+                .enableFileOverride()
+                .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "DTO")
+                .fileName(".java")
+                .build());
+        customMap.put("dtoPackage", dtoPackage);
 
-            // DTO
-            String dtoPackage = pc.getParent() + ".model.dto";
-            customFiles.add(new CustomFile.Builder()
-                    .templatePath("/templates/DTO.java.ftl")
-                    .packageName(dtoPackage)
-                    .filePath(outPutDir)
-                    .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "DTO")
-                    .fileName(".java")
-                    .build());
-            customMap.put("dtoPackage" , dtoPackage);
+        // VO
+        String voPackage = pc.getParent() + ".model.vo";
+        customFiles.add(new CustomFile.Builder()
+                .templatePath("/templates/VO.java.ftl")
+                .packageName(voPackage)
+                .filePath(outPutDir)
+                .enableFileOverride()
+                .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "VO")
+                .fileName(".java")
+                .build());
+        customMap.put("voPackage", voPackage);
 
-            // VO
-            String voPackage = pc.getParent() + ".model.vo";
-            customFiles.add(new CustomFile.Builder()
-                    .templatePath("/templates/VO.java.ftl")
-                    .packageName(voPackage)
-                    .filePath(outPutDir)
-                    .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "VO")
-                    .fileName(".java")
-                    .build());
-            customMap.put("voPackage" , voPackage);
-
-            // converter
-            String converterPackage = pc.getParent() + ".converter";
-            customFiles.add(new CustomFile.Builder()
-                    .templatePath("/templates/converter.java.ftl")
-                    .packageName(converterPackage)
-                    .filePath(outPutDir)
-                    .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Converter")
-                    .fileName(".java")
-                    .build());
-            customMap.put("converterPackage" , converterPackage);
-        }
+        // converter
+        String converterPackage = pc.getParent() + ".converter";
+        customFiles.add(new CustomFile.Builder()
+                .templatePath("/templates/converter.java.ftl")
+                .packageName(converterPackage)
+                .filePath(outPutDir)
+                .enableFileOverride()
+                .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Converter")
+                .fileName(".java")
+                .build());
+        customMap.put("converterPackage", converterPackage);
 
         // 自定义属性注入
         return new InjectionConfig.Builder()
@@ -290,11 +285,11 @@ public class CodeGenerator {
 
             // 定义类名
             Map<String, Object> objectMap = super.getObjectMap(config, tableInfo);
-            objectMap.put("queryName" , entityName + "Query");
-            objectMap.put("dtoName" , entityName + "DTO");
-            objectMap.put("entityName" , entityName + "Entity");
-            objectMap.put("voName" , entityName + "VO");
-            objectMap.put("converterName" , entityName + "Converter");
+            objectMap.put("queryName", entityName + "Query");
+            objectMap.put("dtoName", entityName + "DTO");
+            objectMap.put("entityName", entityName + "Entity");
+            objectMap.put("voName", entityName + "VO");
+            objectMap.put("converterName", entityName + "Converter");
             return objectMap;
         }
     }
@@ -306,7 +301,7 @@ public class CodeGenerator {
      */
     private static String getCurrentProjectPath() {
         String userDir = System.getProperty("user.dir");
-        String modelPath = System.getProperty("java.class.path").replaceFirst("[/|\\\\]target[/|\\\\].*$" , "");
+        String modelPath = System.getProperty("java.class.path").replaceFirst("[/|\\\\]target[/|\\\\].*$", "");
         if (userDir.equals(modelPath)) {
             return userDir;
         }

@@ -184,9 +184,10 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.plugin.version}</version>
                     <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
+                        <target>${maven.compiler.target}</target>
+                        <source>${maven.compiler.source}</source>
                         <encoding>UTF-8</encoding>
+                        <parameters>true</parameters>
                         <compilerArgs>
                             <arg>-parameters</arg>
                         </compilerArgs>
@@ -199,16 +200,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <target>${maven.compiler.target}</target>
                     <source>${maven.compiler.source}</source>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <skip>true</skip>
+                    <parameters>true</parameters>
                     <compilerArgs>
-                        <compilerArg>
-                            -parameters
-                        </compilerArg>
+                        <compilerArg>-parameters</compilerArg>
                     </compilerArgs>
                     <annotationProcessorPaths>
                         <!-- 自动将javadoc转为swagger文档 -->
@@ -222,6 +221,12 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+                        <!-- mapstruct 插件 -->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

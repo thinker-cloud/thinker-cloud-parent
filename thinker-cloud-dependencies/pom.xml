@@ -59,8 +59,15 @@
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
 
+        <!-- 数据库 -->
+        <mybatis-plus.version>3.5.6</mybatis-plus.version>
+        <mybatis-spring.version>3.0.3</mybatis-spring.version>
+        <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
+        <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
+
         <!-- 中间件 -->
         <xxl-job.version>2.4.1</xxl-job.version>
+        <redisson.version>3.27.2</redisson.version>
         <rocketmq-client.version>5.2.0</rocketmq-client.version>
         <spring-boot-admin.version>3.3.1</spring-boot-admin.version>
         <spring-boot-rocketmq.version>2.3.0</spring-boot-rocketmq.version>
@@ -69,10 +76,6 @@
         <spring-boot-dubbo.version>3.2.13</spring-boot-dubbo.version>
 
         <!-- 工具包 -->
-        <redisson.version>3.27.2</redisson.version>
-        <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
-        <mybatis-plus.version>3.5.6</mybatis-plus.version>
-        <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
         <hutool.version>5.8.26</hutool.version>
@@ -210,6 +213,13 @@
                 <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
                 <version>${dynamic-datasource.version}</version>
             </dependency>
+            <!--  SpringBoot 3.0 需要 mybatis-spring 3.0.X 版本，否则会报如下错误:
+            Invalid value type for attribute 'factoryBeanObjectType': java.lang.String -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
 
             <!-- mapstruct -->
             <dependency>
@@ -310,13 +320,13 @@
 
     <repositories>
         <repository>
-            <id>rdc-releases</id>
+            <id>ali-releases</id>
             <name>Nexus Plugin Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2417712-release-5PabZq/</url>
         </repository>
 
         <repository>
-            <id>rdc-snapshots</id>
+            <id>ali-snapshots</id>
             <name>Nexus Plugin Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2417712-snapshot-5QZjTB/</url>
         </repository>
@@ -345,7 +355,7 @@
 
     <distributionManagement>
         <repository>
-            <id>rdc-releases</id>
+            <id>ali-releases</id>
             <name>releases</name>
             <url>https://packages.aliyun.com/maven/repository/2417712-release-5PabZq/</url>
             <releases>
@@ -356,7 +366,7 @@
             </snapshots>
         </repository>
         <snapshotRepository>
-            <id>rdc-snapshots</id>
+            <id>ali-snapshots</id>
             <name>snapshots</name>
             <url>https://packages.aliyun.com/maven/repository/2417712-snapshot-5QZjTB/</url>
             <releases>
