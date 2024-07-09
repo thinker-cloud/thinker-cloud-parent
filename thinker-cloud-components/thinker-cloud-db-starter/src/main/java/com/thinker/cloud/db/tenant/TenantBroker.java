@@ -77,13 +77,13 @@ public class TenantBroker {
     public void runAs(Long tenant, RunAs<Long> func) {
         final Long pre = TenantContextHolder.getTenantId();
         try {
-            log.trace("TenantBroker 切换租户{} -> {}", pre, tenant);
+            log.trace("TenantBroker.runAs 切换租户{} -> {}", pre, tenant);
             TenantContextHolder.setTenantId(tenant);
             func.run(tenant);
         } catch (Exception e) {
             throw new TenantBrokerException(e.getMessage(), e);
         } finally {
-            log.trace("TenantBroker 还原租户{} <- {}", pre, tenant);
+            log.trace("TenantBroker.runAs 还原租户{} <- {}", pre, tenant);
             TenantContextHolder.setTenantId(pre);
         }
     }
@@ -99,13 +99,13 @@ public class TenantBroker {
     public <T> T applyAs(Long tenant, ApplyAs<Long, T> func) {
         final Long pre = TenantContextHolder.getTenantId();
         try {
-            log.trace("TenantBroker 切换租户{} -> {}", pre, tenant);
+            log.trace("TenantBroker.applyAs 切换租户{} -> {}", pre, tenant);
             TenantContextHolder.setTenantId(tenant);
             return func.apply(tenant);
         } catch (Exception e) {
             throw new TenantBrokerException(e.getMessage(), e);
         } finally {
-            log.trace("TenantBroker 还原租户{} <- {}", pre, tenant);
+            log.trace("TenantBroker.applyAs 还原租户{} <- {}", pre, tenant);
             TenantContextHolder.setTenantId(pre);
         }
     }
