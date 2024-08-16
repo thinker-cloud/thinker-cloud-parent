@@ -1,9 +1,12 @@
 package com.thinker.cloud.core.utils.excel;
 
+import cn.hutool.core.util.NumberUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+
+import java.math.BigDecimal;
 
 /**
  * Excel 读行工具
@@ -32,7 +35,16 @@ public class ExcelRowUtil {
         try {
             return cell.getStringCellValue().trim();
         } catch (IllegalStateException e) {
-            return String.valueOf(cell.getNumericCellValue());
+            String numericCellValue = String.valueOf(cell.getNumericCellValue());
+            // 避免数字太大导致变成科学计数
+            if (isScientificNotation(numericCellValue)) {
+                return NumberUtil.toStr(new BigDecimal(numericCellValue));
+            }
+            return numericCellValue;
         }
+    }
+
+    private static boolean isScientificNotation(String number) {
+        return number.toLowerCase().contains("e");
     }
 }

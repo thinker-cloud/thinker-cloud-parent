@@ -23,9 +23,9 @@ public class JacksonSerializeUtil {
      * @return Class<?>
      */
     public static Class<?> getFieldClass(JsonParser jsonParser) {
-        Class<?> clazz = jsonParser.getCurrentValue().getClass();
+        Class<?> clazz = jsonParser.currentValue().getClass();
         try {
-            String currentName = jsonParser.getCurrentName();
+            String currentName = jsonParser.currentName();
             Field declaredField = clazz.getDeclaredField(currentName);
             return declaredField.getType();
         } catch (NoSuchFieldException | IOException ignored) {
@@ -41,11 +41,11 @@ public class JacksonSerializeUtil {
      */
     public static String getJsonFormatPattern(JsonParser jsonParser) {
         // 获取value来源的类
-        Class<?> aClass = jsonParser.getCurrentValue().getClass();
+        Class<?> aClass = jsonParser.currentValue().getClass();
 
         try {
             // 获取字段名
-            String currentName = jsonParser.getCurrentName();
+            String currentName = jsonParser.currentName();
 
             // 获取字段
             Field declaredField = aClass.getDeclaredField(currentName);
@@ -67,7 +67,7 @@ public class JacksonSerializeUtil {
      */
     public static String getJsonFormatPattern(JsonGenerator jsonGenerator) {
         // 获取value来源的类
-        Class<?> aClass = jsonGenerator.getCurrentValue().getClass();
+        Class<?> aClass = jsonGenerator.currentValue().getClass();
 
         // 获取字段名
         String currentName = jsonGenerator.getOutputContext().getCurrentName();

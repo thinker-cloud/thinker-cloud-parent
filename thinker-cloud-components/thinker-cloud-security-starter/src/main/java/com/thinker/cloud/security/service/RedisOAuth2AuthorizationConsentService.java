@@ -39,8 +39,7 @@ public class RedisOAuth2AuthorizationConsentService implements OAuth2Authorizati
     public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
         Assert.hasText(registeredClientId, "registeredClientId cannot be empty");
         Assert.hasText(principalName, "principalName cannot be empty");
-        return (OAuth2AuthorizationConsent) redisTemplate.opsForValue()
-                .get(buildKey(registeredClientId, principalName));
+        return (OAuth2AuthorizationConsent) redisTemplate.opsForValue().get(buildKey(registeredClientId, principalName));
     }
 
     private static String buildKey(String registeredClientId, String principalName) {
