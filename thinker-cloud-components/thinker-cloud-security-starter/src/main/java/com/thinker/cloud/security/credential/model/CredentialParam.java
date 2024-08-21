@@ -45,7 +45,7 @@ public class CredentialParam implements Serializable {
      * 过期时间
      */
     @Min(value = 1000 * 15, message = "凭证最少失效时间为15秒")
-    @Max(value = 1000 * 60 * 60, message = "凭证最大时间薇1小时")
+    @Max(value = 1000 * 60 * 60, message = "凭证最大时间为1小时")
     private Long expire = Duration.ofMinutes(3L).toMillis();
 
 }

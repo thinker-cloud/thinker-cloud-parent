@@ -1,5 +1,6 @@
 package com.thinker.cloud.dubbo.filter;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.common.utils.ConfigUtils;
@@ -24,16 +25,8 @@ import static org.apache.dubbo.common.constants.FilterConstants.VALIDATION_KEY;
 @Activate(group = {CONSUMER, PROVIDER}, value = VALIDATION_KEY, order = 10000)
 public class ValidationFilter implements Filter {
 
+    @Setter
     private Validation validation;
-
-    /**
-     * 为ValidationFilter设置验证实例
-     *
-     * @param validation validation
-     */
-    public void setValidation(Validation validation) {
-        this.validation = validation;
-    }
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {

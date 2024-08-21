@@ -16,7 +16,6 @@
 
 package com.thinker.cloud.security.component;
 
-import com.thinker.cloud.security.properties.PermitProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,7 +38,8 @@ import java.util.regex.Pattern;
  */
 public class BearerTokenExtractor implements BearerTokenResolver {
 
-    private static final Pattern AUTHORIZATION_PATTERN = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-:._~+/]+=*)$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern AUTHORIZATION_PATTERN = Pattern.compile(
+            "^Bearer (?<token>[a-zA-Z0-9-:._~+/]+=*)$", Pattern.CASE_INSENSITIVE);
 
     private final boolean allowFormEncodedBodyParameter = false;
 
@@ -47,15 +47,15 @@ public class BearerTokenExtractor implements BearerTokenResolver {
 
     private final PathMatcher pathMatcher = new AntPathMatcher();
 
-    private final PermitProperties permitProperties;
+    private final PermitAllUrlResolver permitAllUrlProperties;
 
-    public BearerTokenExtractor(PermitProperties urlProperties) {
-        this.permitProperties = urlProperties;
+    public BearerTokenExtractor(PermitAllUrlResolver urlProperties) {
+        this.permitAllUrlProperties = urlProperties;
     }
 
     @Override
     public String resolve(HttpServletRequest request) {
-        boolean match = permitProperties.getUrls()
+        boolean match = permitAllUrlProperties.getIgnoreUrls()
                 .stream()
                 .anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
 

@@ -16,7 +16,6 @@
 
 package com.thinker.cloud.security.component;
 
-import com.thinker.cloud.security.properties.PermitProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -44,7 +43,7 @@ public class ResourceServerConfiguration {
 
     protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
-    private final PermitProperties permitProperties;
+    private final PermitAllUrlResolver permitAllUrlProperties;
 
     private final BearerTokenExtractor bearerTokenExtractor;
 
@@ -53,7 +52,7 @@ public class ResourceServerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AntPathRequestMatcher[] requestMatchers = permitProperties.getUrls()
+        AntPathRequestMatcher[] requestMatchers = permitAllUrlProperties.getIgnoreUrls()
                 .stream()
                 .map(AntPathRequestMatcher::new)
                 .toList()

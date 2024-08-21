@@ -5,7 +5,7 @@ package com.thinker.cloud.core.sensitive;
  *
  * @author admin
  */
-public enum SensitiveTypeEnum {
+public enum SensitiveType {
 
     /**
      * 自定义

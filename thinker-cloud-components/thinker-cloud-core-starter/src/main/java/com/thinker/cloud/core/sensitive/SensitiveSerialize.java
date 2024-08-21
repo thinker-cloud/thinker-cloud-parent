@@ -23,7 +23,7 @@ import java.util.Objects;
 @SuppressWarnings("all")
 public class SensitiveSerialize extends JsonSerializer<String> implements ContextualSerializer {
 
-    private SensitiveTypeEnum type;
+    private SensitiveType type;
     private Integer prefixNoMaskLen;
     private Integer suffixNoMaskLen;
     private String maskStr;

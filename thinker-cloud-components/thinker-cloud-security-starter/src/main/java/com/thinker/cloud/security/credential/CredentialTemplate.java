@@ -59,8 +59,8 @@ public class CredentialTemplate {
         }
 
         log.debug("生成验证码成功:{},{}", param.getSubject(), credential);
-        redisTemplate.opsForValue().set(CREDENTIAL_CODE_KEY + param.getSubject(), credential,
-                expire, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(CREDENTIAL_CODE_KEY + param.getSubject()
+                , credential, expire, TimeUnit.MILLISECONDS);
 
         return credential;
     }

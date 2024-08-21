@@ -55,22 +55,22 @@
         <git.commit.plugin.version>4.9.9</git.commit.plugin.version>
 
         <!-- 基础依赖 -->
-        <spring-boot.version>3.3.1</spring-boot.version>
-        <spring-cloud.version>2023.0.2</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
+        <spring-boot.version>3.3.2</spring-boot.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
 
         <!-- 数据库 -->
-        <mybatis-plus.version>3.5.6</mybatis-plus.version>
+        <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <mybatis-spring.version>3.0.3</mybatis-spring.version>
         <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
         <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
 
         <!-- 中间件 -->
         <xxl-job.version>2.4.1</xxl-job.version>
-        <redisson.version>3.27.2</redisson.version>
-        <rocketmq-client.version>5.2.0</rocketmq-client.version>
-        <spring-boot-admin.version>3.3.1</spring-boot-admin.version>
-        <spring-boot-rocketmq.version>2.3.0</spring-boot-rocketmq.version>
+        <redisson.version>3.34.1</redisson.version>
+        <rocketmq-client.version>5.3.0</rocketmq-client.version>
+        <spring-boot-admin.version>3.3.3</spring-boot-admin.version>
+        <spring-boot-rocketmq.version>2.3.1</spring-boot-rocketmq.version>
 
         <!-- RPC 框架 -->
         <spring-boot-dubbo.version>3.2.14</spring-boot-dubbo.version>

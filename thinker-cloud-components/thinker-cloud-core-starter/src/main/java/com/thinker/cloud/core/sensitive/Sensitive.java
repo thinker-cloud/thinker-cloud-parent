@@ -22,7 +22,7 @@ public @interface Sensitive {
     /**
      * 脱敏数据类型, 非Customer时, 将忽略 refixNoMaskLen 和 suffixNoMaskLen 和 maskStr
      */
-    SensitiveTypeEnum type() default SensitiveTypeEnum.CUSTOMER;
+    SensitiveType type() default SensitiveType.CUSTOMER;
 
     /**
      * 前置不需要打码的长度

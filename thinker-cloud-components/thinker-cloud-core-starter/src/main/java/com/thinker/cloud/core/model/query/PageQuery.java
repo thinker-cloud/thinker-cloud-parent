@@ -28,13 +28,13 @@ public class PageQuery extends Query implements Serializable {
      * 当前页
      */
     @Range(min = 1, message = "页数（page）必须大于0")
-    private Integer page = 1;
+    private Long page = 1L;
 
     /**
      * 每页显示条数
      */
     @Range(min = 1, message = "显示条数（limit）必须大于0")
-    private Integer limit = 10;
+    private Long limit = 10L;
 
     /**
      * 排序字段

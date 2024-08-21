@@ -21,6 +21,7 @@
         <module>thinker-cloud-elasticsearch-starter</module>
         <module>thinker-cloud-kafka-starter</module>
         <module>thinker-cloud-log-starter</module>
+        <module>thinker-cloud-mongodb-starter</module>
         <module>thinker-cloud-mqtt-starter</module>
         <module>thinker-cloud-openapi-starter</module>
         <module>thinker-cloud-redis-starter</module>
