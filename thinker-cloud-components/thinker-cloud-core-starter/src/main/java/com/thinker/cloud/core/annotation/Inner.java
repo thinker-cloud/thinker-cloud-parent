@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.thinker.cloud.security.annotation;
+package com.thinker.cloud.core.annotation;
 
 import java.lang.annotation.*;
 
@@ -26,7 +26,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface InnerAuth {
+public @interface Inner {
 
     /**
      * 是否AOP统一处理

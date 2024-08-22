@@ -2,7 +2,6 @@ package com.thinker.cloud.core.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,9 +10,8 @@ import org.springframework.context.annotation.Configuration;
  * @author admin
  */
 @Data
-@RefreshScope
 @Configuration
-@ConfigurationProperties(prefix = "thinker-cloud.async.task")
+@ConfigurationProperties(prefix = "thinker.cloud.async.task")
 public class AsyncTaskProperties {
     /**
      * 线程池维护线程的核心数量.

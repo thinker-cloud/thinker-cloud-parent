@@ -14,19 +14,27 @@
  * limitations under the License.
  */
 
-package com.thinker.cloud.security.component;
+package com.thinker.cloud.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thinker.cloud.security.component.BearerTokenExtractor;
+import com.thinker.cloud.security.component.PermissionService;
+import com.thinker.cloud.security.component.PermitAllUrlResolver;
+import com.thinker.cloud.security.component.ResourceAuthExceptionEntryPoint;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authorization.method.PrePostTemplateDefaults;
 
 /**
  * 资源服务器自动配置
  *
  * @author admin
  */
+@Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(PermitAllUrlResolver.class)
 public class ResourceServerAutoConfiguration {
@@ -60,8 +68,18 @@ public class ResourceServerAutoConfiguration {
      * @return ResourceAuthExceptionEntryPoint
      */
     @Bean
-    public ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper,
-                                                                           MessageSource securityMessageSource) {
+    @ConditionalOnBean(ObjectMapper.class)
+    public ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper, MessageSource securityMessageSource) {
         return new ResourceAuthExceptionEntryPoint(objectMapper, securityMessageSource);
+    }
+
+    /**
+     * 支持自定义权限表达式
+     *
+     * @return {@link PrePostTemplateDefaults }
+     */
+    @Bean
+    public PrePostTemplateDefaults prePostTemplateDefaults() {
+        return new PrePostTemplateDefaults();
     }
 }

@@ -19,6 +19,7 @@
         <module>thinker-cloud-db-starter</module>
         <module>thinker-cloud-dubbo-starter</module>
         <module>thinker-cloud-elasticsearch-starter</module>
+        <module>thinker-cloud-feign-starter</module>
         <module>thinker-cloud-kafka-starter</module>
         <module>thinker-cloud-log-starter</module>
         <module>thinker-cloud-mongodb-starter</module>

@@ -43,16 +43,6 @@ public interface SecurityConstants {
     String OAUTH_PREFIX = "oauth:";
 
     /**
-     * 内部
-     */
-    String FROM_IN = "Y";
-
-    /**
-     * 标志
-     */
-    String FROM = "from";
-
-    /**
      * 客户端模式
      */
     String CLIENT_CREDENTIALS = "client_credentials";

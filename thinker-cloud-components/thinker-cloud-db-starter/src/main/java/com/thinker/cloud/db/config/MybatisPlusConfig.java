@@ -10,6 +10,7 @@ import com.thinker.cloud.db.handler.BaseMetaObjectHandler;
 import com.thinker.cloud.db.injector.EnhanceSqlInjector;
 import com.thinker.cloud.db.properties.DbConfigProperties;
 import com.thinker.cloud.db.tenant.TenantMaintenanceHandler;
+import com.thinker.cloud.db.tenant.TenantRequestInterceptor;
 import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -76,6 +77,15 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
         DbType dbType = DbType.getDbType(dbConfigProperties.getDbType());
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(dbType));
         return interceptor;
+    }
+
+    /**
+     * 传递请求的租户ID
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public TenantRequestInterceptor tenantRequestInterceptor() {
+        return new TenantRequestInterceptor();
     }
 }
 

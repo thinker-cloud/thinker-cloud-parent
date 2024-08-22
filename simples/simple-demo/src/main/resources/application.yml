@@ -65,10 +65,11 @@ springdoc:
       - name: simple-demo
         url: /v3/api-docs
 
-thinker-cloud:
-  redis:
-    delayQueue:
-      enabled: true
+thinker:
+  cloud:
+    redis:
+      delayQueue:
+        enabled: true
 
 logging:
   level:

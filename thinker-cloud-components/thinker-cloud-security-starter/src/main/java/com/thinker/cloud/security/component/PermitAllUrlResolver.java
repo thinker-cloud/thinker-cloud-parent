@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.security.annotation.InnerAuth;
+import com.thinker.cloud.core.annotation.Inner;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -55,12 +55,12 @@ public class PermitAllUrlResolver implements InitializingBean {
             HandlerMethod handlerMethod = map.get(info);
 
             // 1. 首先获取类上边 @Inner 注解
-            InnerAuth controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), InnerAuth.class);
+            Inner controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Inner.class);
 
             // 2. 当类上不包含 @Inner 注解则获取该方法的注解
             if (controller == null) {
-                InnerAuth method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), InnerAuth.class);
-                Optional.ofNullable(method).ifPresent(innerAuth -> info.getPatternsCondition().getPatterns()
+                Inner method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Inner.class);
+                Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
                         .forEach(url -> this.filterPath(url, info, map)));
                 continue;
             }

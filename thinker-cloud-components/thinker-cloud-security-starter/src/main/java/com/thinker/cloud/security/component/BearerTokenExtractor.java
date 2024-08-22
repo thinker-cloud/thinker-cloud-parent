@@ -20,7 +20,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.resource.BearerTokenError;
 import org.springframework.security.oauth2.server.resource.BearerTokenErrors;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
@@ -82,7 +84,7 @@ public class BearerTokenExtractor implements BearerTokenResolver {
 
     private String resolveFromAuthorizationHeader(HttpServletRequest request) {
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (!StringUtils.startsWithIgnoreCase(authorization, "Bearer")) {
+        if (!StringUtils.startsWithIgnoreCase(authorization, OAuth2AccessToken.TokenType.BEARER.getValue())) {
             return null;
         }
         Matcher matcher = AUTHORIZATION_PATTERN.matcher(authorization);
@@ -90,11 +92,11 @@ public class BearerTokenExtractor implements BearerTokenResolver {
             BearerTokenError error = BearerTokenErrors.invalidToken("Bearer token is malformed");
             throw new OAuth2AuthenticationException(error);
         }
-        return matcher.group("token");
+        return matcher.group(OAuth2ParameterNames.TOKEN);
     }
 
     private static String resolveFromRequestParameters(HttpServletRequest request) {
-        String[] values = request.getParameterValues("access_token");
+        String[] values = request.getParameterValues(OAuth2ParameterNames.ACCESS_TOKEN);
         if (values == null || values.length == 0) {
             return null;
         }

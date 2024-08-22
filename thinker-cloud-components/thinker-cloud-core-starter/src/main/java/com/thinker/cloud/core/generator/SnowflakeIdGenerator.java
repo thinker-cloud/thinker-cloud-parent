@@ -16,7 +16,7 @@ public class SnowflakeIdGenerator {
     /**
      * 开始时间戳（2023-09-01 00:00）
      */
-    private final long twepoch = 1693497600000L;
+    private final long twepoch = 1725120000000L;
 
     /**
      * 机器ID所占的位数

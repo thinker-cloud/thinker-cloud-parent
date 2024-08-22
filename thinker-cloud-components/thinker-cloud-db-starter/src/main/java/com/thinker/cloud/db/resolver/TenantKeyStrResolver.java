@@ -2,7 +2,7 @@ package com.thinker.cloud.db.resolver;
 
 
 import com.thinker.cloud.core.resolver.KeyStrResolver;
-import com.thinker.cloud.db.tenant.TenantContextHolder;
+import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
 import org.springframework.context.annotation.Configuration;
 
 /**

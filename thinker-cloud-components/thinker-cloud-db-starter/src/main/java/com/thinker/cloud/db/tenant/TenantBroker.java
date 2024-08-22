@@ -1,5 +1,6 @@
 package com.thinker.cloud.db.tenant;
 
+import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 

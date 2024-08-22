@@ -17,8 +17,8 @@
 package com.thinker.cloud.security.component;
 
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.security.annotation.InnerAuth;
-import com.thinker.cloud.security.constants.SecurityConstants;
+import com.thinker.cloud.core.annotation.Inner;
+import com.thinker.cloud.core.constants.CommonConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -45,15 +45,15 @@ public class SecurityInnerAspect implements Ordered {
     private final HttpServletRequest request;
 
     @SneakyThrows
-    @Before("@within(innerAuth) || @annotation(innerAuth)")
-    public void around(JoinPoint point, InnerAuth innerAuth) {
+    @Before("@within(inner) || @annotation(inner)")
+    public void around(JoinPoint point, Inner inner) {
         // 实际注入的inner实体由表达式后一个注解决定，即是方法上的@Inner注解实体，若方法上无@Inner注解，则获取类上的
-        if (innerAuth == null) {
+        if (inner == null) {
             Class<?> clazz = point.getTarget().getClass();
-            innerAuth = AnnotationUtils.findAnnotation(clazz, InnerAuth.class);
+            inner = AnnotationUtils.findAnnotation(clazz, Inner.class);
         }
-        String header = request.getHeader(SecurityConstants.FROM);
-        if (Objects.nonNull(innerAuth) && innerAuth.value() && !StrUtil.equals(SecurityConstants.FROM_IN, header)) {
+        String header = request.getHeader(CommonConstants.FROM);
+        if (Objects.nonNull(inner) && inner.value() && !StrUtil.equals(CommonConstants.FROM_IN, header)) {
             log.warn("访问接口 {} 没有权限", point.getSignature().getName());
             throw new AccessDeniedException("Access is denied");
         }

@@ -1,6 +1,7 @@
 package com.thinker.cloud.db.tenant;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
+import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
 import com.thinker.cloud.db.properties.DbConfigProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -28,6 +28,16 @@ public interface CommonConstants {
     String TENANT = "Tenant";
 
     /**
+     * Inner 内部
+     */
+    String FROM_IN = "Y";
+
+    /**
+     * Inner 内部标识
+     */
+    String FROM = "from";
+
+    /**
      * JSON 资源
      */
     String APPLICATION_JSON_UTF8 = "application/json;charset=utf-8";

@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @RefreshScope
 @Configuration
-@ConfigurationProperties(prefix = "thinker-cloud.db")
+@ConfigurationProperties(prefix = "thinker.cloud.db")
 public class DbConfigProperties {
 
     /**

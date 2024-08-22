@@ -67,6 +67,11 @@
             </dependency>
             <dependency>
                 <groupId>com.thinker.cloud</groupId>
+                <artifactId>thinker-cloud-feign-starter</artifactId>
+                <version>${thinker-cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thinker.cloud</groupId>
                 <artifactId>thinker-cloud-kafka-starter</artifactId>
                 <version>${thinker-cloud.version}</version>
             </dependency>

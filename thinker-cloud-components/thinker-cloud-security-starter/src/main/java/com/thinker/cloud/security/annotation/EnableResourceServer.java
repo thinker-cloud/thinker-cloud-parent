@@ -16,7 +16,7 @@
 
 package com.thinker.cloud.security.annotation;
 
-import com.thinker.cloud.security.component.ResourceServerAutoConfiguration;
+import com.thinker.cloud.security.config.ResourceServerAutoConfiguration;
 import com.thinker.cloud.security.component.ResourceServerConfiguration;
 import org.springframework.context.annotation.Import;
 

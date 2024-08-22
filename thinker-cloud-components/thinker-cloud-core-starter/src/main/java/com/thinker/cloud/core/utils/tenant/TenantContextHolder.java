@@ -1,4 +1,4 @@
-package com.thinker.cloud.db.tenant;
+package com.thinker.cloud.core.utils.tenant;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import lombok.experimental.UtilityClass;

@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 
@@ -169,6 +170,23 @@ public class GlobalExceptionHandler {
     public Result<Void> handleNumberFormatException(NumberFormatException e) {
         log.error("数字格式化异常，ex={}", e.getMessage(), e);
         return Result.buildFailure(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
+
+    /**
+     * 保持和低版本请求路径不存在的行为一致
+     * <p>
+     * <a href="https://github.com/spring-projects/spring-boot/issues/38733">
+     * [Spring Boot3.2.0] 404 Not Found behavior #38733
+     * </a>
+     *
+     * @param e exception
+     * @return R
+     */
+    @ExceptionHandler({NoResourceFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result<Void> bindExceptionHandler(NoResourceFoundException e) {
+        log.debug("请求路径 404 {}", e.getMessage(), e);
+        return Result.buildFailure(e.getMessage());
     }
 
     /**

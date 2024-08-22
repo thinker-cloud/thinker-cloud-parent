@@ -61,7 +61,6 @@
 
         <!-- 数据库 -->
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
-        <mybatis-spring.version>3.0.3</mybatis-spring.version>
         <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
         <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
 
@@ -195,7 +194,7 @@
             <!-- mybatis plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
@@ -212,13 +211,6 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
                 <version>${dynamic-datasource.version}</version>
-            </dependency>
-            <!--  SpringBoot 3.0 需要 mybatis-spring 3.0.X 版本，否则会报如下错误:
-            Invalid value type for attribute 'factoryBeanObjectType': java.lang.String -->
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis-spring.version}</version>
             </dependency>
 
             <!-- mapstruct -->

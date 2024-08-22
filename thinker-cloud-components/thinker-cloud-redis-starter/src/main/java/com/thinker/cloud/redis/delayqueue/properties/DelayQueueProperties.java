@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @RefreshScope
 @Configuration
-@ConfigurationProperties(prefix = "thinker-cloud.redis.delay-queue")
-@ConditionalOnExpression("${thinker-cloud.redis.delay-queue.enabled:false}")
+@ConfigurationProperties(prefix = "thinker.cloud.redis.delay-queue")
+@ConditionalOnExpression("${thinker.cloud.redis.delay-queue.enabled:false}")
 public class DelayQueueProperties {
 
     /**

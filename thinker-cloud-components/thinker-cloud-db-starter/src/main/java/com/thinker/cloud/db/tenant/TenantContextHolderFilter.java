@@ -2,6 +2,7 @@ package com.thinker.cloud.db.tenant;
 
 import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
 import com.thinker.cloud.security.constants.SecurityConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletRequest;
