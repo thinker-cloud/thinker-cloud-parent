@@ -83,7 +83,7 @@
         <guava.version>32.1.2-jre</guava.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <commons-io.version>2.13.0</commons-io.version>
-        <org.jetbrains.version>13.0</org.jetbrains.version>
+        <org-jetbrains.version>13.0</org-jetbrains.version>
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
         <springdoc-openapi-starter.version>2.5.0</springdoc-openapi-starter.version>
         <therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
@@ -305,20 +305,20 @@
             <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>${org.jetbrains.version}</version>
+                <version>${org-jetbrains.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <repositories>
         <repository>
-            <id>ali-releases</id>
+            <id>thinker-releases</id>
             <name>Nexus Plugin Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2417712-release-5PabZq/</url>
         </repository>
 
         <repository>
-            <id>ali-snapshots</id>
+            <id>thinker-snapshots</id>
             <name>Nexus Plugin Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2417712-snapshot-5QZjTB/</url>
         </repository>
@@ -347,7 +347,7 @@
 
     <distributionManagement>
         <repository>
-            <id>ali-releases</id>
+            <id>thinker-releases</id>
             <name>releases</name>
             <url>https://packages.aliyun.com/maven/repository/2417712-release-5PabZq/</url>
             <releases>
@@ -358,7 +358,7 @@
             </snapshots>
         </repository>
         <snapshotRepository>
-            <id>ali-snapshots</id>
+            <id>thinker-snapshots</id>
             <name>snapshots</name>
             <url>https://packages.aliyun.com/maven/repository/2417712-snapshot-5QZjTB/</url>
             <releases>
