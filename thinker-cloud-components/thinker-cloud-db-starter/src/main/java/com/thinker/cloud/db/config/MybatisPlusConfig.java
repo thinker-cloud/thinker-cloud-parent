@@ -74,7 +74,7 @@ public class MybatisPlusConfig implements WebMvcConfigurer {
         }
 
         // 分页支持
-        DbType dbType = DbType.getDbType(dbConfigProperties.getDbType());
+        DbType dbType = DbType.getDbType(dbConfigProperties.getType());
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(dbType));
         return interceptor;
     }

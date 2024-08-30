@@ -63,6 +63,6 @@ public enum DataScopeTypeEnum implements IEnumDict<Integer> {
      * @return DataScopeTypeEnum
      */
     public static DataScopeTypeEnum resolver(Integer type) {
-        return EnumCacheUtil.loadEnumValue(DataScopeTypeEnum.class, type, ALL);
+        return EnumCacheUtil.loadEnumValue(DataScopeTypeEnum.class, type, OWN_CHILD_LEVEL);
     }
 }

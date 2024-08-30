@@ -67,7 +67,17 @@ springdoc:
 
 thinker:
   cloud:
+    db:
+      # 数据库类型
+      type: mysql
+      # 开启租户隔离
+      tenant:
+        enable: true
+      # 开启数据权限
+      data-scope:
+        enable: true
     redis:
+      # 开启延迟队列
       delayQueue:
         enabled: true
 

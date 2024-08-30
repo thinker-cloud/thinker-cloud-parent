@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 缓存插件自动配置
+ * Redis缓存插件自动配置
  *
  * @author admin
  */
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-public class CacheAutoConfiguration {
+public class RedisCacheAutoConfiguration {
 
     /**
      * 切面 拦截处理所有 @Cacheable

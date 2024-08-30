@@ -21,6 +21,16 @@
             <artifactId>thinker-cloud-core-starter</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
         <!--redisson-->
         <dependency>
             <groupId>org.redisson</groupId>
