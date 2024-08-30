@@ -325,8 +325,8 @@
 
         <!--阿里云代理maven central和jcenter仓库-->
         <repository>
-            <id>aliyun</id>
-            <name>Ali Yun</name>
+            <id>aliyun-cloud</id>
+            <name>Ali Yun Repository</name>
             <url>https://maven.aliyun.com/repository/public</url>
         </repository>
 
@@ -339,7 +339,7 @@
 
         <!-- 腾讯云仓库 -->
         <repository>
-            <id>tencent-public</id>
+            <id>tencent-cloud</id>
             <name>Tencent Repository</name>
             <url>https://mirrors.tencent.com/nexus/repository/maven-public/</url>
         </repository>
