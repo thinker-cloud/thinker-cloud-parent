@@ -25,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 自动装配消息生产者
+ *
+ * @author admin
  */
 @Slf4j
 @Configuration

@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  * RocketMQ的消费者(Push模式)处理消息的接口
+ *
+ * @author admin
  */
 public abstract class AbstractMQPushConsumer<T> extends AbstractMQConsumer<T> {
 

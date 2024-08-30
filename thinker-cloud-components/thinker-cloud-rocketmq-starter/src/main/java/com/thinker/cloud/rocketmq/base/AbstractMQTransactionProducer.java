@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * RocketMQ的事务生产者的抽象基类
+ *
+ * @author admin
  */
 public abstract class AbstractMQTransactionProducer implements TransactionListener {
 

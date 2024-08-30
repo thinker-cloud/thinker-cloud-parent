@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  * Description：RocketMQ消费抽象基类
+ *
+ * @author admin
  */
 public abstract class AbstractMQConsumer<T> {
 

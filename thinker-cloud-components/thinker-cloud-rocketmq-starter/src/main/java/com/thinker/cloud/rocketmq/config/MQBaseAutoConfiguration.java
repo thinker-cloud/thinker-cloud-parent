@@ -12,9 +12,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 
 /**
  * RocketMQ配置文件
+ *
+ * @author admin
  */
 @Configuration
 @ConditionalOnBean(annotation = EnableRocketMQ.class)
@@ -32,7 +35,7 @@ public class MQBaseAutoConfiguration implements ApplicationContextAware {
     protected ConfigurableApplicationContext applicationContext;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = (ConfigurableApplicationContext) applicationContext;
     }
 

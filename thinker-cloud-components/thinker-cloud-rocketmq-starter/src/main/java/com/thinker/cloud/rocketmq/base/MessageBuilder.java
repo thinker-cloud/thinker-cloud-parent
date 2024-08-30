@@ -3,6 +3,8 @@ package com.thinker.cloud.rocketmq.base;
 import com.alibaba.fastjson.JSON;
 import com.thinker.cloud.rocketmq.annotation.MQKey;
 import com.thinker.cloud.rocketmq.enums.DelayTimeLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.common.message.Message;
 import org.slf4j.Logger;
@@ -12,6 +14,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 
+@Getter
+@Setter
 public class MessageBuilder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageBuilder.class);
@@ -93,45 +97,5 @@ public class MessageBuilder {
             message.setDelayTimeLevel(delayTimeLevel);
         }
         return message;
-    }
-
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public Object getMessage() {
-        return message;
-    }
-
-    public void setMessage(Object message) {
-        this.message = message;
-    }
-
-    public Integer getDelayTimeLevel() {
-        return delayTimeLevel;
-    }
-
-    public void setDelayTimeLevel(Integer delayTimeLevel) {
-        this.delayTimeLevel = delayTimeLevel;
     }
 }

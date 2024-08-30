@@ -4,9 +4,13 @@ import com.thinker.cloud.core.exception.AbstractException;
 
 /**
  * RocketMQ的自定义异常
+ *
+ * @author admin
  */
 public class MQException extends AbstractException {
+
     public MQException(String msg) {
         super(msg);
     }
+
 }

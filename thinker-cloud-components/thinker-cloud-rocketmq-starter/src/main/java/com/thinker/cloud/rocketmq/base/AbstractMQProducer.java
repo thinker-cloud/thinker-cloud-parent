@@ -1,5 +1,6 @@
 package com.thinker.cloud.rocketmq.base;
 
+import com.alibaba.fastjson.JSON;
 import com.thinker.cloud.rocketmq.exception.MQException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +46,7 @@ public abstract class AbstractMQProducer {
             log.debug("send rocketmq message ,messageId : {}", sendResult.getMsgId());
             this.doAfterSyncSend(message, sendResult);
         } catch (Exception e) {
-            log.error("消息发送失败，topic : {}, msgObj {}", message.getTopic(), message);
+            log.error("消息发送失败，topic : {}, msgObj {}", message.getTopic(), JSON.toJSONString(message));
             throw new MQException("消息发送失败，topic :" + message.getTopic() + ",e:" + e.getMessage());
         }
     }
@@ -94,7 +95,7 @@ public abstract class AbstractMQProducer {
             producer.send(message, sendCallback);
             log.debug("send rocketmq message async");
         } catch (Exception e) {
-            log.error("消息发送失败，topic : {}, msgObj {}", message.getTopic(), message);
+            log.error("消息发送失败，topic : {}, msgObj {}", message.getTopic(), JSON.toJSONString(message));
             throw new MQException("消息发送失败，topic :" + message.getTopic() + ",e:" + e.getMessage());
         }
     }

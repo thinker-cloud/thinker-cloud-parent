@@ -42,6 +42,7 @@ public class AsyncTaskExecutorConfiguration implements AsyncConfigurer {
         taskExecutor.setQueueCapacity(asyncTaskProperties.getQueueCapacity());
         taskExecutor.setKeepAliveSeconds(asyncTaskProperties.getKeepAliveSeconds());
         taskExecutor.setThreadNamePrefix(asyncTaskProperties.getThreadNamePrefix());
+        taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
 
         // 配置拒绝策略
         taskExecutor.setRejectedExecutionHandler((r, executor) -> {

@@ -62,7 +62,7 @@ public class MyPageUtil {
     /**
      * 构建分页对象
      *
-     * @param query   分页参数
+     * @param query 分页参数
      * @return IPage
      */
     public static <T> IPage<T> generatePage(PageQuery query) {
@@ -113,6 +113,11 @@ public class MyPageUtil {
         if (pageSize == 0) {
             return 0;
         }
-        return totalCount % pageSize == 0 ? (totalCount / pageSize) : (totalCount / pageSize + 1);
+
+        if (totalCount % pageSize == 0) {
+            return totalCount / pageSize;
+        }
+
+        return totalCount / pageSize + 1;
     }
 }

@@ -1,5 +1,10 @@
 package com.thinker.cloud.rocketmq.constant;
 
+/**
+ * NoticeConstants
+ *
+ * @author admin
+ */
 public interface NoticeConstants {
 
     String NOTICE_PREFIX = "NOTICE_";
@@ -13,14 +18,17 @@ public interface NoticeConstants {
      * 通知短信类型
      */
     String NOTICE_SMS = "NOTICE_SMS";
+
     /**
      * 通知邮件类型
      */
     String NOTICE_EMAIL = "NOTICE_EMAIL";
+
     /**
      * 通知公众号类型
      */
     String NOTICE_WX_MP = "NOTICE_WX_MP";
+
     /**
      * 通知小程序类型
      */

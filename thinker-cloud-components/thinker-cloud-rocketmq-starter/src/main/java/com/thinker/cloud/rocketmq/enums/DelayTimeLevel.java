@@ -3,6 +3,12 @@ package com.thinker.cloud.rocketmq.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 延时级别
+ *
+ * @author admin
+ */
+
 @Getter
 @AllArgsConstructor
 public enum DelayTimeLevel {
