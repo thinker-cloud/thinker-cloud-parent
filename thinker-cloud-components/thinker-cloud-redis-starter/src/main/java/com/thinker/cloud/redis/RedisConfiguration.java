@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizer;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +41,7 @@ import java.util.Objects;
 @Configuration
 @AllArgsConstructor
 @AutoConfigureBefore(RedisAutoConfiguration.class)
-public class RedisAutoConfiguration {
+public class RedisConfiguration {
 
     private final RedisProperties redisProperties;
 

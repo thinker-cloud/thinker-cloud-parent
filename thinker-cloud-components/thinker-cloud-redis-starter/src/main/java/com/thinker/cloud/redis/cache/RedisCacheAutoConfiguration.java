@@ -2,8 +2,10 @@ package com.thinker.cloud.redis.cache;
 
 import com.thinker.cloud.core.aspect.expression.ExpressionResolver;
 import com.thinker.cloud.redis.cache.aspect.CacheableAspect;
+import com.thinker.cloud.redis.cache.fast.FastRedisService;
 import com.thinker.cloud.redis.cache.fast.FastStringRedisCache;
 import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
+import com.thinker.cloud.redis.cache.service.RedisClientService;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -28,6 +30,26 @@ public class RedisCacheAutoConfiguration {
     @Bean
     public CacheableAspect cacheableAspect() {
         return new CacheableAspect();
+    }
+
+    /**
+     * redis基础服务
+     *
+     * @return BaseRedisService
+     */
+    @Bean
+    public RedisClientService baseRedisService() {
+        return new RedisClientService();
+    }
+
+    /**
+     * redis 增强实现
+     *
+     * @return FastRedisService
+     */
+    @Bean
+    public FastRedisService fastRedisService() {
+        return new FastRedisService();
     }
 
     /**
