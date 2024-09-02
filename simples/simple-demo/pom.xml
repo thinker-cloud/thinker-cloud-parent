@@ -19,17 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-core-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
             <artifactId>thinker-cloud-redis-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-web-starter</artifactId>
         </dependency>
 
         <dependency>
