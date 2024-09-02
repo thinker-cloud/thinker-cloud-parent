@@ -1,4 +1,4 @@
-package com.thinker.cloud.redis.config;
+package com.thinker.cloud.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
