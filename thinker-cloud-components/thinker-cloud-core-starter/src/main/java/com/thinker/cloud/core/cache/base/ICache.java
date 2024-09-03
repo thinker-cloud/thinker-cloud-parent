@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -93,39 +94,49 @@ public interface ICache {
      * @return String
      */
     @Nullable
-    String getCache(@NonNull String key);
+    <T> T getCache(@NonNull String key);
 
     /**
      * 获取缓存
      *
      * @param key           缓存key
      * @param dataConvertor 缓存数据转换处理
-     * @return String
+     * @return R
      */
     @Nullable
-    <T> T getCache(@NonNull String key, @NonNull Function<String, T> dataConvertor);
+    <T, R> R getCache(@NonNull String key, @NonNull Function<T, R> dataConvertor);
 
     /**
      * 根据keys获取缓存
      *
      * @param keys 缓存key列表
-     * @return List<String>
+     * @return List<T>
      */
     @Nullable
-    default List<String> getAllCaches(@NonNull Collection<String> keys) {
-        return this.getAllCaches(keys, data -> data);
+    default <T> List<T> getCaches(@NonNull Collection<String> keys) {
+        return this.getCaches(keys, (Predicate<T>) data -> true);
     }
+
+    /**
+     * 根据keys获取缓存
+     *
+     * @param keys       缓存key列表
+     * @param dataFilter 条件过滤器
+     * @return List<T>
+     */
+    @Nullable
+    <T> List<T> getCaches(@NonNull Collection<String> keys, @NonNull Predicate<T> dataFilter);
 
     /**
      * 根据keys获取缓存
      *
      * @param keys          缓存key列表
      * @param dataConvertor 缓存数据转换处理
-     * @return List<String>
+     * @return List<T>
      */
     @Nullable
-    default <T> List<T> getAllCaches(@NonNull Collection<String> keys, @NonNull Function<String, T> dataConvertor) {
-        return this.getAllCaches(keys, dataConvertor, data -> true);
+    default <T, R> List<R> getCaches(@NonNull Collection<String> keys, @NonNull Function<T, R> dataConvertor) {
+        return this.getCaches(keys, dataConvertor, data -> true);
     }
 
     /**
@@ -134,10 +145,10 @@ public interface ICache {
      * @param keys          缓存key列表
      * @param dataConvertor 缓存数据转换处理
      * @param dataFilter    条件过滤器
-     * @return List<String>
+     * @return List<R>
      */
     @Nullable
-    <T> List<T> getAllCaches(@NonNull Collection<String> keys, @NonNull Function<String, T> dataConvertor, @NonNull Predicate<T> dataFilter);
+    <T, R> List<R> getCaches(@NonNull Collection<String> keys, @NonNull Function<T, R> dataConvertor, @NonNull Predicate<R> dataFilter);
 
     /**
      * 根据key删除缓存
@@ -160,4 +171,12 @@ public interface ICache {
      * @param prefix prefix
      */
     void removeAllCache(@NonNull String prefix);
+
+    /**
+     * 获取key列表
+     *
+     * @param keyPrefix      key前缀
+     * @return key列表
+     */
+    Set<String> getKeys(String keyPrefix);
 }

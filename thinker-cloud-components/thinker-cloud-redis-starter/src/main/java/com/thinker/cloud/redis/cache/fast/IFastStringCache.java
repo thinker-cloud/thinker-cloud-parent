@@ -1,10 +1,9 @@
-package com.thinker.cloud.core.cache.fast;
+package com.thinker.cloud.redis.cache.fast;
 
 import com.alibaba.fastjson.TypeReference;
-import com.thinker.cloud.core.cache.base.ICache;
+import com.thinker.cloud.core.cache.fast.IDyKey;
 
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
@@ -14,7 +13,7 @@ import java.util.function.Supplier;
  *
  * @author admin
  */
-public interface IFastCache extends ICache {
+public interface IFastStringCache {
 
     /**
      * 获取缓存
@@ -111,7 +110,7 @@ public interface IFastCache extends ICache {
      * @param <R>            返回类型（实际类型）
      * @return 列表
      */
-    <T, R extends T> List<T> getCacheList(String key, Supplier<List<T>> missedSupplier, Class<R> entityClass);
+    <T, R extends T> List<T> getCaches(String key, Supplier<List<T>> missedSupplier, Class<R> entityClass);
 
     /**
      * 缓存列表
@@ -126,7 +125,7 @@ public interface IFastCache extends ICache {
      * @param <R>            返回类型（实际类型）
      * @return 列表
      */
-    <T, R extends T> List<T> getCacheList(String key, Supplier<List<T>> missedSupplier
+    <T, R extends T> List<T> getCaches(String key, Supplier<List<T>> missedSupplier
             , TimeUnit timeUnit, int expire, Class<R> entityClass);
 
     /**
@@ -143,15 +142,6 @@ public interface IFastCache extends ICache {
      * @param <R>            返回类型（实际类型）
      * @return 列表
      */
-    <T, R extends T> List<T> getCacheList(String keyPrefix, IDyKey dyKey, Supplier<List<T>> missedSupplier
+    <T, R extends T> List<T> getCaches(String keyPrefix, IDyKey dyKey, Supplier<List<T>> missedSupplier
             , TimeUnit timeUnit, int expire, Class<R> entityClass);
-
-    /**
-     * 获取key列表
-     *
-     * @param keyPrefix      key前缀
-     * @param missedSupplier 提供数据获取过程
-     * @return key列表
-     */
-    Set<String> getKeys(String keyPrefix, Supplier<Set<String>> missedSupplier);
 }

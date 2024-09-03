@@ -15,20 +15,11 @@ import java.util.concurrent.TimeUnit;
  *
  * @author admin
  **/
-@SuppressWarnings("all")
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class RedisClientService {
 
     @Resource
     private RedisTemplate redisTemplate;
-
-    /**
-     * Set RedisTemplate
-     *
-     * @param redisTemplate
-     */
-    public void setRedisTemplate(RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
 
     /**
      * 设置缓存
@@ -58,7 +49,8 @@ public class RedisClientService {
      * @param cacheMap key、value 缓存映射
      */
     public <T> void multiSetCache(Map<String, T> cacheMap) {
-        redisTemplate.opsForValue().multiSet(cacheMap);
+        ValueOperations<String, T> operations = redisTemplate.opsForValue();
+        operations.multiSet(cacheMap);
     }
 
     /**
@@ -78,8 +70,9 @@ public class RedisClientService {
      * @param keys 缓存key
      * @return 缓存键值对应的数据
      */
-    public <T> List<T> getCacheList(Collection<String> keys) {
-        return redisTemplate.opsForValue().multiGet(keys);
+    public <T> List<T> getCaches(Collection<String> keys) {
+        ValueOperations<String, T> operations = redisTemplate.opsForValue();
+        return operations.multiGet(keys);
     }
 
     /**
@@ -155,7 +148,7 @@ public class RedisClientService {
     /**
      * 批量删除缓存
      *
-     * @param keys
+     * @param keys keys
      */
     public void delete(List<String> keys) {
         redisTemplate.delete(keys);
@@ -164,7 +157,7 @@ public class RedisClientService {
     /**
      * 根据前缀删除缓存
      *
-     * @param prefix
+     * @param prefix prefix
      */
     public void deleteByPrefix(String prefix) {
         Set<String> keys = this.keys(prefix);
@@ -176,8 +169,8 @@ public class RedisClientService {
     /**
      * 根据前缀获取所有缓存keys
      *
-     * @param keyPrefix
-     * @return
+     * @param keyPrefix keyPrefix
+     * @return Set<String>
      */
     public Set<String> keys(String keyPrefix) {
         return redisTemplate.keys(keyPrefix + "*");

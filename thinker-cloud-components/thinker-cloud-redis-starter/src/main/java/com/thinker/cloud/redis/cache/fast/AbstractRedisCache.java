@@ -110,22 +110,40 @@ public abstract class AbstractRedisCache implements ICache {
     }
 
     @Override
-    public String getCache(@NonNull String key) {
-        return this.getCache(key, data -> data);
+    public <T> T getCache(@NonNull String key) {
+        Objects.requireNonNull(key, "缓存key不能为空");
+        return redisClientService.getCache(key);
     }
 
     @Override
-    public <T> T getCache(@NonNull String key, @NonNull Function<String, T> dataConvertor) {
+    public <T, R> R getCache(@NonNull String key, @NonNull Function<T, R> dataConvertor) {
         Objects.requireNonNull(key, "缓存key不能为空");
         Objects.requireNonNull(dataConvertor, "缓存数据转换器不能为空");
 
-        String value = redisClientService.getCache(key);
+        T value = redisClientService.getCache(key);
         return Optional.ofNullable(value).map(dataConvertor).orElse(null);
     }
 
     @Override
-    public <T> List<T> getAllCaches(@NonNull Collection<String> keys, @NonNull Function<String, T> dataConvertor,
-                                    @NonNull Predicate<T> dataFilter) {
+    public <T> List<T> getCaches(@NonNull Collection<String> keys, @NonNull Predicate<T> dataFilter) {
+        Objects.requireNonNull(keys, "缓存key列表不能为空");
+        Objects.requireNonNull(dataFilter, "缓存数据过滤器不能为空");
+
+        List<T> caches = redisClientService.getCaches(keys);
+        if (Objects.isNull(caches)) {
+            return null;
+        }
+
+        List<T> list = caches.stream()
+                .filter(Objects::nonNull)
+                .filter(dataFilter)
+                .collect(Collectors.toList());
+
+        return list.isEmpty() ? null : list;
+    }
+
+    @Override
+    public <T, R> List<R> getCaches(@NonNull Collection<String> keys, @NonNull Function<T, R> dataConvertor, @NonNull Predicate<R> dataFilter) {
         Objects.requireNonNull(keys, "缓存key列表不能为空");
         Objects.requireNonNull(dataConvertor, "缓存数据转换器不能为空");
         Objects.requireNonNull(dataFilter, "缓存数据过滤器不能为空");
@@ -134,11 +152,11 @@ public abstract class AbstractRedisCache implements ICache {
             return null;
         }
 
-        List<T> allCaches;
+        List<R> allCaches;
 
         // 无需分批次获取
         if (keys.size() <= BATCH_SET_CACHE_MAX_SIZE) {
-            List<String> caches = redisClientService.getCacheList(keys);
+            List<T> caches = redisClientService.getCaches(keys);
             if (Objects.isNull(caches)) {
                 return null;
             }
@@ -152,7 +170,7 @@ public abstract class AbstractRedisCache implements ICache {
             // 防止keys太多，考虑redis负载过重、内存、网络开销等情况，分批次获取redis缓存
             List<List<String>> sKeys = CollectionUtil.split(keys, BATCH_SET_CACHE_MAX_SIZE);
             allCaches = sKeys.stream()
-                    .<List<String>>map(redisClientService::getCacheList)
+                    .<List<T>>map(redisClientService::getCaches)
                     .flatMap(Collection::stream)
                     .filter(Objects::nonNull)
                     .map(dataConvertor)
@@ -166,6 +184,7 @@ public abstract class AbstractRedisCache implements ICache {
     @Override
     public boolean removeCache(@NonNull String key) {
         Objects.requireNonNull(key, "缓存key不能为空");
+
         return redisClientService.delete(key);
     }
 
@@ -179,5 +198,11 @@ public abstract class AbstractRedisCache implements ICache {
     public void removeAllCache(@NonNull String prefix) {
         Objects.requireNonNull(prefix, "缓存前缀不能为空");
         redisClientService.deleteByPrefix(prefix);
+    }
+
+    @Override
+    public Set<String> getKeys(String keyPrefix) {
+        Objects.requireNonNull(keyPrefix, "缓存前缀不能为空");
+        return redisClientService.keys(keyPrefix);
     }
 }
