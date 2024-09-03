@@ -3,6 +3,8 @@ package com.thinker.cloud.redis;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.core.jackson.serializers.datetime.JavaTimeModule;
 import lombok.AllArgsConstructor;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.ObjectProvider;
@@ -28,9 +30,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.CollectionUtils;
 
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * redis 自动配置类
@@ -109,6 +109,9 @@ public class RedisConfiguration {
 
         // 4.配置Value序列化 jackson
         ObjectMapper objMapper = new ObjectMapper();
+        objMapper.setLocale(Locale.CHINA);
+        objMapper.registerModule(new JavaTimeModule());
+        objMapper.setTimeZone(TimeZone.getTimeZone(CommonConstants.ASIA_SHANGHAI));
         objMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         objMapper.activateDefaultTyping(objMapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(objMapper, Object.class);

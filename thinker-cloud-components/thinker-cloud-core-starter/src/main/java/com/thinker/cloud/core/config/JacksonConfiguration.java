@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.thinker.cloud.core.constants.CommonConstants;
 import com.thinker.cloud.core.jackson.serializers.datetime.JavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -39,8 +40,6 @@ import java.util.TimeZone;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.ANY)
 public class JacksonConfiguration implements WebMvcConfigurer {
 
-    private static final String ASIA_SHANGHAI = "Asia/Shanghai";
-
     @Bean
     @ConditionalOnMissingBean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
@@ -51,7 +50,7 @@ public class JacksonConfiguration implements WebMvcConfigurer {
             simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
 
             builder.locale(Locale.CHINA);
-            builder.timeZone(TimeZone.getTimeZone(ASIA_SHANGHAI));
+            builder.timeZone(TimeZone.getTimeZone(CommonConstants.ASIA_SHANGHAI));
             builder.simpleDateFormat(DatePattern.NORM_DATETIME_PATTERN);
             builder.modules(new JavaTimeModule(), simpleModule);
         };

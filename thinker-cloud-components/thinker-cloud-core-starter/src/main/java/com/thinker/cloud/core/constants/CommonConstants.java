@@ -38,6 +38,11 @@ public interface CommonConstants {
     String FROM = "from";
 
     /**
+     * 时区
+     */
+    String ASIA_SHANGHAI = "Asia/Shanghai";
+
+    /**
      * JSON 资源
      */
     String APPLICATION_JSON_UTF8 = "application/json;charset=utf-8";
