@@ -2,7 +2,6 @@ package com.thinker.cloud.redis.delayqueue.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * @author admin
  */
 @Data
-@RefreshScope
 @Configuration
 @ConfigurationProperties(prefix = "thinker.cloud.redis.delay-queue")
 public class DelayQueueProperties {

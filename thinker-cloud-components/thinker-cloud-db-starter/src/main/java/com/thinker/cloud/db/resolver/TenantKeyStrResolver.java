@@ -3,14 +3,14 @@ package com.thinker.cloud.db.resolver;
 
 import com.thinker.cloud.core.resolver.KeyStrResolver;
 import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * 租户字符串处理（方便其他模块获取）
  *
  * @author admin
  */
-@Configuration
+@Component
 public class TenantKeyStrResolver implements KeyStrResolver {
 
     /**

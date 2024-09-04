@@ -4,9 +4,7 @@ import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSour
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {"com.example", "com.thinker.cloud"})
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, DynamicDataSourceAutoConfiguration.class})
 public class SimpleDemoApplication {
 

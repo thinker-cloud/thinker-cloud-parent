@@ -3,10 +3,10 @@ package com.example.demo.controller;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.demo.PkFinishDelayMessage;
 import com.google.common.collect.Maps;
+import com.thinker.cloud.core.generator.SnowflakeIdGenerator;
 import com.thinker.cloud.core.model.Result;
 import com.thinker.cloud.core.model.entity.SuperEntity;
 import com.thinker.cloud.redis.cache.fast.FastRedisService;
@@ -50,7 +50,7 @@ public class TestController {
         LocalDateTime now = LocalDateTime.now();
         for (int i = 10; i < 50; i++) {
             PkFinishDelayMessage message = new PkFinishDelayMessage();
-            message.setPkId(RandomUtil.randomLong());
+            message.setPkId(SnowflakeIdGenerator.getInstance().nextId());
             long delay = BigDecimal.valueOf(i * 0.7).longValue();
             LocalDateTime endTime = now.plusSeconds(delay);
             map.put(message.getPkId(), DateUtil.format(endTime, DatePattern.NORM_DATETIME_MS_PATTERN));
