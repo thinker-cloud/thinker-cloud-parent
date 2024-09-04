@@ -38,6 +38,11 @@ public interface CommonConstants {
     String FROM = "from";
 
     /**
+     * 默认租户
+     */
+    Long DEFAULT_TENANT = 1L;
+
+    /**
      * 时区
      */
     String ASIA_SHANGHAI = "Asia/Shanghai";

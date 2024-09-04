@@ -8,11 +8,6 @@ package com.thinker.cloud.security.constants;
 public interface SecurityConstants {
 
     /**
-     * 默认租户
-     */
-    Long DEFAULT_TENANT = 1L;
-
-    /**
      * 角色前缀
      */
     String AUTH_ROLE = "AUTH_ROLE_";

@@ -3,7 +3,6 @@ package com.thinker.cloud.db.tenant;
 import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.core.constants.CommonConstants;
 import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
-import com.thinker.cloud.security.constants.SecurityConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -41,10 +40,10 @@ public class TenantContextHolderFilter extends GenericFilterBean {
             Long tenantId = Optional.ofNullable(tenant)
                     .filter(StrUtil::isNotBlank)
                     .map(Long::valueOf)
-                    .orElse(SecurityConstants.DEFAULT_TENANT);
+                    .orElse(CommonConstants.DEFAULT_TENANT);
             TenantContextHolder.setTenantId(tenantId);
         } catch (Exception e) {
-            TenantContextHolder.setTenantId(SecurityConstants.DEFAULT_TENANT);
+            TenantContextHolder.setTenantId(CommonConstants.DEFAULT_TENANT);
         }
 
         filterChain.doFilter(request, response);
