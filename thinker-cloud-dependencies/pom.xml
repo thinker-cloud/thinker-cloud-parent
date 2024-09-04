@@ -55,7 +55,7 @@
         <git.commit.plugin.version>4.9.9</git.commit.plugin.version>
 
         <!-- 基础依赖 -->
-        <spring-boot.version>3.3.2</spring-boot.version>
+        <spring-boot.version>3.3.3</spring-boot.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
 

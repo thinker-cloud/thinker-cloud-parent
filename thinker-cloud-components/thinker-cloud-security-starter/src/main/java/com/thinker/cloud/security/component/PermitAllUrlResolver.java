@@ -1,12 +1,11 @@
 package com.thinker.cloud.security.component;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.thinker.cloud.core.annotation.Inner;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -16,62 +15,53 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
  * 资源服务器对外直接暴露URL
+ *
+ * @author admin
  */
 @Slf4j
-@RequiredArgsConstructor
+@Setter
+@Getter
 @ConditionalOnExpression("!'${security.oauth2.client.ignore-urls}'.isEmpty()")
 @ConfigurationProperties(prefix = "security.oauth2.client")
 public class PermitAllUrlResolver implements InitializingBean {
     private static final PathMatcher PATHMATCHER = new AntPathMatcher();
-    private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
-    private final WebApplicationContext applicationContext;
+    private static final Pattern PATTERN = Pattern.compile("\\{(.*?)}");
 
-    @Getter
-    @Setter
     private Boolean innerCheck = Boolean.FALSE;
 
-    @Getter
-    @Setter
     private List<String> ignoreUrls = new ArrayList<>();
 
     @Override
     public void afterPropertiesSet() {
-        RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
+        RequestMappingHandlerMapping mapping = SpringUtil.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
         for (RequestMappingInfo info : map.keySet()) {
             HandlerMethod handlerMethod = map.get(info);
 
-            // 1. 首先获取类上边 @Inner 注解
+            // 获取类上边的注解, 替代path variable 为 *
             Inner controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Inner.class);
+            Optional.ofNullable(controller)
+                    .ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+                            .getPatternValues()
+                            .forEach(url -> ignoreUrls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
-            // 2. 当类上不包含 @Inner 注解则获取该方法的注解
-            if (controller == null) {
-                Inner method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Inner.class);
-                Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
-                        .forEach(url -> this.filterPath(url, info, map)));
-                continue;
-            }
-
-            // 3. 当类上包含 @Inner 注解 判断handlerMethod 是否包含在 inner 类中
-            Class<?> beanType = handlerMethod.getBeanType();
-            Method[] methods = beanType.getDeclaredMethods();
-            Method method = handlerMethod.getMethod();
-            if (ArrayUtil.contains(methods, method)) {
-                info.getPatternsCondition().getPatterns().forEach(url -> filterPath(url, info, map));
-            }
+            // 获取方法上边的注解 替代path variable 为 *
+            Inner method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Inner.class);
+            Optional.ofNullable(method)
+                    .ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+                            .getPatternValues()
+                            .forEach(url -> ignoreUrls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
         }
     }
 
@@ -123,7 +113,7 @@ public class PermitAllUrlResolver implements InitializingBean {
             }
 
             // 如果请求方法路径匹配
-            Set<String> patterns = info.getPatternsCondition().getPatterns();
+            Set<String> patterns = Objects.requireNonNull(info.getPathPatternsCondition()).getPatternValues();
             for (String pattern : patterns) {
                 // 跳过自身
                 if (StrUtil.equals(url, pattern)) {

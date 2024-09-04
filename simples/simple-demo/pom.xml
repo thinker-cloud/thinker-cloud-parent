@@ -35,6 +35,12 @@
         <dependency>
             <groupId>com.thinker.cloud</groupId>
             <artifactId>thinker-cloud-db-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.thinker.cloud</groupId>
+                    <artifactId>thinker-cloud-security-starter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

@@ -87,6 +87,13 @@ springdoc:
       - name: simple-demo
         url: /v3/api-docs
 
+security:
+  micro: false
+  oauth2:
+    ignore:
+      urls:
+        - /webjars/**
+
 thinker:
   cloud:
     db:
