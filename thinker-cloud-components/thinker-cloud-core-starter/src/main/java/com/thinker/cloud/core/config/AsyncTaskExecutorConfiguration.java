@@ -19,7 +19,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * @author Windows
+ * 异步任务执行器配置
+ *
+ * @author admin
  */
 @Slf4j
 @EnableAsync

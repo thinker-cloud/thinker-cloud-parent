@@ -1,14 +1,16 @@
 package com.thinker.cloud.redis.lock.model;
 
 
-import com.thinker.cloud.redis.lock.exception.DigitLockTimeoutException;
+import com.thinker.cloud.redis.lock.exception.LockTimeoutException;
 import com.thinker.cloud.redis.lock.handler.release.ReleaseTimeoutHandler;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 释放锁超时策略
  *
  * @author admin
  */
+@Slf4j
 public enum ReleaseTimeoutStrategy implements ReleaseTimeoutHandler {
 
     /**
@@ -27,7 +29,8 @@ public enum ReleaseTimeoutStrategy implements ReleaseTimeoutHandler {
         @Override
         public void handle(LockInfo lockInfo) {
             String errorMsg = String.format("Found Lock(%s) already been released while lock lease time is %d s", lockInfo.getName(), lockInfo.getLeaseTime());
-            throw new DigitLockTimeoutException(errorMsg);
+            log.error("释放分布式锁异常，key:{}，error:{}", lockInfo.getName(), errorMsg);
+            throw new LockTimeoutException("服务器繁忙，请稍后再试");
         }
     }
 }

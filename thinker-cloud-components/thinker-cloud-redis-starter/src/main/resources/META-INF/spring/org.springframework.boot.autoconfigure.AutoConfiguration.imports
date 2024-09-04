@@ -2,5 +2,6 @@ com.thinker.cloud.redis.RedisConfiguration
 com.thinker.cloud.redis.cache.generator.CacheKeyGenerator
 com.thinker.cloud.redis.idempotent.IdempotentAutoConfiguration
 com.thinker.cloud.redis.delayqueue.DelayQueueAutoConfiguration
-com.thinker.cloud.redis.lock.DigitLockAutoConfiguration
+com.thinker.cloud.redis.delayqueue.redisson.RedissonDelayQueueHolder
+com.thinker.cloud.redis.lock.DistributedLockAutoConfiguration
 

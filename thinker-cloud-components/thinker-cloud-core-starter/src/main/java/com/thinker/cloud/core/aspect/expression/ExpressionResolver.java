@@ -1,5 +1,6 @@
 package com.thinker.cloud.core.aspect.expression;
 
+import cn.hutool.core.util.StrUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
@@ -41,9 +42,15 @@ public class ExpressionResolver implements KeyResolver {
         }
 
         StringBuilder builder = new StringBuilder();
-        Arrays.stream(keys).map(PARSER::parseExpression)
+        Arrays.stream(keys)
+                .filter(StrUtil::isNotBlank)
+                .map(PARSER::parseExpression)
                 .map(expression -> expression.getValue(context, String.class))
                 .forEach(expression -> builder.append(expression).append(separator));
+
+        if (builder.isEmpty()) {
+            return "";
+        }
         return builder.deleteCharAt(builder.length() - 1).toString();
     }
 

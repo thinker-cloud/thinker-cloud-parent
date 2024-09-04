@@ -4,6 +4,7 @@ import com.thinker.cloud.redis.delayqueue.core.DelayMessage;
 import com.thinker.cloud.redis.delayqueue.executor.DelayQueueExecutor;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * Redisson延迟队列顶层接口抽象类
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractRedissonDelayQueueExecutor<T extends DelayMessage> implements DelayQueueExecutor<T> {
 
+    @Lazy
     @Resource
     private RedissonDelayQueueHolder redissonDelayQueueHolder;
 

@@ -23,20 +23,25 @@
         </dependency>
 
         <dependency>
+            <groupId>com.thinker.cloud</groupId>
+            <artifactId>thinker-cloud-web-starter</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-db-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.thinker.cloud</groupId>
-                    <artifactId>thinker-cloud-security-starter</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.thinker.cloud</groupId>-->
+<!--            <artifactId>thinker-cloud-db-starter</artifactId>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.thinker.cloud</groupId>-->
+<!--                    <artifactId>thinker-cloud-security-starter</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

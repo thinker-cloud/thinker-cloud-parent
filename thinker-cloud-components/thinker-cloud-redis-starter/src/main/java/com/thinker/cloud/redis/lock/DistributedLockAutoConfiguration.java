@@ -1,7 +1,7 @@
 package com.thinker.cloud.redis.lock;
 
 import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
-import com.thinker.cloud.redis.lock.aspect.DigitLockAspect;
+import com.thinker.cloud.redis.lock.aspect.DistributedLockAspect;
 import com.thinker.cloud.redis.lock.aspect.LockInfoProvider;
 import com.thinker.cloud.redis.lock.distributed.RedissonDistributedLock;
 import com.thinker.cloud.redis.lock.lock.LockFactory;
@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @AllArgsConstructor
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-public class DigitLockAutoConfiguration {
+public class DistributedLockAutoConfiguration {
 
     private final RedissonClient redissonClient;
     private final CacheKeyGenerator cacheKeyGenerator;
@@ -40,13 +40,13 @@ public class DigitLockAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public DigitLockAspect digitLockAspect() {
-        return new DigitLockAspect(lockFactory(), lockInfoProvider());
+    public DistributedLockAspect digitLockAspect(LockFactory lockFactory, LockInfoProvider lockInfoProvider) {
+        return new DistributedLockAspect(lockFactory, lockInfoProvider);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public RedissonDistributedLock redissonDistributedLock() {
-        return new RedissonDistributedLock(redissonClient);
+    public RedissonDistributedLock redissonDistributedLock(LockFactory lockFactory) {
+        return new RedissonDistributedLock(lockFactory, redissonClient);
     }
 }

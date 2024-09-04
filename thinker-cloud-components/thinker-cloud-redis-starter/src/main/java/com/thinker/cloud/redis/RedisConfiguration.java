@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.core.constants.CommonConstants;
 import com.thinker.cloud.core.jackson.serializers.datetime.JavaTimeModule;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -37,6 +38,7 @@ import java.util.*;
  *
  * @author admin
  **/
+@Slf4j
 @EnableCaching
 @Configuration
 @AllArgsConstructor
@@ -66,31 +68,17 @@ public class RedisConfiguration {
         // 集群模式
         RedisProperties.Cluster cluster = redisProperties.getCluster();
         if (Objects.nonNull(cluster) && !CollectionUtils.isEmpty(cluster.getNodes())) {
-            RedisClusterConfiguration redisClusterConfig = new RedisClusterConfiguration(cluster.getNodes());
-            redisClusterConfig.setUsername(redisProperties.getUsername());
-            redisClusterConfig.setMaxRedirects(cluster.getMaxRedirects());
-            redisClusterConfig.setPassword(RedisPassword.of(redisProperties.getPassword()));
-            return new LettuceConnectionFactory(redisClusterConfig, lettuceClientConfig);
+            return this.redisCluster(lettuceClientConfig, cluster);
         }
 
         // 哨兵模式
         RedisProperties.Sentinel sentinel = redisProperties.getSentinel();
         if (Objects.nonNull(sentinel) && !CollectionUtils.isEmpty(sentinel.getNodes())) {
-            RedisSentinelConfiguration redisSentinelConfig = new RedisSentinelConfiguration(
-                    sentinel.getMaster(), new HashSet<>(sentinel.getNodes()));
-            redisSentinelConfig.setUsername(sentinel.getUsername());
-            redisSentinelConfig.setDatabase(redisProperties.getDatabase());
-            redisSentinelConfig.setPassword(RedisPassword.of(redisProperties.getPassword()));
-            return new LettuceConnectionFactory(redisSentinelConfig, lettuceClientConfig);
+            return this.redisSentinel(lettuceClientConfig, sentinel);
         }
 
         // 单机模式
-        RedisStandaloneConfiguration redisStandaloneConfig = new RedisStandaloneConfiguration();
-        redisStandaloneConfig.setDatabase(redisProperties.getDatabase());
-        redisStandaloneConfig.setHostName(redisProperties.getHost());
-        redisStandaloneConfig.setPort(redisProperties.getPort());
-        redisStandaloneConfig.setPassword(RedisPassword.of(redisProperties.getPassword()));
-        return new LettuceConnectionFactory(redisStandaloneConfig, lettuceClientConfig);
+        return this.redisSingle(lettuceClientConfig);
     }
 
     @Bean
@@ -150,5 +138,60 @@ public class RedisConfiguration {
     @ConditionalOnMissingBean(CacheManagerCustomizers.class)
     public CacheManagerCustomizers cacheManagerCustomizers(ObjectProvider<List<CacheManagerCustomizer<?>>> provider) {
         return new CacheManagerCustomizers(provider.getIfAvailable());
+    }
+
+    /**
+     * 单机模式
+     *
+     * @param lettuceClientConfig lettuceClientConfig
+     * @return LettuceConnectionFactory
+     */
+    private LettuceConnectionFactory redisSingle(LettuceClientConfiguration lettuceClientConfig) {
+        RedisStandaloneConfiguration redisStandaloneConfig = new RedisStandaloneConfiguration();
+        redisStandaloneConfig.setPort(redisProperties.getPort());
+        redisStandaloneConfig.setHostName(redisProperties.getHost());
+        redisStandaloneConfig.setDatabase(redisProperties.getDatabase());
+        redisStandaloneConfig.setUsername(redisProperties.getUsername());
+        redisStandaloneConfig.setPassword(RedisPassword.of(redisProperties.getPassword()));
+
+        log.info("redis client is single mode");
+        return new LettuceConnectionFactory(redisStandaloneConfig, lettuceClientConfig);
+    }
+
+    /**
+     * 哨兵模式
+     *
+     * @param lettuceClientConfig lettuceClientConfig
+     * @param sentinel            sentinel
+     * @return LettuceConnectionFactory
+     */
+    private LettuceConnectionFactory redisSentinel(LettuceClientConfiguration lettuceClientConfig, RedisProperties.Sentinel sentinel) {
+        RedisSentinelConfiguration redisSentinelConfig = new RedisSentinelConfiguration(
+                sentinel.getMaster(), new HashSet<>(sentinel.getNodes()));
+        redisSentinelConfig.setDatabase(redisProperties.getDatabase());
+        redisSentinelConfig.setUsername(redisProperties.getUsername());
+        redisSentinelConfig.setPassword(RedisPassword.of(redisProperties.getPassword()));
+        redisSentinelConfig.setSentinelUsername(sentinel.getUsername());
+        redisSentinelConfig.setSentinelPassword(RedisPassword.of(sentinel.getPassword()));
+
+        log.info("redis client is sentinel mode");
+        return new LettuceConnectionFactory(redisSentinelConfig, lettuceClientConfig);
+    }
+
+    /**
+     * 集群模式
+     *
+     * @param lettuceClientConfig lettuceClientConfig
+     * @param cluster             cluster
+     * @return LettuceConnectionFactory
+     */
+    private LettuceConnectionFactory redisCluster(LettuceClientConfiguration lettuceClientConfig, RedisProperties.Cluster cluster) {
+        RedisClusterConfiguration redisClusterConfig = new RedisClusterConfiguration(cluster.getNodes());
+        Optional.ofNullable(cluster.getMaxRedirects()).ifPresent(redisClusterConfig::setMaxRedirects);
+        redisClusterConfig.setUsername(redisProperties.getUsername());
+        redisClusterConfig.setPassword(RedisPassword.of(redisProperties.getPassword()));
+
+        log.info("redis client is cluster mode");
+        return new LettuceConnectionFactory(redisClusterConfig, lettuceClientConfig);
     }
 }

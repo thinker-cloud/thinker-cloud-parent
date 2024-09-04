@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RReadWriteLock;
 import org.redisson.api.RedissonClient;
 
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +32,8 @@ public class ReadLock implements Lock {
     public boolean acquire() {
         try {
             rLock = redisson.getReadWriteLock(lockInfo.getName());
-            return rLock.readLock().tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), TimeUnit.SECONDS);
+            TimeUnit timeUnit = Optional.ofNullable(lockInfo.getTimeUnit()).orElse(TimeUnit.SECONDS);
+            return rLock.readLock().tryLock(lockInfo.getWaitTime(), lockInfo.getLeaseTime(), timeUnit);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
             return false;

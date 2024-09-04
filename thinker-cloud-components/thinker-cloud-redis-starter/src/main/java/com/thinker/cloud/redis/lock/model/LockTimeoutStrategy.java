@@ -1,8 +1,9 @@
 package com.thinker.cloud.redis.lock.model;
 
-import com.thinker.cloud.redis.lock.exception.DigitLockTimeoutException;
+import com.thinker.cloud.redis.lock.exception.LockTimeoutException;
 import com.thinker.cloud.redis.lock.handler.lock.LockTimeoutHandler;
 import com.thinker.cloud.redis.lock.lock.Lock;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 
 import java.util.concurrent.TimeUnit;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author admin
  */
+@Slf4j
 public enum LockTimeoutStrategy implements LockTimeoutHandler {
 
     /**
@@ -31,7 +33,8 @@ public enum LockTimeoutStrategy implements LockTimeoutHandler {
         @Override
         public void handle(LockInfo lockInfo, Lock lock, JoinPoint joinPoint) {
             String errorMsg = String.format("Failed to acquire Lock(%s) with timeout(%ds)", lockInfo.getName(), lockInfo.getWaitTime());
-            throw new DigitLockTimeoutException(errorMsg);
+            log.error("获取分布式锁超时，key:{}，error:{}", lockInfo.getName(), errorMsg);
+            throw new LockTimeoutException("服务器繁忙，请稍后再试");
         }
     },
 
@@ -50,14 +53,14 @@ public enum LockTimeoutStrategy implements LockTimeoutHandler {
                 if (interval > DEFAULT_MAX_INTERVAL) {
                     String errorMsg = String.format("Failed to acquire Lock(%s) after too many times, this may because dead lock occurs.",
                             lockInfo.getName());
-                    throw new DigitLockTimeoutException(errorMsg);
+                    throw new LockTimeoutException(errorMsg);
                 }
 
                 try {
                     TimeUnit.MILLISECONDS.sleep(interval);
                     interval <<= 1;
                 } catch (InterruptedException e) {
-                    throw new DigitLockTimeoutException("Failed to acquire Lock", e);
+                    throw new LockTimeoutException("Failed to acquire Lock", e);
                 }
             }
         }

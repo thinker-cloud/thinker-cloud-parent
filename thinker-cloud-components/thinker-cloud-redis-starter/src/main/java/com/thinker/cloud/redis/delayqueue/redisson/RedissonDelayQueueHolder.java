@@ -2,11 +2,15 @@ package com.thinker.cloud.redis.delayqueue.redisson;
 
 import com.thinker.cloud.core.exception.DelayedQueueException;
 import com.thinker.cloud.redis.delayqueue.core.DelayQueueHolder;
+import com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingDeque;
 import org.redisson.api.RDelayedQueue;
 import org.redisson.api.RedissonClient;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,10 +24,13 @@ import java.util.concurrent.TimeUnit;
  * @author admin
  */
 @Slf4j
-@RequiredArgsConstructor
+@Component
+@ConditionalOnClass(RedissonClient.class)
+@RequiredArgsConstructor(onConstructor_ = @Lazy)
 public class RedissonDelayQueueHolder implements DelayQueueHolder {
 
     private final RedissonClient redissonClient;
+    private final DelayQueueProperties delayQueueProperties;
 
     /**
      * 延迟队列本地缓存
@@ -44,8 +51,11 @@ public class RedissonDelayQueueHolder implements DelayQueueHolder {
             log.info("添加到延时队列【{}】【{}】【{}-{}】", queueName, value, delay, timeUnit.name());
             RDelayedQueue<T> delayedQueue = this.initDelayQueue(queueName);
             delayedQueue.offer(value, delay, timeUnit);
+        } catch (DelayedQueueException e) {
+            log.error("添加到延时队列失败：queueName: {}, value: {}, error: {}", queueName, value, e.getMessage());
+            throw e;
         } catch (Exception e) {
-            log.error("添加到延时队列失败：queueName:{}, value:{}, error:{}", queueName, value, e.getMessage(), e);
+            log.error("添加到延时队列失败：queueName: {}, value: {}, error: {}", queueName, value, e.getMessage(), e);
             throw new DelayedQueueException("添加到延时队列失败");
         }
     }
@@ -74,7 +84,6 @@ public class RedissonDelayQueueHolder implements DelayQueueHolder {
     public <T> boolean contains(String queueName, T value) {
         RDelayedQueue<T> delayedQueue = this.initDelayQueue(queueName);
         return delayedQueue.contains(value);
-
     }
 
     /**
@@ -82,10 +91,17 @@ public class RedissonDelayQueueHolder implements DelayQueueHolder {
      */
     @Override
     public <T> RBlockingDeque<T> getQueue(String queueName) {
-        // 应用重启后，如果没有新的消息添加到延迟队列时，会没有初始化延迟队列，会导致以前在队列里的消息不能消费.
-        // 所以这里每次获取时，默认初始化一次.
-        this.initDelayQueue(queueName);
-        return redissonClient.getBlockingDeque(queueName);
+        try {
+            // 应用重启后，如果没有新的消息添加到延迟队列时，会没有初始化延迟队列，会导致以前在队列里的消息不能消费.
+            // 所以这里每次获取时，默认初始化一次.
+            this.initDelayQueue(queueName);
+            return redissonClient.getBlockingDeque(queueName);
+        } catch (DelayedQueueException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("获取延时队列失败：queueName: {}, error: {}", queueName, e.getMessage(), e);
+            throw new DelayedQueueException("获取延时队列失败");
+        }
     }
 
     /**
@@ -108,6 +124,10 @@ public class RedissonDelayQueueHolder implements DelayQueueHolder {
      */
     @SuppressWarnings("unchecked")
     private <T> RDelayedQueue<T> initDelayQueue(String queueName) {
+        if (!delayQueueProperties.isEnabled()) {
+            throw new DelayedQueueException("延迟队列配置未开启");
+        }
+
         // 本地存在，使用本地缓存
         if (delayedQueueMap.containsKey(queueName)) {
             return (RDelayedQueue<T>) delayedQueueMap.get(queueName);

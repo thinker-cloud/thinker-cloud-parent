@@ -58,15 +58,15 @@ public class IdempotentAspect {
         Object v1;
         if (null != rMapCache.get(key)) {
             // had stored
-            throw new IdempotentException("[idempotent]:" + info);
+            throw new IdempotentException(info);
         }
         synchronized (this) {
             v1 = rMapCache.putIfAbsent(key, value, expireTime, TimeUnit.SECONDS);
             if (null != v1) {
-                throw new IdempotentException("[idempotent]:" + info);
+                throw new IdempotentException(info);
             } else {
-                log.info("[idempotent]:has stored key={},value={},expireTime={}{},now={}", key, value, expireTime,
-                        timeUnit, LocalDateTime.now());
+                log.debug("[idempotent]:has stored key={},value={},expireTime={}{},now={}"
+                        , key, value, expireTime, timeUnit, LocalDateTime.now());
             }
         }
 
@@ -75,7 +75,6 @@ public class IdempotentAspect {
         map.put(KEY, key);
         map.put(DEL_KEY, delKey);
         threadLocal.set(map);
-
     }
 
     @After(value = "@annotation(com.thinker.cloud.redis.idempotent.annotation.Idempotent)")

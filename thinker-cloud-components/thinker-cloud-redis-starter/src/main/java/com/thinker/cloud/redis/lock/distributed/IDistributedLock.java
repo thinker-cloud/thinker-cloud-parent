@@ -1,5 +1,7 @@
 package com.thinker.cloud.redis.lock.distributed;
 
+import com.thinker.cloud.redis.lock.model.LockInfo;
+
 import java.time.Duration;
 
 /**
@@ -7,17 +9,17 @@ import java.time.Duration;
  *
  * @author admin
  */
-public interface DistributedLock {
+public interface IDistributedLock {
 
     /**
      * 默认最多等待时间
      */
-    long WAIT_MILLIS = Duration.ofMinutes(1).toMillis();
+    long WAIT_MILLIS = Duration.ofSeconds(3).toMillis();
 
     /**
      * 加锁的时间。超过这个时间后锁便自动解开
      */
-    long LEASE_MILLIS = Duration.ofMinutes(1).toMillis();
+    long LEASE_MILLIS = Duration.ofSeconds(3).toMillis();
 
     /**
      * 获取锁
@@ -47,9 +49,26 @@ public interface DistributedLock {
     boolean lock(String key, long waitTime, long leaseTime);
 
     /**
+     * 获取锁
+     *
+     * @param lockInfo 锁信息
+     * @return 成功/失败
+     */
+    boolean lock(LockInfo lockInfo);
+
+    /**
      * 释放锁
      *
      * @param key key值
+     * @return 成功/失败
      */
-    void releaseLock(String key);
+    boolean releaseLock(String key);
+
+    /**
+     * 释放锁
+     *
+     * @param lockInfo 锁信息
+     * @return 成功/失败
+     */
+    boolean releaseLock(LockInfo lockInfo);
 }

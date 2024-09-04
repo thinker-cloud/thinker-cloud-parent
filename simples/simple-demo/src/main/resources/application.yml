@@ -43,7 +43,7 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://192.168.8.203:3306/operator-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
           username: root
-          password: 123456!
+          password: Mysql@13a
         # 从库数据源
         slave:
           driver-class-name: com.mysql.cj.jdbc.Driver
@@ -52,9 +52,29 @@ spring:
           password: 123456!
   data:
     redis:
-      host: 127.0.0.1
-      port: 6379
+      timeout: 3000ms
       password: root123
+#      password: cluster13a
+#      cluster:
+#        # 获取失败 最大重定向次数
+#        max-redirects: 3
+#        nodes:
+#          - 192.168.8.203:6981
+#          - 192.168.8.203:6982
+#          - 192.168.8.203:6983
+#          - 192.168.8.203:6984
+#          - 192.168.8.203:6985
+#          - 192.168.8.203:6986
+      lettuce:
+        pool:
+          # 连接池最大连接数（使用负值表示没有限制）
+          max-active: 200
+          # 连接池中的最大空闲连接
+          max-idle: 50
+          #连接池中的最小空闲连接
+          min-idle: 20
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: -1
 
 # http://localhost:8088/swagger-ui/index.html#/
 springdoc:
@@ -79,7 +99,7 @@ thinker:
     redis:
       # 开启延迟队列
       delayQueue:
-        enabled: true
+        enabled: false
 
 logging:
   level:

@@ -16,7 +16,7 @@ public class DelayedQueueException extends AbstractException {
     private static final long serialVersionUID = -3080503748380373368L;
 
     public DelayedQueueException(String message) {
-        super(400, message);
+        super(message);
     }
 
     public DelayedQueueException(Integer code, String message) {

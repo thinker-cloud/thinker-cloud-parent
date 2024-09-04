@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
      * @param e exception
      * @return Result
      */
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
     public Result<Void> handleValidateException(ValidationException e) {
         log.error("验证异常信息，ex={}", e.getMessage());
@@ -83,7 +83,7 @@ public class GlobalExceptionHandler {
      * @param e exception
      * @return Result
      */
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(LockException.class)
     public Result<Void> handleLockException(LockException e) {
         log.error("锁异常信息，ex={}", e.getMessage());

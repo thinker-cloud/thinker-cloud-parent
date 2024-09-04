@@ -4,12 +4,10 @@ import com.thinker.cloud.core.thread.ThinkerThreadPoolTaskExecutor;
 import com.thinker.cloud.redis.delayqueue.executor.DelayQueueExecutorFactory;
 import com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties;
 import com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties.ThreadPoolProperties;
-import com.thinker.cloud.redis.delayqueue.redisson.RedissonDelayQueueHolder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RedissonClient;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +23,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 @Configuration
 @AllArgsConstructor
-@ConditionalOnBean(DelayQueueProperties.class)
+@ConditionalOnExpression("${thinker.cloud.redis.delay-queue.enabled:false}")
 public class DelayQueueAutoConfiguration {
 
     private final DelayQueueProperties delayQueueProperties;
@@ -57,14 +55,7 @@ public class DelayQueueAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(DelayQueueExecutorFactory.class)
-    public DelayQueueExecutorFactory delayQueueExecutorFactory() {
-        return new DelayQueueExecutorFactory(threadPoolExecutor());
-    }
-
-    @Bean
-    @ConditionalOnClass(RedissonClient.class)
-    @ConditionalOnMissingBean(RedissonDelayQueueHolder.class)
-    public RedissonDelayQueueHolder redissonDelayQueueHolder(RedissonClient redissonClient) {
-        return new RedissonDelayQueueHolder(redissonClient);
+    public DelayQueueExecutorFactory delayQueueExecutorFactory(@Qualifier("delayQueueThreadPoolExecutor") ThreadPoolTaskExecutor threadPoolTaskExecutor) {
+        return new DelayQueueExecutorFactory(threadPoolTaskExecutor);
     }
 }

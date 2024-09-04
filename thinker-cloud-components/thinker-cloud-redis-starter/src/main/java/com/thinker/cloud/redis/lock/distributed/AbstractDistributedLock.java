@@ -5,7 +5,7 @@ package com.thinker.cloud.redis.lock.distributed;
  *
  * @author admin
  */
-public abstract class AbstractDistributedLock implements DistributedLock {
+public abstract class AbstractDistributedLock implements IDistributedLock {
 
     @Override
     public boolean lock(String key) {

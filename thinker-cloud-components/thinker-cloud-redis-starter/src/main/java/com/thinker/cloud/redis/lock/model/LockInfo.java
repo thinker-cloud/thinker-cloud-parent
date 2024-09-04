@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 锁基本信息
  *
@@ -33,4 +35,9 @@ public class LockInfo {
      * 占用时长
      */
     private long leaseTime;
+
+    /**
+     * 时长单位
+     */
+    private TimeUnit timeUnit;
 }

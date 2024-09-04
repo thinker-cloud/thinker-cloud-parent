@@ -1,7 +1,6 @@
 package com.thinker.cloud.redis.delayqueue.properties;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +14,12 @@ import org.springframework.context.annotation.Configuration;
 @RefreshScope
 @Configuration
 @ConfigurationProperties(prefix = "thinker.cloud.redis.delay-queue")
-@ConditionalOnExpression("${thinker.cloud.redis.delay-queue.enabled:false}")
 public class DelayQueueProperties {
 
     /**
      * 是否启用延迟队列
      */
-    private boolean enabled;
+    private boolean enabled = false;
 
     /**
      * 线程池配置

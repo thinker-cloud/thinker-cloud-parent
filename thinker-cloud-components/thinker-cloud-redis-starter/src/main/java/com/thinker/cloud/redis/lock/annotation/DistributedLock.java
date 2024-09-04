@@ -8,6 +8,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 加锁注解
@@ -16,13 +17,13 @@ import java.lang.annotation.Target;
  */
 @Target(value = {ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface DigitLock {
+public @interface DistributedLock {
     /**
-     * 锁的名称
+     * 锁的名称, el表达式
      *
      * @return name
      */
-	String key();
+    String key();
 
     /**
      * 锁类型，默认可重入锁
@@ -36,14 +37,21 @@ public @interface DigitLock {
      *
      * @return waitTime
      */
-    long waitTime() default Long.MIN_VALUE;
+    long waitTime() default 3;
 
     /**
-     * 上锁以后xxx秒自动解锁
+     * 上锁以后xxx后自动解锁
      *
      * @return leaseTime
      */
-    long leaseTime() default Long.MIN_VALUE;
+    long leaseTime() default 3;
+
+    /**
+     * 时间单位 默认：s
+     *
+     * @return TimeUnit
+     */
+    TimeUnit timeUnit() default TimeUnit.SECONDS;
 
     /**
      * 加锁超时的处理策略

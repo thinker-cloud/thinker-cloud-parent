@@ -27,6 +27,18 @@ public class LockException extends AbstractException {
         super(responseCode);
     }
 
+    public LockException(Throwable cause) {
+        super(cause);
+    }
+
+    public LockException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public LockException(Integer code, String message, Throwable cause) {
+        super(code, message, cause);
+    }
+
     public static LockException of(String message) {
         return new LockException(message);
     }
