@@ -16,22 +16,27 @@
 
 package com.thinker.cloud.security.component;
 
+import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.core.enums.ResponseCode;
 import com.thinker.cloud.core.model.Result;
+import com.thinker.cloud.security.exception.AuthRequestBindingException;
+import com.thinker.cloud.security.utils.SecurityMessageSourceUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.PrintWriter;
+import java.util.Locale;
 
 
 /**
@@ -44,27 +49,41 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 
     private final ObjectMapper objectMapper;
 
-    private final MessageSource messageSource;
-
     @Override
     @SneakyThrows
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         response.setCharacterEncoding(CommonConstants.UTF8);
-        response.setContentType(CommonConstants.APPLICATION_JSON_UTF8);
-        Result<Void> result = new Result<>();
-        result.setCode(HttpStatus.UNAUTHORIZED.value());
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        if (authException != null) {
-            result.setMessage(authException.getMessage());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(HttpStatus.HTTP_UNAUTHORIZED);
+        Result<String> result = new Result<>();
+        result.setMessage(authException.getMessage());
+        result.setData(authException.getMessage());
+        result.setCode(HttpStatus.HTTP_UNAUTHORIZED);
+        result.setSuccess(Boolean.FALSE);
+
+        if (authException instanceof InvalidBearerTokenException
+                || authException instanceof CredentialsExpiredException
+                || authException instanceof InsufficientAuthenticationException) {
+            String msg = SecurityMessageSourceUtil.getAccessor().getMessage(
+                    "AbstractUserDetailsAuthenticationProvider.credentialsExpired"
+                    , authException.getMessage(), Locale.CHINA);
+            result.setMessage(msg);
         }
 
-        // 针对令牌过期返回特殊的 424
-        if (authException instanceof InvalidBearerTokenException
-                || authException instanceof InsufficientAuthenticationException) {
-            response.setStatus(HttpStatus.FAILED_DEPENDENCY.value());
-            result.setMessage(this.messageSource.getMessage("OAuth2ResourceOwnerBaseAuthenticationProvider.tokenExpired",
-                    null, LocaleContextHolder.getLocale()));
+        if (authException instanceof UsernameNotFoundException) {
+            String msg = SecurityMessageSourceUtil.getAccessor().getMessage(
+                    "AbstractUserDetailsAuthenticationProvider.noopBindAccount"
+                    , authException.getMessage(), Locale.CHINA);
+            result.setCode(ResponseCode.NOOP_BIND_ACCOUNT.getCode());
+            result.setMessage(msg);
+            response.setStatus(HttpStatus.HTTP_INTERNAL_ERROR);
         }
+
+        if (authException instanceof AuthRequestBindingException) {
+            result.setMessage(authException.getMessage());
+            response.setStatus(HttpStatus.HTTP_INTERNAL_ERROR);
+        }
+
         PrintWriter printWriter = response.getWriter();
         printWriter.append(objectMapper.writeValueAsString(result));
     }

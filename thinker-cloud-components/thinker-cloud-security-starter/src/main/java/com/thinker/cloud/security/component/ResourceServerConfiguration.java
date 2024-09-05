@@ -41,35 +41,31 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class ResourceServerConfiguration {
 
-    protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
-
     private final PermitAllUrlResolver permitAllUrlProperties;
-
     private final BearerTokenExtractor bearerTokenExtractor;
-
     private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
+    private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AntPathRequestMatcher[] requestMatchers = permitAllUrlProperties.getIgnoreUrls()
+        AntPathRequestMatcher[] requestMatchers = permitAllUrlProperties.getUrls()
                 .stream()
                 .map(AntPathRequestMatcher::new)
                 .toList()
                 .toArray(new AntPathRequestMatcher[]{});
 
-        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
+        return http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(requestMatchers)
                         .permitAll()
                         .anyRequest()
                         .authenticated())
-                .oauth2ResourceServer(
-                        oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
-                                .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-                                .bearerTokenResolver(bearerTokenExtractor))
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
+                        .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+                        .bearerTokenResolver(bearerTokenExtractor))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .csrf(AbstractHttpConfigurer::disable);
-
-        return http.build();
+                .csrf(AbstractHttpConfigurer::disable)
+                .build();
     }
-
 }

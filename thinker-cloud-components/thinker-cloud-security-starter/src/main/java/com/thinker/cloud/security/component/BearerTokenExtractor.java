@@ -57,7 +57,7 @@ public class BearerTokenExtractor implements BearerTokenResolver {
 
     @Override
     public String resolve(HttpServletRequest request) {
-        boolean match = permitAllUrlProperties.getIgnoreUrls()
+        boolean match = permitAllUrlProperties.getUrls()
                 .stream()
                 .anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
 

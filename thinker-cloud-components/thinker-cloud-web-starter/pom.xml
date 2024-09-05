@@ -26,18 +26,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.undertow</groupId>
-                    <artifactId>undertow-websockets-jsr</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Thinker Cloud Core Starter -->
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-core-starter</artifactId>
         </dependency>
 
         <!-- Thinker Cloud OpenApi Starter -->

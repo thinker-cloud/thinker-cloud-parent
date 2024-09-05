@@ -20,6 +20,7 @@ public enum ResponseCode implements IEnumDict<Integer> {
     NOT_FOUND(404, "请求路径不存在"),
     SERVER_FAILURE(500, "服务器异常，请联系管理员"),
     UNAVAILABLE(503, "依赖服务异常，请稍后再试"),
+    NOOP_BIND_ACCOUNT(100, "未绑定登录账号"),
     ;
 
     private final Integer code;
