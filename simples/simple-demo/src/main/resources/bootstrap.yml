@@ -1,0 +1,10 @@
+server:
+  port: 8088
+  undertow:
+    buffer-size: 1024
+
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: ${PROFILES_ACTIVE:thinker}
