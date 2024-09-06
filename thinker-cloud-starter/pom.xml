@@ -63,12 +63,6 @@
             <artifactId>thinker-cloud-web-starter</artifactId>
         </dependency>
 
-        <!--注册中心客户端-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-
         <!-- 监控 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,11 +73,6 @@
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
     </dependencies>
 </project>
