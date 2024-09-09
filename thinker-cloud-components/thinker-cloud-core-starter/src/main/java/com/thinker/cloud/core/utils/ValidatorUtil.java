@@ -3,11 +3,12 @@ package com.thinker.cloud.core.utils;
 
 import com.thinker.cloud.core.exception.FailException;
 import com.thinker.cloud.core.exception.ValidationException;
+import jakarta.validation.ConstraintViolation;
 import lombok.experimental.UtilityClass;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+
 import java.util.Set;
 
 /**
