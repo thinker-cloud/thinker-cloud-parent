@@ -12,7 +12,7 @@
     <artifactId>thinker-cloud-openapi-starter</artifactId>
     <name>thinker-cloud-openapi-starter</name>
     <packaging>jar</packaging>
-    <description>Thinker Cloud Swagger Starter 文档</description>
+    <description>Thinker Cloud Openapi Starter 文档</description>
     <url>https://www.isexcuse.com</url>
 
     <dependencies>
