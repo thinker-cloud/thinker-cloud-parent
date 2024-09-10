@@ -8,7 +8,6 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -21,14 +20,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Slf4j
 @Configuration
-@ConditionalOnBean(SpringDocProperties.class)
 public class SpringDocAutoConfiguration implements WebMvcConfigurer {
 
     private static final String SECURITY_SCHEME_NAME = "Authorization";
 
     @Bean
     public OpenAPI openAPI(SpringDocProperties properties) {
-        log.info("SpringDocAutoConfiguration openAPI");
         return new OpenAPI().info(new Info()
                         .title(properties.getTitle())
                         .description(properties.getDescription())
