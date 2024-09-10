@@ -8,3 +8,10 @@ spring:
     name: @artifactId@
   profiles:
     active: ${PROFILES_ACTIVE:thinker}
+
+springdoc:
+  api-docs:
+    enabled: true
+  group-configs:
+    - group: 'default'
+      packages-to-scan: com.example.demo.controller
