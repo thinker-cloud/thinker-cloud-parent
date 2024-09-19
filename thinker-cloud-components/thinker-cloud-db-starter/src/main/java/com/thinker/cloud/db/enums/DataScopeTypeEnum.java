@@ -37,7 +37,7 @@ public enum DataScopeTypeEnum implements IEnumDict<Integer> {
     /**
      * 自定义
      */
-    CUSTOM(2, "自定义"),
+    CUSTOM(10, "自定义"),
     ;
 
     /**
