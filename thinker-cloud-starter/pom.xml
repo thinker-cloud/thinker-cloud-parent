@@ -10,7 +10,7 @@
 
     <artifactId>thinker-cloud-starter</artifactId>
     <name>thinker-cloud-starter</name>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <description>Thinker Cloud 基础启动</description>
     <url>https://www.isexcuse.com</url>
 
