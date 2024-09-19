@@ -32,6 +32,11 @@ public class ExceptionFilter implements Filter, Filter.Listener {
             try {
                 Throwable exception = result.getException();
 
+                // 业务异常直接返回
+                if (exception instanceof AbstractException) {
+                    return;
+                }
+
                 // directly throw if it's checked exception
                 if (!(exception instanceof RuntimeException) && (exception instanceof Exception)) {
                     return;
@@ -70,11 +75,6 @@ public class ExceptionFilter implements Filter, Filter.Listener {
 
                 // directly throw if it's dubbo exception
                 if (exception instanceof RpcException) {
-                    return;
-                }
-
-                // 业务异常直接返回
-                if (exception instanceof AbstractException) {
                     return;
                 }
 

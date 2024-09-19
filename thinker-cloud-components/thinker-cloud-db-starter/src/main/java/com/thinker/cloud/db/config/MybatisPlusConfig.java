@@ -1,6 +1,7 @@
 package com.thinker.cloud.db.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
@@ -11,7 +12,11 @@ import com.thinker.cloud.db.injector.EnhanceSqlInjector;
 import com.thinker.cloud.db.properties.DbConfigProperties;
 import com.thinker.cloud.db.tenant.TenantMaintenanceHandler;
 import com.thinker.cloud.db.tenant.TenantRequestInterceptor;
+import com.thinker.cloud.db.typehandler.IntegerArrayTypeHandler;
+import com.thinker.cloud.db.typehandler.LongArrayTypeHandler;
+import com.thinker.cloud.db.typehandler.StringArrayTypeHandler;
 import jakarta.annotation.Resource;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -76,6 +81,22 @@ public class MybatisPlusConfig {
         DbType dbType = DbType.getDbType(dbConfigProperties.getType());
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(dbType));
         return interceptor;
+    }
+
+    /**
+     * 自定义typeHandler全局自动注册
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public ConfigurationCustomizer configurationCustomizer() {
+        return mybatisConfiguration -> {
+            TypeHandlerRegistry handlerRegistry = mybatisConfiguration.getTypeHandlerRegistry();
+
+            // 逗号,隔开的字符或数字自动转为数组接收
+            handlerRegistry.register(Long[].class, LongArrayTypeHandler.class);
+            handlerRegistry.register(Integer[].class, IntegerArrayTypeHandler.class);
+            handlerRegistry.register(String[].class, StringArrayTypeHandler.class);
+        };
     }
 
     /**
