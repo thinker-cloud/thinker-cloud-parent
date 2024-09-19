@@ -51,12 +51,6 @@
             <artifactId>thinker-cloud-dubbo-starter</artifactId>
         </dependency>
 
-        <!-- 分布式任务 -->
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-task-starter</artifactId>
-        </dependency>
-
         <!-- Web模块 -->
         <dependency>
             <groupId>com.thinker.cloud</groupId>
@@ -73,6 +67,13 @@
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
+        </dependency>
+
+        <!-- 测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
