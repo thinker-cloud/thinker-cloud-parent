@@ -118,7 +118,7 @@ public class ${table.controllerName} {
 <#elseif swagger>
     @ApiOperation(value = "删除数据", notes = "根据id删除数据")
 </#if>
-    public Result<Boolean> removeById(@PathVariable("id") <#if idType=='ID_WORKER_STR'>String<#elseif idType=='ASSIGN_ID'>Long<#else>Long</#if> id) {
+    public Result<Boolean> removeById(@PathVariable <#if idType=='ID_WORKER_STR'>String<#elseif idType=='ASSIGN_ID'>Long<#else>Long</#if> id) {
         return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.removeById(id));
     }
 }
