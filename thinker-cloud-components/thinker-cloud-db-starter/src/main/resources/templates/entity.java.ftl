@@ -109,7 +109,7 @@ public class ${entityName} implements Serializable {
     </#if>
 <#-- 逻辑删除注解 -->
     <#if field.logicDeleteField>
-    @TableLogic(value = "0", delval = "1")
+    @TableLogic
     private Boolean ${field.propertyName};
     <#else>
     private ${field.propertyType} ${field.propertyName};
