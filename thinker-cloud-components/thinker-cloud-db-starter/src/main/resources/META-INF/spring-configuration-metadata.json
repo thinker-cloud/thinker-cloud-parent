@@ -2,17 +2,17 @@
   "groups": [
     {
       "name": "thinker.cloud.db",
-      "type": "com.example.DbConfigProperties",
+      "type": "com.thinker.cloud.db.properties.DbConfigProperties",
       "description": "Configuration properties for Thinker Cloud database."
     },
     {
       "name": "thinker.cloud.db.data-scope",
-      "type": "com.example.DbConfigProperties$DataScopeProperties",
+      "type": "com.thinker.cloud.db.properties.DbConfigProperties$DataScopeProperties",
       "description": "Configuration for data scope settings."
     },
     {
       "name": "thinker.cloud.db.tenant",
-      "type": "com.example.DbConfigProperties$TenantConfigProperties",
+      "type": "com.thinker.cloud.db.properties.DbConfigProperties$TenantConfigProperties",
       "description": "Configuration for tenant settings."
     }
   ],
