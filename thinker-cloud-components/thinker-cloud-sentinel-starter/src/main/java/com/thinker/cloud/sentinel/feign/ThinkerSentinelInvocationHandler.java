@@ -132,7 +132,7 @@ public class ThinkerSentinelInvocationHandler implements InvocationHandler {
                         // 若是Result类型 执行自动降级返回Result
                         if (Result.class == method.getReturnType()) {
                             log.error("feign 服务间调用异常，ex={}", ex.getMessage(), ex);
-                            return Result.buildFailure(ex.getLocalizedMessage());
+                            return Result.failure(ex.getLocalizedMessage());
                         } else {
                             throw ex;
                         }

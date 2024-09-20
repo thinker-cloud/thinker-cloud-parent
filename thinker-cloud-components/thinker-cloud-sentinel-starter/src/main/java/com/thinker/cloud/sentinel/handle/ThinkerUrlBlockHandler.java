@@ -43,7 +43,7 @@ public class ThinkerUrlBlockHandler implements BlockExceptionHandler {
 
         response.setContentType(MediaType.APPLICATION_JSON.getType());
         response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-        response.getWriter().print(JSONUtil.toJsonStr(Result.buildFailure(e.getMessage())));
+        response.getWriter().print(JSONUtil.toJsonStr(Result.failure(e.getMessage())));
     }
 
 }

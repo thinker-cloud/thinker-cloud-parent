@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<Void> handleGlobalException(Exception e) {
         log.error("全局异常信息，ex={}", e.getMessage(), e);
-        return Result.buildFailure(ResponseCode.SERVER_FAILURE);
+        return Result.failure(ResponseCode.SERVER_FAILURE);
     }
 
     /**
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AbstractException.class)
     public Result<Void> handleValidateException(AbstractException e) {
         log.error("统一业务异常，ex={}", e.getMessage());
-        return Result.buildFailure(e.getCode(), e.getMessage());
+        return Result.failure(e.getCode(), e.getMessage());
     }
 
     /**
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public Result<Void> handleValidateException(ValidationException e) {
         log.error("验证异常信息，ex={}", e.getMessage());
-        return Result.buildFailure(e.getCode(), e.getMessage());
+        return Result.failure(e.getCode(), e.getMessage());
     }
 
     /**
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FailException.class)
     public Result<Object> handleFailException(FailException e) {
         log.error("业务异常信息，ex={}", e.getMessage());
-        return Result.buildFailure(e.getData(), e.getCode(), e.getMessage());
+        return Result.failure(e.getData(), e.getCode(), e.getMessage());
     }
 
     /**
@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(LockException.class)
     public Result<Void> handleLockException(LockException e) {
         log.error("锁异常信息，ex={}", e.getMessage());
-        return Result.buildFailure(e.getCode(), e.getMessage());
+        return Result.failure(e.getCode(), e.getMessage());
     }
 
     /**
@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IdempotentException.class)
     public Result<Void> handleIdempotentException(IdempotentException e) {
         log.error("幂等异常信息，ex={}", e.getMessage());
-        return Result.buildFailure(e.getCode(), e.getMessage());
+        return Result.failure(e.getCode(), e.getMessage());
     }
 
     /**
@@ -113,7 +113,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CacheableException.class)
     public Result<Void> handleCacheableException(CacheableException e) {
         log.error("缓存异常信息，ex={}", e.getMessage());
-        return Result.buildFailure(e.getCode(), e.getMessage());
+        return Result.failure(e.getCode(), e.getMessage());
     }
 
     /**
@@ -128,7 +128,7 @@ public class GlobalExceptionHandler {
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
         String errorMessage = fieldErrors.get(0).getDefaultMessage();
         log.error("参数绑定异常，ex={}", errorMessage);
-        return Result.buildFailure(HttpStatus.BAD_REQUEST.value(), errorMessage);
+        return Result.failure(HttpStatus.BAD_REQUEST.value(), errorMessage);
     }
 
     /**
@@ -143,7 +143,7 @@ public class GlobalExceptionHandler {
         log.error("参数类型转换异常，ex={}", e.getMessage(), e);
         String message = StrUtil.format("参数类型错误，参数：[{}]:[{}]，错误：{}"
                 , e.getName(), e.getRequiredType(), e.getMessage());
-        return Result.buildFailure(HttpStatus.BAD_REQUEST.value(), message);
+        return Result.failure(HttpStatus.BAD_REQUEST.value(), message);
     }
 
     /**
@@ -156,7 +156,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public Result<Void> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("非法参数异常，ex={}", e.getMessage(), e);
-        return Result.buildFailure("参数不合法，请检查");
+        return Result.failure("参数不合法，请检查");
     }
 
     /**
@@ -169,7 +169,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NumberFormatException.class})
     public Result<Void> handleNumberFormatException(NumberFormatException e) {
         log.error("数字格式化异常，ex={}", e.getMessage(), e);
-        return Result.buildFailure(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        return Result.failure(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
     /**
@@ -186,7 +186,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Result<Void> bindExceptionHandler(NoResourceFoundException e) {
         log.debug("请求路径 404 {}", e.getMessage(), e);
-        return Result.buildFailure(e.getMessage());
+        return Result.failure(e.getMessage());
     }
 
     /**
@@ -197,6 +197,6 @@ public class GlobalExceptionHandler {
     @DeleteMapping("error")
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Result<Void> noHandlerFoundException() {
-        return Result.buildFailure(ResponseCode.NOT_FOUND);
+        return Result.failure(ResponseCode.NOT_FOUND);
     }
 }

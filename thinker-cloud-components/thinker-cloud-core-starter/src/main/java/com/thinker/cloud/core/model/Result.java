@@ -53,79 +53,79 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    public static <T> Result<T> buildSuccess() {
-        return buildSuccess(ResponseCode.SUCCESS);
+    public static <T> Result<T> success() {
+        return success(ResponseCode.SUCCESS);
     }
 
-    public static <T> Result<T> buildSuccess(T data) {
-        return buildSuccess(data, ResponseCode.SUCCESS);
+    public static <T> Result<T> success(T data) {
+        return success(data, ResponseCode.SUCCESS);
     }
 
-    public static <T> Result<T> buildSuccess(Integer code, String message) {
-        return buildSuccess(null, code, message);
+    public static <T> Result<T> success(Integer code, String message) {
+        return success(null, code, message);
     }
 
-    public static <T> Result<T> buildSuccess(IEnumDict<Integer> responseCode) {
-        return buildSuccess(responseCode.getValue(), responseCode.getDesc());
+    public static <T> Result<T> success(IEnumDict<Integer> responseCode) {
+        return success(responseCode.getValue(), responseCode.getDesc());
     }
 
-    public static <T> Result<T> buildSuccess(Integer code, String message, Object... agsArray) {
-        return buildSuccess(code, StrUtil.format(message, agsArray));
+    public static <T> Result<T> success(Integer code, String message, Object... agsArray) {
+        return success(code, StrUtil.format(message, agsArray));
     }
 
-    public static <T> Result<T> buildSuccess(T data, String message) {
-        return buildSuccess(data, ResponseCode.SUCCESS.getCode(), message);
+    public static <T> Result<T> success(T data, String message) {
+        return success(data, ResponseCode.SUCCESS.getCode(), message);
     }
 
-    public static <T> Result<T> buildSuccess(T data, String message, Object... agsArray) {
-        return buildSuccess(data, StrUtil.format(message, agsArray));
+    public static <T> Result<T> success(T data, String message, Object... agsArray) {
+        return success(data, StrUtil.format(message, agsArray));
     }
 
-    public static <T> Result<T> buildSuccess(T data, IEnumDict<Integer> responseCode) {
-        return buildSuccess(data, responseCode.getValue(), responseCode.getDesc());
+    public static <T> Result<T> success(T data, IEnumDict<Integer> responseCode) {
+        return success(data, responseCode.getValue(), responseCode.getDesc());
     }
 
-    public static <T> Result<T> buildSuccess(T data, Integer code, String message) {
+    public static <T> Result<T> success(T data, Integer code, String message) {
         return build(Boolean.TRUE, data, code, message);
     }
 
-    public static <T> Result<T> buildFailure() {
-        return buildFailure(ResponseCode.SERVER_FAILURE);
+    public static <T> Result<T> failure() {
+        return failure(ResponseCode.SERVER_FAILURE);
     }
 
-    public static <T> Result<T> buildFailure(String message) {
-        return buildFailure(ResponseCode.SERVER_FAILURE.getCode(), message);
+    public static <T> Result<T> failure(String message) {
+        return failure(ResponseCode.SERVER_FAILURE.getCode(), message);
     }
 
-    public static <T> Result<T> buildFailure(Integer code, String message) {
-        return buildFailure(null, code, message);
+    public static <T> Result<T> failure(Integer code, String message) {
+        return failure(null, code, message);
     }
 
-    public static <T> Result<T> buildFailure(IEnumDict<Integer> responseCode) {
-        return buildFailure(responseCode.getValue(), responseCode.getDesc());
+    public static <T> Result<T> failure(IEnumDict<Integer> responseCode) {
+        return failure(responseCode.getValue(), responseCode.getDesc());
     }
 
-    public static <T> Result<T> buildFailure(String message, Object... agsArray) {
-        return buildFailure(ResponseCode.SERVER_FAILURE.getCode(), StrUtil.format(message, agsArray));
+    public static <T> Result<T> failure(String message, Object... agsArray) {
+        return failure(ResponseCode.SERVER_FAILURE.getCode(), StrUtil.format(message, agsArray));
     }
 
-    public static <T> Result<T> buildFailure(Integer code, String message, Object... agsArray) {
-        return buildFailure(code, StrUtil.format(message, agsArray));
+    public static <T> Result<T> failure(Integer code, String message, Object... agsArray) {
+        return failure(code, StrUtil.format(message, agsArray));
     }
 
-    public static <T> Result<T> buildFailure(T data, String message) {
-        return buildFailure(data, ResponseCode.SERVER_FAILURE.getCode(), message);
+    public static <T> Result<T> failure(T data, String message) {
+        return failure(data, ResponseCode.SERVER_FAILURE.getCode(), message);
     }
 
-    public static <T> Result<T> buildFailure(T data, String message, Object... agsArray) {
-        return buildFailure(data, StrUtil.format(message, agsArray));
+    public static <T> Result<T> failure(T data, String message, Object... agsArray) {
+        return failure(data, StrUtil.format(message, agsArray));
     }
 
-    public static <T> Result<T> buildFailure(T data, IEnumDict<Integer> responseCode) {
-        return buildFailure(data, responseCode.getValue(), responseCode.getDesc());
+    public static <T> Result<T> failure(T data, IEnumDict<Integer> responseCode) {
+        return failure(data, responseCode.getValue(), responseCode.getDesc());
     }
 
-    public static <T> Result<T> buildFailure(T data, Integer code, String message) {
+    public static <T> Result<T> failure(T data, Integer code, String message) {
         return build(Boolean.FALSE, data, code, message);
     }
 }
