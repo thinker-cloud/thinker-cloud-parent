@@ -11,14 +11,20 @@ import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if entityLombokModel>
 import lombok.Data;
+<#if superEntityClass??>
+import lombok.EqualsAndHashCode;
+</#if>
 import lombok.experimental.Accessors;
 </#if>
-
 import java.io.Serial;
 import java.io.Serializable;
 <#list table.fields as field>
 <#if field.propertyType=='Date'>
 import java.util.Date;
+<#elseif field.propertyType=='LocalTime'>
+import java.time.LocalTime;
+<#elseif field.propertyType=='LocalDate'>
+import java.time.LocalDate;
 <#elseif field.propertyType=='LocalDateTime'>
 import java.time.LocalDateTime;
 </#if>
@@ -36,6 +42,9 @@ import java.math.BigDecimal;
 <#if entityLombokModel>
 @Data
 @Accessors(chain = true)
+</#if>
+<#if superEntityClass??>
+@EqualsAndHashCode(callSuper = true)
 </#if>
 <#if table.convert>
 @TableName(value = "${table.name}")

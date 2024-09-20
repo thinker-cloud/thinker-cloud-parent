@@ -3,6 +3,7 @@ package com.thinker.cloud.db.config;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.thinker.cloud.db.datascope.DataScopeInterceptor;
@@ -63,6 +64,13 @@ public class MybatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
 
+        // 分页支持
+        DbType dbType = DbType.getDbType(dbConfigProperties.getType());
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(dbType));
+
+        // 乐观锁支持
+        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+
         // 多租户支持
         if (dbConfigProperties.getTenant().getEnable()) {
             TenantLineInnerInterceptor tenantLineInnerInterceptor = new TenantLineInnerInterceptor();
@@ -76,10 +84,6 @@ public class MybatisPlusConfig {
             DataScopeInterceptor dataScopeInterceptor = new DataScopeInterceptor(dataScopeHandler);
             interceptor.addInnerInterceptor(dataScopeInterceptor);
         }
-
-        // 分页支持
-        DbType dbType = DbType.getDbType(dbConfigProperties.getType());
-        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(dbType));
         return interceptor;
     }
 

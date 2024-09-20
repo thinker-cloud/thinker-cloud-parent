@@ -8,6 +8,7 @@ import ${queryPackage}.${queryName};
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -40,12 +41,29 @@ public interface ${table.mapperName} extends ${superMapperClass}<${entityName}> 
     List<${voName}> list(@Param("query") ${queryName} query);
 
     /**
+     * 根据query查询ids
+     *
+     * @param query 查询条件
+     * @return List<Long>
+     */
+    List<Long> idsByQuery(@Param("query") ${queryName} query);
+
+    /**
      * 根据查询条件统计数量
      *
      * @param query 查询条件
      * @return Integer
      */
     Integer countByQuery(@Param("query") ${queryName} query);
+
+    /**
+     * 根据id查询详情
+     *
+     * @param id 数据Id
+     * @return ${entityName}
+     */
+    @Override
+    ${entityName} selectById(@Param("id") Serializable id);
 
     /**
      * 根据id查询详情

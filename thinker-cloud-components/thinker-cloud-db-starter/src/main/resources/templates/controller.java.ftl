@@ -1,7 +1,7 @@
 package ${package.Controller};
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-<#if springdoc>
+<#if !swagger>
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 <#elseif swagger>
@@ -32,12 +32,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * ${table.comment!} 前端控制器
+ * ${table.comment!}
  *
  * @author ${author}
  * @since ${date}
  */
-<#if springdoc>
+<#if !swagger>
 @Tag(name = "${table.controllerName}", description = "${table.comment!}")
 <#elseif swagger>
 @Api(tags = "${table.controllerName}", description = "${table.comment!}")
@@ -60,15 +60,8 @@ public class ${table.controllerName} {
 
     private final ${table.serviceName} ${table.serviceName?substring(1)?uncap_first};
 
-<#if !springdoc && !swagger>
-    /**
-     * 分页列表
-     *
-     * @return Result<PageVO<${voName}>> page data list
-     */
-</#if>
     @PostMapping(value = "page")
-<#if springdoc>
+<#if !swagger>
     @Operation(summary = "分页列表", description = "传入page与limit可分页查询")
 <#elseif swagger>
     @ApiOperation(value = "分页列表", notes = "传入page与limit可分页查询")
@@ -79,15 +72,8 @@ public class ${table.controllerName} {
         return Result.buildSuccess(new PageVO<>(page));
     }
 
-<#if !springdoc && !swagger>
-    /**
-     * 不分页列表
-     *
-     * @return Result<List<${voName}>>  data list
-     */
-</#if>
     @PostMapping(value = "list")
-<#if springdoc>
+<#if !swagger>
     @Operation(summary = "不分页列表", description = "所有数据列表查询")
 <#elseif swagger>
     @ApiOperation(value = "不分页列表", notes = "所有数据列表查询")
@@ -96,32 +82,18 @@ public class ${table.controllerName} {
         return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.list(query));
     }
 
-<#if !springdoc && !swagger>
-    /**
-     * 根据id查询
-     *
-     * @return Result<${voName}>  ${voName}
-     */
-</#if>
-    @GetMapping(value = "{id}")
-<#if springdoc>
+    @GetMapping(value = "detail/{id}")
+<#if !swagger>
     @Operation(summary = "根据id查询")
 <#elseif swagger>
     @ApiOperation(value = "根据id查询")
 </#if>
-    public Result<${voName}> detail(@PathVariable("id") <#if idType=='ID_WORKER_STR'>String<#elseif idType=='ASSIGN_ID'>Long<#else>Long</#if> id) {
+    public Result<${voName}> detail(@PathVariable <#if idType=='ID_WORKER_STR'>String<#elseif idType=='ASSIGN_ID'>Long<#else>Long</#if> id) {
         return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.findDetail(id));
     }
 
-<#if !springdoc && !swagger>
-    /**
-     * 新增数据
-     *
-     * @return Result<Boolean>  Boolean
-     */
-</#if>
     @PostMapping
-<#if springdoc>
+<#if !swagger>
     @Operation(summary = "新增数据")
 <#elseif swagger>
     @ApiOperation(value = "新增数据")
@@ -130,15 +102,8 @@ public class ${table.controllerName} {
         return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.saveData(dto));
     }
 
-<#if !springdoc && !swagger>
-    /**
-     * 根据id修改数据
-     *
-     * @return Result<Boolean>  Boolean
-     */
-</#if>
     @PutMapping
-<#if springdoc>
+<#if !swagger>
     @Operation(summary = "修改数据", description = "根据id修改数据")
 <#elseif swagger>
     @ApiOperation(value = "修改数据", notes = "根据id修改数据")
@@ -147,15 +112,8 @@ public class ${table.controllerName} {
         return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.modifyById(dto));
     }
 
-<#if !springdoc && !swagger>
-    /**
-     * 根据id删除数据
-     *
-     * @return Result<Boolean>  Boolean
-     */
-</#if>
     @DeleteMapping(value = "{id}")
-<#if springdoc>
+<#if !swagger>
     @Operation(summary = "删除数据", description = "根据id删除数据")
 <#elseif swagger>
     @ApiOperation(value = "删除数据", notes = "根据id删除数据")

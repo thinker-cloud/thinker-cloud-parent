@@ -6,17 +6,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
+<#if querySuperClass??>
+import ${querySuperClass.canonicalName};
+</#if>
 <#if entityLombokModel>
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 </#if>
-import com.thinker.cloud.core.model.query.PageQuery;
-<#if querySuperClass??>
-import ${querySuperClass.canonicalName};
-</#if>
-<#list table.fields as field>
-<#if field.propertyType=='Date'>
+<#list allFields as field>
+<#if field.keyFlag>
+import java.util.Collection;
+<#elseif field.propertyType=='Date'>
 import java.util.Date;
 <#elseif field.propertyType=='LocalDateTime'>
 import java.time.LocalDateTime;
@@ -24,9 +25,6 @@ import java.time.LocalDateTime;
 <#if field.propertyType=='BigDecimal'>
 import java.math.BigDecimal;
 </#if>
-</#list>
-<#list table.importPackages as pkg>
-import ${pkg};
 </#list>
 
 /**
@@ -48,10 +46,14 @@ import ${pkg};
 <#if querySuperClass??>
 public class ${queryName} extends ${querySuperClass.simpleName} {
 <#else>
-public class ${queryName} extends PageQuery {
+public class ${queryName} implements Serializable {
+    <#if entitySerialVersionUID>
+
+    private static final long serialVersionUID = 1L;
+    </#if>
 </#if>
 <#-- ----------  BEGIN 字段循环遍历  ---------->
-<#list table.fields as field>
+<#list allFields as field>
     <#if !field.logicDeleteField && !field.versionField>
         <#if field.keyFlag>
             <#assign keyPropertyName="${field.propertyName}"/>
@@ -69,20 +71,20 @@ public class ${queryName} extends PageQuery {
             </#if>
         </#if>
     private ${field.propertyType} ${field.propertyName};
-    <#else>
+    <#if field.keyFlag>
 
         <#if field.comment!?length gt 0>
             <#if springdoc>
-    @Schema(description = "是否包含删除数据")
+    @Schema(description = "${field.comment}列表")
             <#elseif swagger>
-    @ApiModelProperty(value = "是否包含删除数据")
+    @ApiModelProperty(value = "${field.comment}列表")
             <#else>
     /**
-     * 是否包含删除数据
+     * ${field.comment}列表
      */
             </#if>
         </#if>
-    private Boolean isIncludeDelete;
+    private Collection<${field.propertyType}> ${field.propertyName}s;
     </#if>
     <#if field.propertyType=='Date' || field.propertyType=='LocalDateTime'>
 
@@ -111,6 +113,21 @@ public class ${queryName} extends PageQuery {
             </#if>
         </#if>
     private ${field.propertyType} end${field.propertyName?cap_first};
+    </#if>
+    <#elseif !field.versionField>
+
+        <#if field.comment!?length gt 0>
+            <#if springdoc>
+    @Schema(description = "是否包含删除数据")
+            <#elseif swagger>
+    @ApiModelProperty(value = "是否包含删除数据")
+            <#else>
+    /**
+     * 是否包含删除数据
+     */
+            </#if>
+        </#if>
+    private Boolean isIncludeDelete;
     </#if>
 </#list>
 <#------------  END 字段循环遍历  ---------->

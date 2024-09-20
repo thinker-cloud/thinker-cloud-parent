@@ -38,6 +38,22 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entityName}
     List<${voName}> list(${queryName} query);
 
     /**
+     * 根据query查询ids
+     *
+     * @param query 查询条件
+     * @return List<Long>
+     */
+    List<Long> idsByQuery(${queryName} query);
+
+    /**
+     * 根据query统计数量
+     *
+     * @param query 查询条件
+     * @return Integer
+     */
+    Integer countByQuery(${queryName} query);
+
+    /**
      * 根据id查询详情
      *
      * @param id 数据Id

@@ -43,7 +43,7 @@ public class ${dtoName} implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 <#-- ----------  BEGIN 字段循环遍历  ---------->
-<#list table.fields as field>
+<#list allFields as field>
     <#if !field.logicDeleteField && !field.versionField && !field.fill??>
         <#if field.keyFlag>
             <#assign keyPropertyName="${field.propertyName}"/>

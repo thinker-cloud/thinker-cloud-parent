@@ -10,14 +10,17 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.converts.TypeConverts;
+import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.baomidou.mybatisplus.generator.config.querys.DbQueryRegistry;
-import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.fill.Column;
+import com.baomidou.mybatisplus.generator.query.SQLQuery;
 import com.google.common.collect.Maps;
+import com.thinker.cloud.core.model.entity.SuperEntity;
 import com.thinker.cloud.core.model.query.PageQuery;
+import com.thinker.cloud.db.generator.converts.MySqlCustomTypeConvert;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,7 +39,7 @@ public class CodeGenerator {
     /**
      * JDBC相关配置
      */
-    private static final String URL = "jdbc:mysql://192.168.8.203:3306/operator-cloud?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false";
+    private static final String URL = "jdbc:mysql://120.77.206.150:13306/thinker-upms?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false";
     private static final String USER_NAME = "root";
     private static final String PASSWORD = "123456!";
 
@@ -48,7 +51,7 @@ public class CodeGenerator {
     /**
      * 生成在哪个包下
      */
-    private static final String PARENT_PACKAGE_NAME = "com.yungo.operator";
+    private static final String PARENT_PACKAGE_NAME = "com.thinker.cloud";
 
     /**
      * 代码生成者
@@ -88,10 +91,17 @@ public class CodeGenerator {
      * @return DataSourceConfig
      */
     private static DataSourceConfig dataSourceConfig() {
+        ITypeConvert typeConvert;
+        if (DB_TYPE.equals(DbType.MYSQL)) {
+            typeConvert = MySqlCustomTypeConvert.INSTANCE;
+        } else {
+            typeConvert = TypeConverts.getTypeConvert(DB_TYPE);
+        }
+
         return new DataSourceConfig
                 .Builder(URL, USER_NAME, PASSWORD)
-                .dbQuery(new DbQueryRegistry().getDbQuery(DB_TYPE))
-                .typeConvert(TypeConverts.getTypeConvert(DB_TYPE))
+                .databaseQueryClass(SQLQuery.class)
+                .typeConvert(typeConvert)
                 .build();
     }
 
@@ -148,10 +158,8 @@ public class CodeGenerator {
                 .enableFileOverride()
                 // 全局主键类型
                 .idType(IdType.ASSIGN_ID)
-                .naming(NamingStrategy.underline_to_camel)
-                .columnNaming(NamingStrategy.underline_to_camel)
                 // 设置父类
-//                .superClass(BaseEntity.class)
+                .superClass(SuperEntity.class)
                 // 添加父类公共字段(这些字段将不在实体中生成)
 //                .addSuperEntityColumns("create_time", "update_time")
 
@@ -211,7 +219,7 @@ public class CodeGenerator {
                 .packageName(entityPackage)
                 .filePath(outPutDir)
                 .enableFileOverride()
-                .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Entity")
+//                .formatNameFunction(tableInfo -> tableInfo.getEntityName() + "Entity")
                 .fileName(".java")
                 .build());
         customMap.put("entityPackage", entityPackage);
@@ -287,9 +295,24 @@ public class CodeGenerator {
             Map<String, Object> objectMap = super.getObjectMap(config, tableInfo);
             objectMap.put("queryName", entityName + "Query");
             objectMap.put("dtoName", entityName + "DTO");
-            objectMap.put("entityName", entityName + "Entity");
+            objectMap.put("entityName", entityName);
+//            objectMap.put("entityName", entityName + "Entity");
             objectMap.put("voName", entityName + "VO");
             objectMap.put("converterName", entityName + "Converter");
+
+            // 定义所有表字段
+            List<TableField> allFields = Lists.newArrayList();
+            List<TableField> commonFields = tableInfo.getCommonFields();
+            commonFields.stream()
+                    .filter(TableField::isKeyFlag)
+                    .findFirst()
+                    .ifPresent(var -> {
+                        allFields.add(var);
+                        commonFields.remove(var);
+                    });
+            allFields.addAll(tableInfo.getFields());
+            allFields.addAll(commonFields);
+            objectMap.put("allFields", allFields);
             return objectMap;
         }
     }

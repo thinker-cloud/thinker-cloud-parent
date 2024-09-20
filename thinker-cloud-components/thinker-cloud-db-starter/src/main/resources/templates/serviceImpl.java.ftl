@@ -40,6 +40,16 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
 
     @Override
+    public List<Long> idsByQuery(${queryName} query) {
+        return baseMapper.idsByQuery(query);
+    }
+
+    @Override
+    public Integer countByQuery(${queryName} query) {
+        return baseMapper.countByQuery(query);
+    }
+
+    @Override
     public ${voName} findDetail(<#if idType=='ID_WORKER_STR'>String<#elseif idType=='ASSIGN_ID'>Long<#else>Long</#if> id) {
         return baseMapper.findDetail(id);
     }

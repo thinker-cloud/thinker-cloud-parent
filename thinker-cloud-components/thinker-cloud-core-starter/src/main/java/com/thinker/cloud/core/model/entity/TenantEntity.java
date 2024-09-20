@@ -24,6 +24,6 @@ public class TenantEntity extends SuperEntity {
     /**
      * 租户id
      */
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(value = "tenant_id", fill = FieldFill.INSERT)
     private Long tenantId;
 }
