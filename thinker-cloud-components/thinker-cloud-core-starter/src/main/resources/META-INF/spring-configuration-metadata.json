@@ -1,0 +1,76 @@
+{
+  "groups": [
+    {
+      "name": "thinker.cloud.async.task",
+      "type": "com.thinker.cloud.core.properties.AsyncTaskProperties",
+      "description": "Configuration properties for asynchronous task execution."
+    },
+    {
+      "name": "thinker.cloud.rest-template",
+      "type": "com.thinker.cloud.core.properties.RestTemplateProperties",
+      "description": "Configuration properties for RestTemplate."
+    }
+  ],
+  "properties": [
+    {
+      "name": "thinker.cloud.async.task.core-pool-size",
+      "type": "java.lang.Integer",
+      "defaultValue": 30,
+      "description": "The core number of threads for the asynchronous task thread pool."
+    },
+    {
+      "name": "thinker.cloud.async.task.max-pool-size",
+      "type": "java.lang.Integer",
+      "defaultValue": 100,
+      "description": "The maximum number of threads for the asynchronous task thread pool."
+    },
+    {
+      "name": "thinker.cloud.async.task.queue-capacity",
+      "type": "java.lang.Integer",
+      "defaultValue": 1000,
+      "description": "The maximum capacity of the task queue for the thread pool."
+    },
+    {
+      "name": "thinker.cloud.async.task.keep-alive-seconds",
+      "type": "java.lang.Integer",
+      "defaultValue": 3000,
+      "description": "The time in seconds that threads should remain idle before being terminated."
+    },
+    {
+      "name": "thinker.cloud.async.task.thread-name-prefix",
+      "type": "java.lang.String",
+      "defaultValue": "thinker-task-executor-",
+      "description": "The prefix for thread names in the asynchronous task thread pool."
+    },
+    {
+      "name": "thinker.cloud.rest-template.max-total",
+      "type": "java.lang.Integer",
+      "defaultValue": 200,
+      "description": "The maximum total number of connections for the RestTemplate."
+    },
+    {
+      "name": "thinker.cloud.rest-template.max-per-route",
+      "type": "java.lang.Integer",
+      "defaultValue": 50,
+      "description": "The maximum number of concurrent connections per route."
+    },
+    {
+      "name": "thinker.cloud.rest-template.read-timeout",
+      "type": "java.lang.Integer",
+      "defaultValue": 35000,
+      "description": "The socket read timeout in milliseconds."
+    },
+    {
+      "name": "thinker.cloud.rest-template.connect-timeout",
+      "type": "java.lang.Integer",
+      "defaultValue": 10000,
+      "description": "The connection timeout in milliseconds."
+    },
+    {
+      "name": "thinker.cloud.rest-template.connection-request-timeout",
+      "type": "java.lang.Integer",
+      "defaultValue": 35000,
+      "description": "The timeout in milliseconds to wait for a connection from the connection manager."
+    }
+  ]
+}

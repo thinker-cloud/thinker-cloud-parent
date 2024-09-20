@@ -1,0 +1,75 @@
+{
+  "groups": [
+    {
+      "name": "thinker.cloud.db",
+      "type": "com.example.DbConfigProperties",
+      "description": "Configuration properties for Thinker Cloud database."
+    },
+    {
+      "name": "thinker.cloud.db.data-scope",
+      "type": "com.example.DbConfigProperties$DataScopeProperties",
+      "description": "Configuration for data scope settings."
+    },
+    {
+      "name": "thinker.cloud.db.tenant",
+      "type": "com.example.DbConfigProperties$TenantConfigProperties",
+      "description": "Configuration for tenant settings."
+    }
+  ],
+  "properties": [
+    {
+      "name": "thinker.cloud.db.type",
+      "type": "java.lang.String",
+      "defaultValue": "mysql",
+      "description": "The type of database."
+    },
+    {
+      "name": "thinker.cloud.db.data-scope.enable",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether to enable data scope filtering."
+    },
+    {
+      "name": "thinker.cloud.db.data-scope.scope-name",
+      "type": "java.lang.String",
+      "defaultValue": "organization_id",
+      "description": "The name of the field to limit the data scope."
+    },
+    {
+      "name": "thinker.cloud.db.data-scope.user-scope-name",
+      "type": "java.lang.String",
+      "defaultValue": "create_by",
+      "description": "The name of the field to limit the user's data scope."
+    },
+    {
+      "name": "thinker.cloud.db.data-scope.ignore-tables",
+      "type": "java.util.Set<java.lang.String>",
+      "defaultValue": [],
+      "description": "The tables to ignore for data scope filtering."
+    },
+    {
+      "name": "thinker.cloud.db.tenant.enable",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether to enable tenant isolation."
+    },
+    {
+      "name": "thinker.cloud.db.tenant.column",
+      "type": "java.lang.String",
+      "defaultValue": "tenant_id",
+      "description": "The column name used to maintain tenant information."
+    },
+    {
+      "name": "thinker.cloud.db.tenant.ignore-tables",
+      "type": "java.util.Set<java.lang.String>",
+      "defaultValue": [],
+      "description": "The tables to ignore for tenant isolation."
+    },
+    {
+      "name": "thinker.cloud.db.tenant.ignore-tenant-ids",
+      "type": "java.util.Set<java.lang.Long>",
+      "defaultValue": [],
+      "description": "The tenant IDs to ignore for tenant isolation."
+    }
+  ]
+}

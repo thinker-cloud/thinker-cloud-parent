@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "springdoc.api-docs",
+      "type": "com.thinker.cloud.openapi.properties.SpringDocProperties",
+      "description": "Configuration properties for SpringDoc API documentation."
+    }
+  ],
+  "properties": [
+    {
+      "name": "springdoc.api-docs.title",
+      "type": "java.lang.String",
+      "defaultValue": "接口文档",
+      "description": "The title of the API documentation."
+    },
+    {
+      "name": "springdoc.api-docs.description",
+      "type": "java.lang.String",
+      "defaultValue": "接口文档",
+      "description": "The description of the API documentation."
+    }
+  ]
+}

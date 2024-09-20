@@ -1,0 +1,52 @@
+{
+  "groups": [
+    {
+      "name": "thinker.cloud.redis.delay-queue",
+      "type": "com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties",
+      "description": "Configuration properties for Redis delay queue."
+    },
+    {
+      "name": "thinker.cloud.redis.delay-queue.thread-pool",
+      "type": "com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties$ThreadPoolProperties",
+      "description": "Configuration for the delay queue thread pool."
+    }
+  ],
+  "properties": [
+    {
+      "name": "thinker.cloud.redis.delay-queue.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Whether the delay queue is enabled."
+    },
+    {
+      "name": "thinker.cloud.redis.delay-queue.thread-pool.core-pool-size",
+      "type": "java.lang.Integer",
+      "defaultValue": 2,
+      "description": "The core number of threads for the delay queue thread pool."
+    },
+    {
+      "name": "thinker.cloud.redis.delay-queue.thread-pool.max-pool-size",
+      "type": "java.lang.Integer",
+      "defaultValue": 4,
+      "description": "The maximum number of threads for the delay queue thread pool."
+    },
+    {
+      "name": "thinker.cloud.redis.delay-queue.thread-pool.queue-capacity",
+      "type": "java.lang.Integer",
+      "defaultValue": 100,
+      "description": "The size of the delay queue's thread pool queue."
+    },
+    {
+      "name": "thinker.cloud.redis.delay-queue.thread-pool.keep-alive-seconds",
+      "type": "java.lang.Integer",
+      "defaultValue": 60,
+      "description": "The time that threads should remain alive when idle, in seconds."
+    },
+    {
+      "name": "thinker.cloud.redis.delay-queue.thread-pool.thread-name-prefix",
+      "type": "java.lang.String",
+      "defaultValue": "thinker-delay-queue-thread-",
+      "description": "The prefix for thread names in the delay queue thread pool."
+    }
+  ]
+}

@@ -33,10 +33,10 @@ public class SpringDocProperties {
     /**
      * 标题
      **/
-    private String title = "";
+    private String title = "接口文档";
 
     /**
      * 描述
      */
-    private String description = "";
+    private String description = "接口文档";
 }
