@@ -18,6 +18,7 @@
         <module>thinker-cloud-core-starter</module>
         <module>thinker-cloud-db-starter</module>
         <module>thinker-cloud-dubbo-starter</module>
+        <module>thinker-cloud-dynamic-datasource-starter</module>
         <module>thinker-cloud-elasticsearch-starter</module>
         <module>thinker-cloud-feign-starter</module>
         <module>thinker-cloud-kafka-starter</module>

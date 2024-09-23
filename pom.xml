@@ -63,6 +63,11 @@
             </dependency>
             <dependency>
                 <groupId>com.thinker.cloud</groupId>
+                <artifactId>thinker-cloud-dynamic-datasource-starter</artifactId>
+                <version>${thinker-cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thinker.cloud</groupId>
                 <artifactId>thinker-cloud-elasticsearch-starter</artifactId>
                 <version>${thinker-cloud.version}</version>
             </dependency>

@@ -59,6 +59,11 @@ public class CodeGenerator {
     private static final String AUTHOR = "admin";
 
     /**
+     * 数据库是否是主从模式
+     */
+    private static final boolean IS_DATABASE_MASTER_SLAVE_MODE = false;
+
+    /**
      * 是否生成所有默认查询条件
      */
     private static final boolean IS_GENERATE_ALL_DEFAULT_CONDITION = true;
@@ -209,6 +214,7 @@ public class CodeGenerator {
 
         // 自定义配置会被优先输出
         Map<String, Object> customMap = Maps.newHashMap();
+        customMap.put("isDatabaseMasterSlaveMode", IS_DATABASE_MASTER_SLAVE_MODE);
         customMap.put("isGenerateAllDefaultCondition", IS_GENERATE_ALL_DEFAULT_CONDITION);
         String outPutDir = gc.getOutputDir() + "/";
 
