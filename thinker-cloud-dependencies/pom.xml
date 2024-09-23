@@ -58,6 +58,7 @@
         <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
 
         <!-- 数据库 -->
+        <druid.version>1.2.23</druid.version>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
         <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
@@ -195,6 +196,13 @@
                 <groupId>ru.yandex.clickhouse</groupId>
                 <artifactId>clickhouse-jdbc</artifactId>
                 <version>${clickhouse-jdbc.version}</version>
+            </dependency>
+
+            <!-- druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-3-starter</artifactId>
+                <version>${druid.version}</version>
             </dependency>
 
             <!-- mybatis plus -->
