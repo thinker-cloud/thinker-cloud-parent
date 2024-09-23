@@ -3,7 +3,7 @@ package ${package.Mapper};
 import ${superMapperClassPackage};
 import com.baomidou.mybatisplus.core.metadata.IPage;
 <#if cfg.isDatabaseMasterSlaveMode>
-import com.thinker.cloud.db.dynamic.datasource.annotation.Slave
+import com.thinker.cloud.db.dynamic.datasource.annotation.Slave;
 </#if>
 import ${voPackage}.${voName};
 import ${entityPackage}.${entityName};

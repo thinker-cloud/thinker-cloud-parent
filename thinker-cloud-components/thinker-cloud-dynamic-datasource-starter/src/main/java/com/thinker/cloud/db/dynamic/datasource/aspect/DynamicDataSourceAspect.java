@@ -3,11 +3,8 @@ package com.thinker.cloud.db.dynamic.datasource.aspect;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
-import com.thinker.cloud.core.exception.AbstractException;
-import com.thinker.cloud.core.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -36,7 +33,7 @@ public class DynamicDataSourceAspect {
     }
 
     @Around(value = "dsPointCut()")
-    public Object around(ProceedingJoinPoint joinPoint) {
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         // 获取需要切换的数据源
         DS ds = this.getDataSource(joinPoint);
         if (Objects.nonNull(ds) && StrUtil.isNotBlank(ds.value())) {
@@ -47,23 +44,10 @@ public class DynamicDataSourceAspect {
 
         try {
             return joinPoint.proceed();
-        } catch (Throwable e) {
-            log.error("多数据切换失败，ds:{}，ex={}", ds, e.getMessage(), e);
-            throw new ServiceException("数据源切换失败", e);
         } finally {
             // 在执行方法之后 销毁数据源
             DynamicDataSourceContextHolder.clear();
         }
-    }
-
-    @AfterThrowing(value = "dsPointCut()", throwing = "ex")
-    public void afterThrowing(Throwable ex) {
-        if (ex instanceof AbstractException) {
-            throw (AbstractException) ex;
-        }
-
-        log.error("数据源切换未知异常，ex={}", ex.getMessage(), ex);
-        throw new ServiceException("未知异常，请联系管理员");
     }
 
     /**
