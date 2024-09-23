@@ -1,4 +1,4 @@
-package com.thinker.cloud.core.handler;
+package com.thinker.cloud.sentinel.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.core.enums.ResponseCode;

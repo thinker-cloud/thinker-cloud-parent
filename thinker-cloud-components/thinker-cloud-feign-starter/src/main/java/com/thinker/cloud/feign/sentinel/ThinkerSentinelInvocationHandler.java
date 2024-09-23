@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.thinker.cloud.sentinel.feign;
+package com.thinker.cloud.feign.sentinel;
 
 import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
 import com.alibaba.cloud.sentinel.feign.SentinelInvocationHandler;
@@ -78,21 +78,25 @@ public class ThinkerSentinelInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
-        if (EQUALS.equals(method.getName())) {
-            try {
-                Object otherHandler = args.length > 0 && args[0] != null ? Proxy.getInvocationHandler(args[0]) : null;
-                return equals(otherHandler);
-            } catch (IllegalArgumentException e) {
-                return false;
+        switch (method.getName()) {
+            case EQUALS -> {
+                try {
+                    Object otherHandler = args.length > 0 && args[0] != null
+                            ? Proxy.getInvocationHandler(args[0]) : null;
+                    return equals(otherHandler);
+                } catch (IllegalArgumentException e) {
+                    return false;
+                }
             }
-        }
+            case HASH_CODE -> {
+                return hashCode();
+            }
+            case TO_STRING -> {
+                return toString();
+            }
+            default -> {
 
-        if (HASH_CODE.equals(method.getName())) {
-            return hashCode();
-        }
-
-        if (TO_STRING.equals(method.getName())) {
-            return toString();
+            }
         }
 
         Object result;

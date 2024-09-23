@@ -1,79 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.thinker.cloud</groupId>
-        <artifactId>thinker-cloud-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.thinker.cloud</groupId>
+		<artifactId>thinker-cloud-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
 
-    <artifactId>thinker-cloud-starter</artifactId>
-    <name>thinker-cloud-starter</name>
-    <packaging>jar</packaging>
-    <description>Thinker Cloud 基础启动</description>
-    <url>https://www.isexcuse.com</url>
+	<artifactId>thinker-cloud-starter</artifactId>
+	<name>thinker-cloud-starter</name>
+	<packaging>jar</packaging>
+	<description>Thinker Cloud 基础启动</description>
+	<url>https://www.isexcuse.com</url>
 
-    <dependencies>
-        <!-- 核心模块 -->
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-core-starter</artifactId>
-        </dependency>
+	<dependencies>
+		<!-- 核心模块 -->
+		<dependency>
+			<groupId>com.thinker.cloud</groupId>
+			<artifactId>thinker-cloud-core-starter</artifactId>
+		</dependency>
 
-        <!-- 安全模块 -->
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-security-starter</artifactId>
-        </dependency>
+		<!-- 安全模块 -->
+		<dependency>
+			<groupId>com.thinker.cloud</groupId>
+			<artifactId>thinker-cloud-security-starter</artifactId>
+		</dependency>
 
-        <!-- 日志模块 -->
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-log-starter</artifactId>
-        </dependency>
+		<!-- 日志模块 -->
+		<dependency>
+			<groupId>com.thinker.cloud</groupId>
+			<artifactId>thinker-cloud-log-starter</artifactId>
+		</dependency>
 
-        <!-- 数据库 -->
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-db-starter</artifactId>
-        </dependency>
+		<!-- 数据库 -->
+		<dependency>
+			<groupId>com.thinker.cloud</groupId>
+			<artifactId>thinker-cloud-db-starter</artifactId>
+		</dependency>
 
-        <!-- Redis -->
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-redis-starter</artifactId>
-        </dependency>
+		<!-- Redis -->
+		<dependency>
+			<groupId>com.thinker.cloud</groupId>
+			<artifactId>thinker-cloud-redis-starter</artifactId>
+		</dependency>
 
-        <!-- Dubbo RPC -->
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-dubbo-starter</artifactId>
-        </dependency>
+		<!-- Dubbo RPC -->
+		<dependency>
+			<groupId>com.thinker.cloud</groupId>
+			<artifactId>thinker-cloud-dubbo-starter</artifactId>
+		</dependency>
 
-        <!-- Web模块 -->
-        <dependency>
-            <groupId>com.thinker.cloud</groupId>
-            <artifactId>thinker-cloud-web-starter</artifactId>
-        </dependency>
+		<!-- Web模块 -->
+		<dependency>
+			<groupId>com.thinker.cloud</groupId>
+			<artifactId>thinker-cloud-web-starter</artifactId>
+		</dependency>
 
-        <!-- 监控 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+		<!-- 限流 -->
+		<dependency>
+			<groupId>com.thinker.cloud</groupId>
+			<artifactId>thinker-cloud-sentinel-starter</artifactId>
+		</dependency>
 
-        <!-- 监控客户端 -->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>
+		<!-- 监控 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 
-        <!-- 测试 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+		<!-- 监控客户端 -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+		</dependency>
+
+		<!-- 测试 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>

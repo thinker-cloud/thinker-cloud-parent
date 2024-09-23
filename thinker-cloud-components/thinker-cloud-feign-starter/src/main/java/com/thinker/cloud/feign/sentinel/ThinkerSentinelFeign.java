@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.thinker.cloud.sentinel.feign;
+package com.thinker.cloud.feign.sentinel;
 
 import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
 import feign.Contract;

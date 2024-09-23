@@ -1,1 +1,2 @@
+com.thinker.cloud.feign.config.FeignSentinelConfiguration
 com.thinker.cloud.feign.config.ThinkerFeignAutoConfiguration

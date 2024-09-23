@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.thinker.cloud.sentinel.handle;
+package com.thinker.cloud.sentinel.handler;
 
 import cn.hutool.json.JSONUtil;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.BlockExceptionHandler;

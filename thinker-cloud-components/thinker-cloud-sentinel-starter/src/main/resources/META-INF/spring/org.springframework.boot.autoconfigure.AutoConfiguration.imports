@@ -1,1 +1,2 @@
+com.thinker.cloud.sentinel.config.GlobalExceptionHandler
 com.thinker.cloud.sentinel.config.SentinelAutoConfiguration

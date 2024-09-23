@@ -35,5 +35,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
+        <!-- sentinel -->
+        <dependency>
+            <groupId>com.thinker.cloud</groupId>
+            <artifactId>thinker-cloud-sentinel-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>

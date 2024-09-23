@@ -17,19 +17,13 @@
 
 package com.thinker.cloud.sentinel.config;
 
-import com.alibaba.cloud.sentinel.feign.SentinelFeignAutoConfiguration;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.RequestOriginParser;
-import com.thinker.cloud.sentinel.feign.ThinkerSentinelFeign;
-import com.thinker.cloud.sentinel.handle.ThinkerUrlBlockHandler;
+import com.thinker.cloud.sentinel.handler.ThinkerUrlBlockHandler;
 import com.thinker.cloud.sentinel.parser.HeaderRequestOriginParser;
-import feign.Feign;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 
 /**
  * sentinel 自动配置
@@ -37,16 +31,7 @@ import org.springframework.context.annotation.Scope;
  * @author admin
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
 public class SentinelAutoConfiguration {
-
-    @Bean
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = "spring.cloud.openfeign.sentinel.enabled")
-    public Feign.Builder feignSentinelBuilder() {
-        return ThinkerSentinelFeign.builder();
-    }
 
     @Bean
     @ConditionalOnMissingBean
