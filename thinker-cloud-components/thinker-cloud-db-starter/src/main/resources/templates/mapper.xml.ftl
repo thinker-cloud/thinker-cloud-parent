@@ -54,8 +54,16 @@
             <if test="query.end${field.propertyName?cap_first} != null">
                 and base.${field.name} &lt;= <#noparse>#</#noparse>{query.end${field.propertyName?cap_first}}
             </if>
-            <#if field.keyFlag>
-            <if test="query.${field.propertyName} != null">
+            </#if>
+            <#elseif !field.versionField>
+            <if test="query.isIncludeDelete == null or !query.isIncludeDelete">
+                and base.${field.name} = false
+            </if>
+            </#if>
+        </#list>
+        <#list allFields as field>
+        <#if field.keyFlag>
+            <if test="query.${field.propertyName}s != null">
                 and
                 <choose>
                     <when test="query.${field.propertyName}s.size() > 0">
@@ -68,13 +76,7 @@
                     </otherwise>
                 </choose>
             </if>
-            </#if>
-            </#if>
-            <#elseif !field.versionField>
-            <if test="query.isIncludeDelete == null or !query.isIncludeDelete">
-                and base.${field.name} = false
-            </if>
-            </#if>
+        </#if>
         </#list>
         </#if>
         </if>
