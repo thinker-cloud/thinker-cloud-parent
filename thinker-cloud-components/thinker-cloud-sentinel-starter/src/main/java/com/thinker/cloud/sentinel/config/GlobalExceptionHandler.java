@@ -21,7 +21,6 @@ import java.util.List;
  * @author admin
  */
 @Slf4j
-@RestController
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -187,16 +186,5 @@ public class GlobalExceptionHandler {
     public Result<Void> bindExceptionHandler(NoResourceFoundException e) {
         log.debug("请求路径 404 {}", e.getMessage(), e);
         return Result.failure(e.getMessage());
-    }
-
-    /**
-     * 避免 404 重定向到 /error 导致NPE
-     *
-     * @return Result
-     */
-    @DeleteMapping("error")
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Result<Void> noHandlerFoundException() {
-        return Result.failure(ResponseCode.NOT_FOUND);
     }
 }
