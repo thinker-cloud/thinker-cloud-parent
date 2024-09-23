@@ -1,4 +1,5 @@
 com.thinker.cloud.core.config.WebMvcConfiguration
 com.thinker.cloud.core.config.JacksonConfiguration
+com.thinker.cloud.core.handler.GlobalExceptionHandler
 com.thinker.cloud.core.aspect.expression.ExpressionResolver
 com.thinker.cloud.core.config.AsyncTaskExecutorConfiguration
