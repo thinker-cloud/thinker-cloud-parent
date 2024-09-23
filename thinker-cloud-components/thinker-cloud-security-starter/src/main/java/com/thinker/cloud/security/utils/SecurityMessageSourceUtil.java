@@ -17,7 +17,7 @@ public class SecurityMessageSourceUtil extends ReloadableResourceBundleMessageSo
     // ===================================================================================================
 
     public SecurityMessageSourceUtil() {
-        setBasename("classpath:messages/messages");
+        setBasename("classpath:i18n/errors/messages");
         setDefaultLocale(Locale.CHINA);
     }
 
