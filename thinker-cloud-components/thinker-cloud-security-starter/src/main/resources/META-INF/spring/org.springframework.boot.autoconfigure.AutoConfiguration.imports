@@ -1,0 +1,5 @@
+com.thinker.cloud.security.config.ResourceServerAutoConfiguration
+com.thinker.cloud.security.component.SecurityInnerAspect
+com.thinker.cloud.security.component.SecurityMessageSourceConfiguration
+com.thinker.cloud.security.service.RedisOAuth2AuthorizationService
+com.thinker.cloud.security.service.RedisOAuth2AuthorizationConsentService
