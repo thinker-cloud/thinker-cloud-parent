@@ -69,7 +69,7 @@ public class ${table.controllerName} {
     public Result<PageVO<${voName}>> page(@RequestBody ${queryName} query) {
         IPage<${voName}> page = query.generatePage();
         ${table.serviceName?substring(1)?uncap_first}.page(page, query);
-        return Result.buildSuccess(new PageVO<>(page));
+        return Result.success(new PageVO<>(page));
     }
 
     @PostMapping(value = "list")
@@ -79,7 +79,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "不分页列表", notes = "所有数据列表查询")
 </#if>
     public Result<List<${voName}>> list(@RequestBody ${queryName} query) {
-        return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.list(query));
+        return Result.success(${table.serviceName?substring(1)?uncap_first}.list(query));
     }
 
     @GetMapping(value = "detail/{id}")
@@ -89,7 +89,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "根据id查询")
 </#if>
     public Result<${voName}> detail(@PathVariable <#if idType=='ID_WORKER_STR'>String<#elseif idType=='ASSIGN_ID'>Long<#else>Long</#if> id) {
-        return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.findDetail(id));
+        return Result.success(${table.serviceName?substring(1)?uncap_first}.findDetail(id));
     }
 
     @PostMapping
@@ -99,7 +99,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "新增数据")
 </#if>
     public Result<Boolean> saveData(@RequestBody @Valid ${dtoName} dto) {
-        return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.saveData(dto));
+        return Result.success(${table.serviceName?substring(1)?uncap_first}.saveData(dto));
     }
 
     @PutMapping
@@ -109,7 +109,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "修改数据", notes = "根据id修改数据")
 </#if>
     public Result<Boolean> modifyById(@RequestBody @Valid ${dtoName} dto) {
-        return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.modifyById(dto));
+        return Result.success(${table.serviceName?substring(1)?uncap_first}.modifyById(dto));
     }
 
     @DeleteMapping(value = "{id}")
@@ -119,7 +119,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "删除数据", notes = "根据id删除数据")
 </#if>
     public Result<Boolean> removeById(@PathVariable <#if idType=='ID_WORKER_STR'>String<#elseif idType=='ASSIGN_ID'>Long<#else>Long</#if> id) {
-        return Result.buildSuccess(${table.serviceName?substring(1)?uncap_first}.removeById(id));
+        return Result.success(${table.serviceName?substring(1)?uncap_first}.removeById(id));
     }
 }
 </#if>
