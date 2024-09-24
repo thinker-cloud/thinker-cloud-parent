@@ -7,6 +7,7 @@ import com.thinker.cloud.security.userdetail.AuthUser;
 import com.thinker.cloud.security.userdetail.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 
 /**
@@ -33,7 +34,7 @@ public class UsernamePasswordAuthServiceImpl implements AuthUserDetailsService {
         userInfo.setId(1L);
         userInfo.setType(-1);
         userInfo.setUsername(username);
-        userInfo.setPassword("123456");
+        userInfo.setPassword(new BCryptPasswordEncoder().encode("123456"));
         userInfo.setStatus(CommonConstants.STATUS_NORMAL);
         userInfo.setOrganizationId(-1L);
         userInfo.setTenantId(-1L);
