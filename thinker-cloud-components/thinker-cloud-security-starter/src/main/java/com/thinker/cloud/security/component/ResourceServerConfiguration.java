@@ -48,7 +48,7 @@ public class ResourceServerConfiguration {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         AntPathRequestMatcher[] requestMatchers = permitAllUrlProperties.getIgnoreUrls()
                 .stream()
                 .map(AntPathRequestMatcher::new)
@@ -62,6 +62,7 @@ public class ResourceServerConfiguration {
                         .authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
+                        // 身份验证入口点
                         .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
                         .bearerTokenResolver(bearerTokenExtractor))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
