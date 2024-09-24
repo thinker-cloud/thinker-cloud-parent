@@ -12,12 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 用户信息
+ * 授权用户信息
  *
  * @author admin
  */
 @Getter
-public class DigitUser extends User implements OAuth2AuthenticatedPrincipal {
+public class AuthUser extends User implements OAuth2AuthenticatedPrincipal {
 
     @Serial
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
@@ -35,12 +35,7 @@ public class DigitUser extends User implements OAuth2AuthenticatedPrincipal {
     /**
      * 类型
      */
-    private final Long type;
-
-    /**
-     * 名称
-     */
-    private final String name;
+    private final Integer type;
 
     /**
      * 手机号
@@ -62,13 +57,14 @@ public class DigitUser extends User implements OAuth2AuthenticatedPrincipal {
      */
     private final Integer dataScopeType;
 
-    public DigitUser(Long id, Long type, String phone, String name, Long organizationId, Long tenantId, Integer dataScopeType
-            , String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired
-            , boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public AuthUser(Long id, Integer type, String phone,
+                    Long organizationId, Long tenantId, Integer dataScopeType,
+                    String username, String password, boolean enabled,
+                    boolean accountNonExpired, boolean credentialsNonExpired,
+                    boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
         this.type = type;
-        this.name = name;
         this.phone = phone;
         this.organizationId = organizationId;
         this.tenantId = tenantId;
@@ -77,11 +73,11 @@ public class DigitUser extends User implements OAuth2AuthenticatedPrincipal {
 
     @Override
     public Map<String, Object> getAttributes() {
-        return attributes;
+        return this.attributes;
     }
 
     @Override
     public String getName() {
-        return this.getUsername();
+        return super.getUsername();
     }
 }

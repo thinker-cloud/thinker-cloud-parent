@@ -43,6 +43,21 @@ public interface CommonConstants {
     Long DEFAULT_TENANT = 1L;
 
     /**
+     * 正常
+     */
+    Integer STATUS_NORMAL = 1;
+
+    /**
+     * 锁定
+     */
+    Integer STATUS_LOCK = -1;
+
+    /**
+     * 过期
+     */
+    Integer STATUS_EXPIRED = 2;
+
+    /**
      * 时区
      */
     String ASIA_SHANGHAI = "Asia/Shanghai";

@@ -18,7 +18,7 @@ package com.thinker.cloud.security.utils;
 
 import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.security.constants.SecurityConstants;
-import com.thinker.cloud.security.userdetail.DigitUser;
+import com.thinker.cloud.security.userdetail.AuthUser;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -46,10 +46,10 @@ public class SecurityUtils {
     /**
      * 获取用户
      */
-    public DigitUser getUser(Authentication authentication) {
+    public AuthUser getUser(Authentication authentication) {
         Object principal = authentication.getPrincipal();
-        if (principal instanceof DigitUser) {
-            return (DigitUser) principal;
+        if (principal instanceof AuthUser) {
+            return (AuthUser) principal;
         }
         return null;
     }
@@ -57,7 +57,7 @@ public class SecurityUtils {
     /**
      * 获取用户
      */
-    public DigitUser getUser() {
+    public AuthUser getUser() {
         Authentication authentication = getAuthentication();
         if (authentication == null) {
             return null;
@@ -71,7 +71,7 @@ public class SecurityUtils {
      * @return Long
      */
     public Long getUserId() {
-        return Optional.ofNullable(getUser()).map(DigitUser::getId).orElse(null);
+        return Optional.ofNullable(getUser()).map(AuthUser::getId).orElse(null);
     }
 
     /**
@@ -80,7 +80,7 @@ public class SecurityUtils {
      * @return Long
      */
     public Long getOrganizationId() {
-        return Optional.ofNullable(getUser()).map(DigitUser::getOrganizationId).orElse(null);
+        return Optional.ofNullable(getUser()).map(AuthUser::getOrganizationId).orElse(null);
     }
 
     /**
@@ -89,7 +89,7 @@ public class SecurityUtils {
      * @return Long
      */
     public Long getTenantId() {
-        return Optional.ofNullable(getUser()).map(DigitUser::getTenantId).orElse(null);
+        return Optional.ofNullable(getUser()).map(AuthUser::getTenantId).orElse(null);
     }
 
     /**

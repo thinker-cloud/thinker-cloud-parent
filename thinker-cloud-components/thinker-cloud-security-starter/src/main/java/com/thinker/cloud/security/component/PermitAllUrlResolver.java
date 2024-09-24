@@ -4,9 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.thinker.cloud.core.annotation.Inner;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,7 +15,6 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -34,15 +33,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @Setter
 @Getter
-@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "security.oauth2.ignore")
 public class PermitAllUrlResolver implements InitializingBean {
 
     private static final PathMatcher PATHMATCHER = new AntPathMatcher();
     private static final Pattern PATTERN = Pattern.compile("\\{(.*?)}");
     private static final String[] DEFAULT_IGNORE_URLS = new String[]{"/actuator/**", "/error", "/v3/api-docs"};
-
-    private final WebApplicationContext applicationContext;
 
     /**
      * inner安全检查
@@ -57,7 +53,7 @@ public class PermitAllUrlResolver implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
-        RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
+        RequestMappingHandlerMapping mapping = SpringUtil.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
         for (RequestMappingInfo info : map.keySet()) {

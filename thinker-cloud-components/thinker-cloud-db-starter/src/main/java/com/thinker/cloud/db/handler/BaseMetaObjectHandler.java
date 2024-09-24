@@ -1,7 +1,7 @@
 package com.thinker.cloud.db.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.thinker.cloud.security.userdetail.DigitUser;
+import com.thinker.cloud.security.userdetail.AuthUser;
 import com.thinker.cloud.security.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -26,7 +26,7 @@ public class BaseMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         Date date = new Date();
-        DigitUser user = SecurityUtils.getUser();
+        AuthUser user = SecurityUtils.getUser();
         try {
             if (metaObject.hasGetter(CREATE_TIME)) {
                 if (Objects.isNull(metaObject.getValue(CREATE_TIME))) {

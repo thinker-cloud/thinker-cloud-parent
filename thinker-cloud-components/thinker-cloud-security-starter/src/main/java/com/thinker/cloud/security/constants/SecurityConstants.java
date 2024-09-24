@@ -10,7 +10,12 @@ public interface SecurityConstants {
     /**
      * 角色前缀
      */
-    String AUTH_ROLE = "AUTH_ROLE_";
+    String AUTH_ROLE = "ROLE_";
+
+    /**
+     * 菜单前缀
+     */
+    String AUTH_MENU = "MENU_";
 
     /**
      * 数据权限前缀
@@ -41,6 +46,11 @@ public interface SecurityConstants {
      * 客户端模式
      */
     String CLIENT_CREDENTIALS = "client_credentials";
+
+    /**
+     * 客户端ID
+     */
+    String CLIENT_ID = "clientId";
 
     /**
      * 会员登录URL

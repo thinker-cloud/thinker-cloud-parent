@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.db.enums.DataScopeTypeEnum;
 import com.thinker.cloud.db.properties.DbConfigProperties;
 import com.thinker.cloud.security.constants.SecurityConstants;
-import com.thinker.cloud.security.userdetail.DigitUser;
+import com.thinker.cloud.security.userdetail.AuthUser;
 import com.thinker.cloud.security.utils.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,18 +39,18 @@ public class DefaultDataScopeHandler implements DataScopeHandler {
 
     @Override
     public Integer getDataScopeType() {
-        DigitUser digitUser = SecurityUtils.getUser();
-        if (ObjectUtil.isNotEmpty(digitUser)) {
-            return digitUser.getDataScopeType();
+        AuthUser authUser = SecurityUtils.getUser();
+        if (ObjectUtil.isNotEmpty(authUser)) {
+            return authUser.getDataScopeType();
         }
         return DataScopeTypeEnum.OWN_USER.getType();
     }
 
     @Override
     public Collection<String> getDataScopeIds() {
-        DigitUser digitUser = SecurityUtils.getUser();
-        if (ObjectUtil.isNotEmpty(digitUser)) {
-            return digitUser.getAuthorities().stream()
+        AuthUser authUser = SecurityUtils.getUser();
+        if (ObjectUtil.isNotEmpty(authUser)) {
+            return authUser.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .filter(authority -> authority.startsWith(SecurityConstants.AUTH_DATA_SCOPE))
                     .map(authority -> authority.replace(SecurityConstants.AUTH_DATA_SCOPE, StrUtil.EMPTY))
