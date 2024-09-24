@@ -4,8 +4,9 @@ import com.thinker.cloud.security.constants.SecurityConstants;
 import com.thinker.cloud.security.exception.OAuthClientException;
 import com.thinker.cloud.security.service.AuthUserDetailsService;
 import com.thinker.cloud.security.userdetail.AuthUser;
-import lombok.RequiredArgsConstructor;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -31,12 +32,17 @@ import java.util.Optional;
  * @author admin
  */
 @Slf4j
-@RequiredArgsConstructor
 public class CustomAuthorizationServiceIntrospector implements OpaqueTokenIntrospector {
 
-    private final OAuth2AuthorizationService authorizationService;
-    private final List<AuthUserDetailsService> authUserDetailsServices;
+    @Lazy
+    @Resource
+    private List<AuthUserDetailsService> authUserDetailsServices;
 
+    private final OAuth2AuthorizationService authorizationService;
+
+    public CustomAuthorizationServiceIntrospector(OAuth2AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+    }
 
     @Override
     public OAuth2AuthenticatedPrincipal introspect(String token) {

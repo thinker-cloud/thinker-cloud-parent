@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
+import org.springframework.stereotype.Component;
 
 /**
  * 用户密码授权服务
@@ -16,6 +17,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
  * @author admin
  **/
 @Slf4j
+@Component
 public class UsernamePasswordAuthServiceImpl implements AuthUserDetailsService {
 
     @Override

@@ -33,12 +33,14 @@ import java.util.stream.Collectors;
 @Slf4j
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "security.oauth2.ignore")
+@ConfigurationProperties(prefix = "security.oauth2.client")
 public class PermitAllUrlResolver implements InitializingBean {
 
     private static final PathMatcher PATHMATCHER = new AntPathMatcher();
     private static final Pattern PATTERN = Pattern.compile("\\{(.*?)}");
-    private static final String[] DEFAULT_IGNORE_URLS = new String[]{"/actuator/**", "/error", "/v3/api-docs"};
+    private static final String[] DEFAULT_IGNORE_URLS = new String[]{
+            "/favicon.ico", "/error", "/actuator/**", "/webjars/**", "/css/**",
+    };
 
     /**
      * inner安全检查
@@ -48,11 +50,11 @@ public class PermitAllUrlResolver implements InitializingBean {
     /**
      * 白名单接口
      */
-    private List<String> urls = new ArrayList<>();
+    private List<String> ignoreUrls = new ArrayList<>();
 
     @Override
     public void afterPropertiesSet() {
-        urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
+        ignoreUrls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
         RequestMappingHandlerMapping mapping = SpringUtil.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
@@ -104,14 +106,14 @@ public class PermitAllUrlResolver implements InitializingBean {
                 .map(RequestMethod::name).collect(Collectors.toList());
         String resultUrl = ReUtil.replaceAll(url, PATTERN, "*");
         if (CollUtil.isEmpty(methodList)) {
-            urls.add(resultUrl);
+            ignoreUrls.add(resultUrl);
         } else {
-            urls.add(String.format("%s|%s", resultUrl, CollUtil.join(methodList, StrUtil.COMMA)));
+            ignoreUrls.add(String.format("%s|%s", resultUrl, CollUtil.join(methodList, StrUtil.COMMA)));
         }
     }
 
     /**
-     * 针对Pathvariable 请求安全检查。增加启动好使影响启动效率 请注意
+     * 针对PathVariable 请求安全检查。增加启动好使影响启动效率 请注意
      *
      * @param url 接口路径
      * @param rq  当前请求的元信息

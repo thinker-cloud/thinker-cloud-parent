@@ -18,16 +18,12 @@ package com.thinker.cloud.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.security.component.*;
-import com.thinker.cloud.security.service.AuthUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authorization.method.PrePostTemplateDefaults;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
-
-import java.util.List;
 
 /**
  * 资源服务器自动配置
@@ -66,7 +62,6 @@ public class ResourceServerAutoConfiguration {
      * @return ResourceAuthExceptionEntryPoint
      */
     @Bean
-    @ConditionalOnBean(ObjectMapper.class)
     public ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper) {
         return new ResourceAuthExceptionEntryPoint(objectMapper);
     }
@@ -75,13 +70,11 @@ public class ResourceServerAutoConfiguration {
      * 资源服务器toke内省处理器
      *
      * @param authorizationService token 存储实现
-     * @return TokenIntrospector
+     * @return OpaqueTokenIntrospector
      */
     @Bean
-    @ConditionalOnBean(AuthUserDetailsService.class)
-    public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService,
-                                                           List<AuthUserDetailsService> authUserDetailsServices) {
-        return new CustomAuthorizationServiceIntrospector(authorizationService, authUserDetailsServices);
+    public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
+        return new CustomAuthorizationServiceIntrospector(authorizationService);
     }
 
     /**

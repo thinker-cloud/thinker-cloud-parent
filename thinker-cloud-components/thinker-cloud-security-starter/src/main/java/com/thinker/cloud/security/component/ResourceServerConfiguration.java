@@ -49,7 +49,7 @@ public class ResourceServerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AntPathRequestMatcher[] requestMatchers = permitAllUrlProperties.getUrls()
+        AntPathRequestMatcher[] requestMatchers = permitAllUrlProperties.getIgnoreUrls()
                 .stream()
                 .map(AntPathRequestMatcher::new)
                 .toList()
