@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.thinker.cloud.core.annotation;
+package com.thinker.cloud.security.annotation;
 
 import java.lang.annotation.*;
 

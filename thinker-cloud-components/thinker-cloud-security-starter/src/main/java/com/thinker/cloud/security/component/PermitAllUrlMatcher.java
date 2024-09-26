@@ -5,13 +5,15 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.thinker.cloud.core.annotation.Inner;
-import lombok.Getter;
-import lombok.Setter;
+import com.google.common.collect.Sets;
+import com.thinker.cloud.security.annotation.Inner;
+import com.thinker.cloud.security.properties.ThinkerSecurityProperties;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,42 +21,37 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.util.UrlPathHelper;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * 资源服务器对外直接暴露URL
+ * 对外直接暴露URL解析器
  *
  * @author admin
  */
 @Slf4j
-@Setter
-@Getter
-@ConfigurationProperties(prefix = "security.oauth2.client")
-public class PermitAllUrlResolver implements InitializingBean {
+@RequiredArgsConstructor
+public class PermitAllUrlMatcher implements InitializingBean, RequestMatcher {
 
-    private static final PathMatcher PATHMATCHER = new AntPathMatcher();
+    private static final UrlPathHelper PATH_HELPER = new UrlPathHelper();
+    private static final PathMatcher PATH_MATCHER = new AntPathMatcher();
     private static final Pattern PATTERN = Pattern.compile("\\{(.*?)}");
-    private static final String[] DEFAULT_IGNORE_URLS = new String[]{
-            "/favicon.ico", "/error", "/actuator/**", "/webjars/**", "/css/**",
-    };
-
     /**
-     * inner安全检查
+     * 默认白名单接口
      */
-    private Boolean innerCheck = Boolean.FALSE;
+    private static final Set<String> DEFAULT_IGNORE_URLS = Sets.newHashSet(
+            "/favicon.ico", "/error", "/actuator/**", "/webjars/**", "/css/**"
+    );
 
-    /**
-     * 白名单接口
-     */
-    private List<String> ignoreUrls = new ArrayList<>();
+    private final ThinkerSecurityProperties securityProperties;
 
     @Override
     public void afterPropertiesSet() {
-        ignoreUrls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));
         RequestMappingHandlerMapping mapping = SpringUtil.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
@@ -85,6 +82,40 @@ public class PermitAllUrlResolver implements InitializingBean {
         }
     }
 
+    @Override
+    public MatchResult matcher(HttpServletRequest request) {
+        var lookupPath = PATH_HELPER.getLookupPathForRequest(request);
+        // 默认白名单接口
+        for (String defaultIgnoreUrl : DEFAULT_IGNORE_URLS) {
+            if (PATH_MATCHER.match(defaultIgnoreUrl, lookupPath)) {
+                Map<String, String> variables = PATH_MATCHER.extractUriTemplateVariables(defaultIgnoreUrl, lookupPath);
+                return MatchResult.match(variables);
+            }
+        }
+
+        // Nacos配置白名单接口
+        for (String pattern : securityProperties.getOauth2().getIgnoreUrls()) {
+            if (PATH_MATCHER.match(pattern, lookupPath)) {
+                Map<String, String> variables = PATH_MATCHER.extractUriTemplateVariables(pattern, lookupPath);
+                return MatchResult.match(variables);
+            }
+        }
+        return MatchResult.notMatch();
+    }
+
+    @Override
+    public boolean matches(HttpServletRequest request) {
+        var lookupPath = PATH_HELPER.getLookupPathForRequest(request);
+        // 默认白名单接口
+        if (DEFAULT_IGNORE_URLS.stream().anyMatch(this.pathMatch(lookupPath))) {
+            return true;
+        }
+
+        // Nacos配置白名单接口
+        Set<String> ignoreUrls = securityProperties.getOauth2().getIgnoreUrls();
+        return ignoreUrls.stream().anyMatch(this.pathMatch(lookupPath));
+    }
+
     /**
      * 过滤 Inner 设置
      * <p>
@@ -98,7 +129,7 @@ public class PermitAllUrlResolver implements InitializingBean {
      */
     private void filterPath(String url, RequestMappingInfo info, Map<RequestMappingInfo, HandlerMethod> map) {
         // inner安全检查
-        if (innerCheck) {
+        if (securityProperties.getOauth2().getInnerCheck()) {
             security(url, info, map);
         }
 
@@ -106,9 +137,9 @@ public class PermitAllUrlResolver implements InitializingBean {
                 .map(RequestMethod::name).collect(Collectors.toList());
         String resultUrl = ReUtil.replaceAll(url, PATTERN, "*");
         if (CollUtil.isEmpty(methodList)) {
-            ignoreUrls.add(resultUrl);
+            DEFAULT_IGNORE_URLS.add(resultUrl);
         } else {
-            ignoreUrls.add(String.format("%s|%s", resultUrl, CollUtil.join(methodList, StrUtil.COMMA)));
+            DEFAULT_IGNORE_URLS.add(String.format("%s|%s", resultUrl, CollUtil.join(methodList, StrUtil.COMMA)));
         }
     }
 
@@ -140,7 +171,7 @@ public class PermitAllUrlResolver implements InitializingBean {
                     continue;
                 }
 
-                if (PATHMATCHER.match(url, pattern)) {
+                if (PATH_MATCHER.match(url, pattern)) {
                     HandlerMethod rqMethod = map.get(rq);
                     HandlerMethod infoMethod = map.get(info);
                     log.error("过滤接口权限 @Inner 注解 ==> {}.{} 存在其他接口额外暴露风险 ==> {}.{} 请检查确认", rqMethod.getBeanType().getName(),
@@ -149,5 +180,9 @@ public class PermitAllUrlResolver implements InitializingBean {
                 }
             }
         }
+    }
+
+    private Predicate<String> pathMatch(String lookupPath) {
+        return pattern -> PATH_MATCHER.match(pattern, lookupPath);
     }
 }

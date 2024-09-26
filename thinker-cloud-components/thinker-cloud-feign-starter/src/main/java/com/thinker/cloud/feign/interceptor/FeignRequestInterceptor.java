@@ -2,10 +2,10 @@ package com.thinker.cloud.feign.interceptor;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.core.annotation.Inner;
 import com.thinker.cloud.core.constants.CommonConstants;
 import com.thinker.cloud.core.utils.WebUtil;
 import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
+import com.thinker.cloud.security.annotation.Inner;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;

@@ -21,11 +21,6 @@
             <artifactId>thinker-cloud-security-starter</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-context</artifactId>
-        </dependency>
-
         <!-- mysql驱动 -->
         <dependency>
             <groupId>com.mysql</groupId>

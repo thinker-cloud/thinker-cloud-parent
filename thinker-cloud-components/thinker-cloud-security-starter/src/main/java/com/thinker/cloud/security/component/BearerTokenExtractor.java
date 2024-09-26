@@ -26,8 +26,6 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.resource.BearerTokenError;
 import org.springframework.security.oauth2.server.resource.BearerTokenErrors;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 
 import java.util.regex.Matcher;
@@ -47,21 +45,15 @@ public class BearerTokenExtractor implements BearerTokenResolver {
 
     private final boolean allowUriQueryParameter = true;
 
-    private final PathMatcher pathMatcher = new AntPathMatcher();
+    private final PermitAllUrlMatcher permitAllUrlMatcher;
 
-    private final PermitAllUrlResolver permitAllUrlProperties;
-
-    public BearerTokenExtractor(PermitAllUrlResolver urlProperties) {
-        this.permitAllUrlProperties = urlProperties;
+    public BearerTokenExtractor(PermitAllUrlMatcher urlProperties) {
+        this.permitAllUrlMatcher = urlProperties;
     }
 
     @Override
     public String resolve(HttpServletRequest request) {
-        boolean match = permitAllUrlProperties.getIgnoreUrls()
-                .stream()
-                .anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
-
-        if (match) {
+        if (permitAllUrlMatcher.matches(request)) {
             return null;
         }
 

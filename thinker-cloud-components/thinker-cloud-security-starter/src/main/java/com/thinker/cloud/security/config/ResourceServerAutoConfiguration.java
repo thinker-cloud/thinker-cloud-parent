@@ -18,6 +18,7 @@ package com.thinker.cloud.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.security.component.*;
+import com.thinker.cloud.security.properties.ThinkerSecurityProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +32,7 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
  * @author admin
  */
 @RequiredArgsConstructor
-@EnableConfigurationProperties(PermitAllUrlResolver.class)
+@EnableConfigurationProperties(ThinkerSecurityProperties.class)
 public class ResourceServerAutoConfiguration {
 
     /**
@@ -45,14 +46,25 @@ public class ResourceServerAutoConfiguration {
     }
 
     /**
+     * 白名单放行url解析器
+     *
+     * @param thinkerSecurityProperties 安全配置信息
+     * @return PermitAllUrlResolver
+     */
+    @Bean
+    public PermitAllUrlMatcher permitAllUrlResolver(ThinkerSecurityProperties thinkerSecurityProperties) {
+        return new PermitAllUrlMatcher(thinkerSecurityProperties);
+    }
+
+    /**
      * 请求令牌的抽取逻辑
      *
-     * @param urlProperties 对外暴露的接口列表
+     * @param permitAllUrlMatcher 白名单放行url解析器
      * @return BearerTokenExtractor
      */
     @Bean
-    public BearerTokenExtractor bearerTokenExtractor(PermitAllUrlResolver urlProperties) {
-        return new BearerTokenExtractor(urlProperties);
+    public BearerTokenExtractor bearerTokenExtractor(PermitAllUrlMatcher permitAllUrlMatcher) {
+        return new BearerTokenExtractor(permitAllUrlMatcher);
     }
 
     /**

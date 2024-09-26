@@ -22,8 +22,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-resource-server</artifactId>
+            <groupId>com.thinker.cloud</groupId>
+            <artifactId>thinker-cloud-security-starter</artifactId>
         </dependency>
 
         <dependency>

@@ -28,7 +28,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * 资源服务器认证授权配置
@@ -41,7 +40,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class ResourceServerConfiguration {
 
-    private final PermitAllUrlResolver permitAllUrlProperties;
+    private final PermitAllUrlMatcher permitAllUrlMatcher;
     private final BearerTokenExtractor bearerTokenExtractor;
     private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
     private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
@@ -49,14 +48,8 @@ public class ResourceServerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AntPathRequestMatcher[] requestMatchers = permitAllUrlProperties.getIgnoreUrls()
-                .stream()
-                .map(AntPathRequestMatcher::new)
-                .toList()
-                .toArray(new AntPathRequestMatcher[]{});
-
         return http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(requestMatchers)
+                        .requestMatchers(permitAllUrlMatcher)
                         .permitAll()
                         .anyRequest()
                         .authenticated())

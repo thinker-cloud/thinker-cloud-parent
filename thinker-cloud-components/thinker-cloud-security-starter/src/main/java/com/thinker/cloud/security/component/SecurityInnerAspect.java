@@ -17,7 +17,7 @@
 package com.thinker.cloud.security.component;
 
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.core.annotation.Inner;
+import com.thinker.cloud.security.annotation.Inner;
 import com.thinker.cloud.core.constants.CommonConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
