@@ -39,4 +39,14 @@ public class SpringDocProperties {
      * 描述
      */
     private String description = "接口文档";
+
+    /**
+     * 获取token
+     */
+    private String tokenUrl = "http://localhost:8888/auth/oauth2/token";
+
+    /**
+     * 作用域
+     */
+    private String scope = "server";
 }
