@@ -94,7 +94,7 @@ public class PermitAllUrlMatcher implements InitializingBean, RequestMatcher {
         }
 
         // Nacos配置白名单接口
-        for (String pattern : securityProperties.getOauth2().getIgnoreUrls()) {
+        for (String pattern : securityProperties.getIgnoreUrls()) {
             if (PATH_MATCHER.match(pattern, lookupPath)) {
                 Map<String, String> variables = PATH_MATCHER.extractUriTemplateVariables(pattern, lookupPath);
                 return MatchResult.match(variables);
@@ -112,7 +112,7 @@ public class PermitAllUrlMatcher implements InitializingBean, RequestMatcher {
         }
 
         // Nacos配置白名单接口
-        Set<String> ignoreUrls = securityProperties.getOauth2().getIgnoreUrls();
+        Set<String> ignoreUrls = securityProperties.getIgnoreUrls();
         return ignoreUrls.stream().anyMatch(this.pathMatch(lookupPath));
     }
 
@@ -129,7 +129,7 @@ public class PermitAllUrlMatcher implements InitializingBean, RequestMatcher {
      */
     private void filterPath(String url, RequestMappingInfo info, Map<RequestMappingInfo, HandlerMethod> map) {
         // inner安全检查
-        if (securityProperties.getOauth2().getInnerCheck()) {
+        if (securityProperties.getInnerCheck()) {
             security(url, info, map);
         }
 
