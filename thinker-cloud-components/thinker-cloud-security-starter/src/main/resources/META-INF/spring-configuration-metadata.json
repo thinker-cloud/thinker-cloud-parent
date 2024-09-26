@@ -1,25 +1,20 @@
 {
   "groups": [
     {
-      "name": "security",
+      "name": "thinker.cloud.security",
       "type": "com.thinker.cloud.security.properties.ThinkerSecurityProperties",
-      "description": "Configuration properties for security settings."
-    },
-    {
-      "name": "security.oauth2",
-      "type": "com.thinker.cloud.security.properties.ThinkerSecurityProperties$Oauth2Properties",
-      "description": "Configuration for security oauth2 settings."
+      "description": "Configuration properties for thinker cloud security settings."
     }
   ],
   "properties": [
     {
-      "name": "security.oauth2.inner-check",
+      "name": "thinker.cloud.security.inner-check",
       "type": "java.lang.Boolean",
       "defaultValue": false,
       "description": "Whether to oauth2 inner check filtering."
     },
     {
-      "name": "security.oauth2.ignore-urls",
+      "name": "thinker.cloud.security.ignore-urls",
       "type": "java.util.Set<java.lang.String>",
       "defaultValue": [],
       "description": "The urls to ignore for security oauth2 filtering."
