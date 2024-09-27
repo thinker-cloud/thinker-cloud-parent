@@ -34,11 +34,4 @@ public @interface Inner {
      * @return false, true
      */
     boolean value() default true;
-
-    /**
-     * 需要特殊判空的字段(预留)
-     *
-     * @return {}
-     */
-    String[] field() default {};
 }

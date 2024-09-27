@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.google.common.collect.Sets;
 import com.thinker.cloud.security.annotation.Inner;
+import com.thinker.cloud.security.constants.SecurityConstants;
 import com.thinker.cloud.security.properties.ThinkerSecurityProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class PermitAllUrlMatcher implements InitializingBean, RequestMatcher {
 
     @Override
     public void afterPropertiesSet() {
-        RequestMappingHandlerMapping mapping = SpringUtil.getBean("requestMappingHandlerMapping");
+        RequestMappingHandlerMapping mapping = SpringUtil.getBean(SecurityConstants.REQUEST_MAPPING_HANDLER);
         Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
         for (RequestMappingInfo info : map.keySet()) {

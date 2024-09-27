@@ -1,6 +1,7 @@
 package com.thinker.cloud.core.utils;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.core.exception.FailException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -166,4 +168,45 @@ public class WebUtil extends WebUtils {
         }
         return new String[]{token.substring(0, delim), token.substring(delim + 1)};
     }
+
+    /**
+     * 获取ip
+     *
+     * @return {String}
+     */
+    public String getIP() {
+        return getRequest().map(WebUtil::getIP).orElse(null);
+
+    }
+
+    /**
+     * 获取ip
+     *
+     * @param request HttpServletRequest
+     * @return {String}
+     */
+    public String getIP(HttpServletRequest request) {
+        Assert.notNull(request, "HttpServletRequest is null");
+        String ip = request.getHeader("X-Requested-For");
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Forwarded-For");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return StrUtil.isBlank(ip) ? null : ip.split(",")[0];
+    }
+
 }

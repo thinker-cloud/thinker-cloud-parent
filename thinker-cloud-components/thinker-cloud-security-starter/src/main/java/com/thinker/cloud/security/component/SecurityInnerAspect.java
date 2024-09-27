@@ -17,8 +17,8 @@
 package com.thinker.cloud.security.component;
 
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.security.annotation.Inner;
 import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.security.annotation.Inner;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -52,8 +52,8 @@ public class SecurityInnerAspect implements Ordered {
             Class<?> clazz = point.getTarget().getClass();
             inner = AnnotationUtils.findAnnotation(clazz, Inner.class);
         }
-        String header = request.getHeader(CommonConstants.FROM);
-        if (Objects.nonNull(inner) && inner.value() && !StrUtil.equals(CommonConstants.FROM_IN, header)) {
+        String from = request.getHeader(CommonConstants.FROM);
+        if (Objects.nonNull(inner) && inner.value() && !StrUtil.equals(CommonConstants.FROM_IN, from)) {
             log.warn("访问接口 {} 没有权限", point.getSignature().getName());
             throw new AccessDeniedException("Access is denied");
         }

@@ -74,19 +74,19 @@ public class ResourceServerAutoConfiguration {
      * @return ResourceAuthExceptionEntryPoint
      */
     @Bean
-    public ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper) {
-        return new ResourceAuthExceptionEntryPoint(objectMapper);
+    public ClientAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper) {
+        return new ClientAuthExceptionEntryPoint(objectMapper);
     }
 
     /**
      * 资源服务器toke内省处理器
      *
-     * @param authorizationService token 存储实现
+     * @param authorizationService token存储实现
      * @return OpaqueTokenIntrospector
      */
     @Bean
     public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
-        return new CustomAuthorizationServiceIntrospector(authorizationService);
+        return new AuthorizationServiceIntrospector(authorizationService);
     }
 
     /**

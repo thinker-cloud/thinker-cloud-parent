@@ -24,8 +24,8 @@ public class RedisOAuth2AuthorizationConsentService implements OAuth2Authorizati
     public void save(OAuth2AuthorizationConsent authorizationConsent) {
         Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
 
-        redisTemplate.opsForValue()
-                .set(buildKey(authorizationConsent), authorizationConsent, TIMEOUT, TimeUnit.MINUTES);
+        String key = buildKey(authorizationConsent);
+        redisTemplate.opsForValue().set(key, authorizationConsent, TIMEOUT, TimeUnit.MINUTES);
 
     }
 
@@ -39,7 +39,8 @@ public class RedisOAuth2AuthorizationConsentService implements OAuth2Authorizati
     public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
         Assert.hasText(registeredClientId, "registeredClientId cannot be empty");
         Assert.hasText(principalName, "principalName cannot be empty");
-        return (OAuth2AuthorizationConsent) redisTemplate.opsForValue().get(buildKey(registeredClientId, principalName));
+        String key = buildKey(registeredClientId, principalName);
+        return (OAuth2AuthorizationConsent) redisTemplate.opsForValue().get(key);
     }
 
     private static String buildKey(String registeredClientId, String principalName) {

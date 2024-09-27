@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.core.constants.CommonConstants;
 import com.thinker.cloud.core.enums.ResponseCode;
 import com.thinker.cloud.core.model.Result;
-import com.thinker.cloud.security.exception.AuthRequestBindingException;
+import com.thinker.cloud.security.exception.BusinessAuthException;
 import com.thinker.cloud.security.utils.SecurityMessageSourceUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,14 +38,13 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import java.io.PrintWriter;
 import java.util.Locale;
 
-
 /**
  * 客户端异常处理 AuthenticationException 不同细化异常处理
  *
  * @author admin
  */
 @RequiredArgsConstructor
-public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint {
+public class ClientAuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
     private final ObjectMapper objectMapper;
 
@@ -79,7 +78,7 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
             response.setStatus(HttpStatus.HTTP_INTERNAL_ERROR);
         }
 
-        if (authException instanceof AuthRequestBindingException) {
+        if (authException instanceof BusinessAuthException) {
             result.setMessage(authException.getMessage());
             response.setStatus(HttpStatus.HTTP_INTERNAL_ERROR);
         }

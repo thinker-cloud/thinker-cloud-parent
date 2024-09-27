@@ -18,10 +18,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Redis OAuth2 授权服务
+ * <p>
+ * 实现 Redis 存储 OAuth2Authorization 对象
  *
  * @author admin
  */
@@ -127,16 +130,19 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     @Nullable
     public OAuth2Authorization findById(String id) {
-        throw new UnsupportedOperationException();
+        return this.findByToken(id, OAuth2TokenType.ACCESS_TOKEN);
     }
 
     @Override
     @Nullable
     public OAuth2Authorization findByToken(String token, @Nullable OAuth2TokenType tokenType) {
         Assert.hasText(token, "token cannot be empty");
-        Assert.notNull(tokenType, "tokenType cannot be empty");
+
         redisTemplate.setValueSerializer(RedisSerializer.java());
-        return (OAuth2Authorization) redisTemplate.opsForValue().get(buildKey(tokenType.getValue(), token));
+        String key = buildKey(Optional.ofNullable(tokenType)
+                .orElse(OAuth2TokenType.ACCESS_TOKEN)
+                .getValue(), token);
+        return (OAuth2Authorization) redisTemplate.opsForValue().get(key);
     }
 
     private static String buildKey(String type, String id) {

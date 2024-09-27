@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.thinker.cloud.security.component;
+package com.thinker.cloud.security.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.MessageSource;
