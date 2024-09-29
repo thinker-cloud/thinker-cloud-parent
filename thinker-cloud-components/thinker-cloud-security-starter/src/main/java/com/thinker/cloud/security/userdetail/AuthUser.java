@@ -33,9 +33,14 @@ public class AuthUser extends User implements OAuth2AuthenticatedPrincipal {
     private final Long id;
 
     /**
-     * 类型
+     * 用户类型 -1.超级管理员 1.租户管理员 2.普通用户
      */
     private final Integer type;
+
+    /**
+     * 是否是超级管理员
+     */
+    private final boolean admin;
 
     /**
      * 手机号
@@ -53,11 +58,11 @@ public class AuthUser extends User implements OAuth2AuthenticatedPrincipal {
     private final Long tenantId;
 
     /**
-     * 数据权限类型
+     * 数据权限类型 1.全部 2.本机及子级 3.本级 4.当前用户 10.自定义
      */
     private final Integer dataScopeType;
 
-    public AuthUser(Long id, Integer type, String phone,
+    public AuthUser(Long id, Integer type, String phone, boolean isAdmin,
                     Long organizationId, Long tenantId, Integer dataScopeType,
                     String username, String password, boolean enabled,
                     boolean accountNonExpired, boolean credentialsNonExpired,
@@ -66,6 +71,7 @@ public class AuthUser extends User implements OAuth2AuthenticatedPrincipal {
         this.id = id;
         this.type = type;
         this.phone = phone;
+        this.admin = isAdmin;
         this.organizationId = organizationId;
         this.tenantId = tenantId;
         this.dataScopeType = dataScopeType;

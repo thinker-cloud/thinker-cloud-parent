@@ -18,13 +18,12 @@
 package com.thinker.cloud.security.component;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.thinker.cloud.security.userdetail.AuthUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
-
-import java.util.Collection;
 
 /**
  * 接口权限判断工具
@@ -43,12 +42,26 @@ public class PermissionService {
         if (ArrayUtil.isEmpty(permissions)) {
             return false;
         }
+
+        // 获取用户认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             return false;
         }
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        return authorities.stream()
+
+        // 用户信息为空
+        AuthUser authUser = (AuthUser) authentication.getPrincipal();
+        if (authUser == null) {
+            return false;
+        }
+
+        // 超级管理员直接放行
+        if (authUser.isAdmin()) {
+            return true;
+        }
+
+        // 检查是否有菜单接口权限
+        return authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .filter(StringUtils::hasText)
                 .anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));

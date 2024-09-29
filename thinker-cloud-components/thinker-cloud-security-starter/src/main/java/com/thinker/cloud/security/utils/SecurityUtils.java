@@ -25,7 +25,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,35 +94,15 @@ public class SecurityUtils {
     }
 
     /**
-     * 获取用户角色ids
-     *
-     * @return 角色ids
-     */
-    public List<Long> getRoles() {
-        return getAuthIds(getAuthentication().getAuthorities(), SecurityConstants.AUTH_ROLE);
-    }
-
-    /**
      * 获取用户数据权限ids
      *
      * @return 数据权限ids
      */
     public List<Long> getDataScopeIds() {
-        return getAuthIds(getAuthentication().getAuthorities(), SecurityConstants.AUTH_DATA_SCOPE);
-    }
-
-    /**
-     * 获取 Auth Ids
-     *
-     * @param authorities authorities
-     * @param prefix      prefix
-     * @return List<Long>
-     */
-    private List<Long> getAuthIds(Collection<? extends GrantedAuthority> authorities, String prefix) {
-        return authorities.stream()
+        return getAuthentication().getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .filter(authority -> StrUtil.startWith(authority, prefix))
-                .map(authority -> StrUtil.removePrefix(authority, prefix))
+                .filter(authority -> StrUtil.startWith(authority, SecurityConstants.AUTH_DATA_SCOPE))
+                .map(authority -> StrUtil.removePrefix(authority, SecurityConstants.AUTH_DATA_SCOPE))
                 .map(Long::valueOf)
                 .toList();
     }
