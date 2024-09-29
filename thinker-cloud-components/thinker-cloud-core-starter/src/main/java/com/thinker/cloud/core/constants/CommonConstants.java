@@ -38,6 +38,11 @@ public interface CommonConstants {
     String FROM = "from";
 
     /**
+     * 树根父节点id
+     */
+    Long TREE_ROOT = -1L;
+
+    /**
      * 默认租户
      */
     Long DEFAULT_TENANT = 1L;

@@ -1,5 +1,6 @@
 package com.thinker.cloud.db.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.thinker.cloud.core.enums.IEnumDict;
 import com.thinker.cloud.core.utils.enums.EnumCacheUtil;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,7 @@ public enum DataScopeTypeEnum implements IEnumDict<Integer> {
     /**
      * 类型
      */
+    @EnumValue
     private final Integer type;
 
     /**
@@ -63,6 +65,6 @@ public enum DataScopeTypeEnum implements IEnumDict<Integer> {
      * @return DataScopeTypeEnum
      */
     public static DataScopeTypeEnum resolver(Integer type) {
-        return EnumCacheUtil.loadEnumValue(DataScopeTypeEnum.class, type, OWN_CHILD_LEVEL);
+        return EnumCacheUtil.loadEnumValue(DataScopeTypeEnum.class, type, OWN_USER);
     }
 }
