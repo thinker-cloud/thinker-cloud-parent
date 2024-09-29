@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  *
  * @author admin
  **/
-public class ListUtils {
+public class ListUtil {
 
     /**
      * 将列表转为Map键值对映射
