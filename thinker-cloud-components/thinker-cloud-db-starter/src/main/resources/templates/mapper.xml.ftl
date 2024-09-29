@@ -67,8 +67,7 @@
                 and
                 <choose>
                     <when test="query.${field.propertyName}s.size() > 0">
-                        <foreach collection="query.${field.propertyName}s" item="${field.propertyName}"
-                                 open="base.${field.name} in(" separator="," close=")">
+                        <foreach collection="query.${field.propertyName}s" item="${field.propertyName}" open="base.${field.name} in(" separator="," close=")">
                             <#noparse>#</#noparse>{${field.propertyName}}
                         </foreach>
                     </when>
