@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.core.constants.CommonConstants;
 import com.thinker.cloud.core.enums.ResponseCode;
 import com.thinker.cloud.core.model.Result;
-import com.thinker.cloud.security.exception.BusinessAuthException;
-import com.thinker.cloud.security.utils.SecurityMessageSourceUtil;
+import com.thinker.cloud.security.exception.AbstractAuthenticationException;
+import com.thinker.cloud.security.utils.SecurityMessageSourceUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -63,14 +63,14 @@ public class ClientAuthExceptionEntryPoint implements AuthenticationEntryPoint {
         if (authException instanceof InvalidBearerTokenException
                 || authException instanceof CredentialsExpiredException
                 || authException instanceof InsufficientAuthenticationException) {
-            String msg = SecurityMessageSourceUtil.getAccessor().getMessage(
+            String msg = SecurityMessageSourceUtils.getAccessor().getMessage(
                     "AbstractUserDetailsAuthenticationProvider.credentialsExpired"
                     , authException.getMessage(), Locale.CHINA);
             result.setMessage(msg);
         }
 
         if (authException instanceof UsernameNotFoundException) {
-            String msg = SecurityMessageSourceUtil.getAccessor().getMessage(
+            String msg = SecurityMessageSourceUtils.getAccessor().getMessage(
                     "AbstractUserDetailsAuthenticationProvider.noopBindAccount"
                     , authException.getMessage(), Locale.CHINA);
             result.setCode(ResponseCode.NOOP_BIND_ACCOUNT.getCode());
@@ -78,7 +78,7 @@ public class ClientAuthExceptionEntryPoint implements AuthenticationEntryPoint {
             response.setStatus(HttpStatus.HTTP_INTERNAL_ERROR);
         }
 
-        if (authException instanceof BusinessAuthException) {
+        if (authException instanceof AbstractAuthenticationException) {
             result.setMessage(authException.getMessage());
             response.setStatus(HttpStatus.HTTP_INTERNAL_ERROR);
         }

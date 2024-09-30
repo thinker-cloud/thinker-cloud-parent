@@ -11,12 +11,12 @@ import java.util.Locale;
  * @author admin
  * @see org.springframework.security.core.SpringSecurityMessageSource 框架自身异常处理
  */
-public class SecurityMessageSourceUtil extends ReloadableResourceBundleMessageSource {
+public class SecurityMessageSourceUtils extends ReloadableResourceBundleMessageSource {
 
     // ~ Constructors
     // ===================================================================================================
 
-    public SecurityMessageSourceUtil() {
+    public SecurityMessageSourceUtils() {
         setBasename("classpath:i18n/errors/messages");
         setDefaultLocale(Locale.CHINA);
     }
@@ -25,7 +25,7 @@ public class SecurityMessageSourceUtil extends ReloadableResourceBundleMessageSo
     // ========================================================================================================
 
     public static MessageSourceAccessor getAccessor() {
-        return new MessageSourceAccessor(new SecurityMessageSourceUtil());
+        return new MessageSourceAccessor(new SecurityMessageSourceUtils());
     }
 
 }
