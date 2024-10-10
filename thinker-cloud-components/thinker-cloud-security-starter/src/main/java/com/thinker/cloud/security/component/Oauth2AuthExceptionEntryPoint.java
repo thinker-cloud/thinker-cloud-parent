@@ -44,7 +44,7 @@ import java.util.Locale;
  * @author admin
  */
 @RequiredArgsConstructor
-public class ClientAuthExceptionEntryPoint implements AuthenticationEntryPoint {
+public class Oauth2AuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
     private final ObjectMapper objectMapper;
 

@@ -74,8 +74,8 @@ public class ResourceServerAutoConfiguration {
      * @return ResourceAuthExceptionEntryPoint
      */
     @Bean
-    public ClientAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper) {
-        return new ClientAuthExceptionEntryPoint(objectMapper);
+    public Oauth2AuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper) {
+        return new Oauth2AuthExceptionEntryPoint(objectMapper);
     }
 
     /**

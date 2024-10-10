@@ -43,14 +43,29 @@ public interface SecurityConstants {
     String OAUTH_PREFIX = "oauth:";
 
     /**
+     * 客户端模式
+     */
+    String CLIENT_CREDENTIALS = "client_credentials";
+
+    /**
      * 客户端ID
      */
     String CLIENT_ID = "clientId";
 
     /**
-     * grant_type
+     * APP登录URL
      */
-    String REFRESH_TOKEN = "refresh_token";
+    String APP_TOKEN_URL = "/app/token";
+
+    /**
+     * 默认登录URL
+     */
+    String OAUTH_TOKEN_URL = "/oauth2/token";
+
+    /**
+     * 社交登录URL
+     */
+    String SOCIAL_TOKEN_URL = "/social/token";
 
     /**
      * 请求映射处理器bean名称
@@ -62,4 +77,19 @@ public interface SecurityConstants {
      */
     String SECURITY_BCRYPT = "{bcrypt}";
     String SECURITY_NOOP = "{noop}";
+
+    /**
+     * 用户名
+     */
+    String USERNAME = "username";
+
+    /**
+     * 用户信息
+     */
+    String DETAILS_USER = "user_info";
+
+    /**
+     * 用户ID
+     */
+    String DETAILS_USER_ID = "user_id";
 }

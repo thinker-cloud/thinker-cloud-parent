@@ -3,8 +3,6 @@ package com.thinker.cloud.core.model.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -27,16 +25,8 @@ public class SuperEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 4081293917569080703L;
 
     /**
-     * 版本号
-     */
-    @JsonIgnore
-    @Version
-    private Integer version;
-
-    /**
      * 逻辑删除标识
      */
-    @JsonIgnore
     @TableLogic
     private Boolean deleted;
 

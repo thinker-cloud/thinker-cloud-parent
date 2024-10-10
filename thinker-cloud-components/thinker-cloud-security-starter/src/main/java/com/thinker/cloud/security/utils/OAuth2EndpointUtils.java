@@ -3,14 +3,12 @@ package com.thinker.cloud.security.utils;
 import cn.hutool.core.map.MapUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2RefreshToken;
+import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
@@ -37,9 +35,13 @@ public class OAuth2EndpointUtils {
         return parameters;
     }
 
-    public void throwError(String errorCode, String parameterName, String errorUri) {
-        OAuth2Error error = new OAuth2Error(errorCode, "OAuth 2.0 Parameter: " + parameterName, errorUri);
-        throw new OAuth2AuthenticationException(error);
+    public static String getParameter(MultiValueMap<String, String> parameters, String paramName) {
+        String paramValue = parameters.getFirst(paramName);
+        if (!StringUtils.hasText(paramValue) || parameters.get(paramName).size() != 1) {
+            throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST,
+                    "OAuth 2.0 Parameter: " + paramName, ACCESS_TOKEN_REQUEST_ERROR_URI));
+        }
+        return paramValue;
     }
 
     /**

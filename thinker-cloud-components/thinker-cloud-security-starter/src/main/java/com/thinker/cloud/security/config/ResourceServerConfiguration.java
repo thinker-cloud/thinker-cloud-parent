@@ -18,7 +18,7 @@ package com.thinker.cloud.security.config;
 
 import com.thinker.cloud.security.component.AuthorizationServiceIntrospector;
 import com.thinker.cloud.security.component.BearerTokenExtractor;
-import com.thinker.cloud.security.component.ClientAuthExceptionEntryPoint;
+import com.thinker.cloud.security.component.Oauth2AuthExceptionEntryPoint;
 import com.thinker.cloud.security.component.PermitAllUrlMatcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class ResourceServerConfiguration {
 
     private final PermitAllUrlMatcher permitAllUrlMatcher;
     private final BearerTokenExtractor bearerTokenExtractor;
-    private final ClientAuthExceptionEntryPoint clientAuthExceptionEntryPoint;
+    private final Oauth2AuthExceptionEntryPoint authExceptionEntryPoint;
     private final AuthorizationServiceIntrospector authorizationServiceIntrospector;
 
     @Bean
@@ -59,7 +59,7 @@ public class ResourceServerConfiguration {
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .opaqueToken(token -> token.introspector(authorizationServiceIntrospector))
                         // 客户端身份验证入口点
-                        .authenticationEntryPoint(clientAuthExceptionEntryPoint)
+                        .authenticationEntryPoint(authExceptionEntryPoint)
                         .bearerTokenResolver(bearerTokenExtractor))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable)
