@@ -209,4 +209,57 @@ public class WebUtil extends WebUtils {
         return StrUtil.isBlank(ip) ? null : ip.split(",")[0];
     }
 
+    /**
+     * 解析 client id
+     *
+     * @param header       请求头
+     * @param defaultValue 默认值
+     * @return 如果解析失败返回默认值
+     */
+    public String extractClientId(String header, final String defaultValue) {
+        if (header == null || !header.startsWith(BASIC_)) {
+            log.debug("请求头中client信息为空: {}", header);
+            return defaultValue;
+        }
+
+        byte[] decoded;
+        byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
+        try {
+            decoded = Base64.decode(base64Token);
+        } catch (IllegalArgumentException e) {
+            log.debug("Failed to decode basic authentication token: {}", header);
+            return defaultValue;
+        }
+
+        String token = new String(decoded, StandardCharsets.UTF_8);
+        int delim = token.indexOf(":");
+        if (delim == -1) {
+            log.debug("Invalid basic authentication token: {}", header);
+            return defaultValue;
+        }
+        return token.substring(0, delim);
+    }
+
+    /**
+     * 从请求头中解析 client id
+     *
+     * @param header header
+     * @return Optional<String>
+     */
+    public Optional<String> extractClientId(String header) {
+        return Optional.ofNullable(extractClientId(header, null));
+    }
+
+    /**
+     * 从request 获取CLIENT_ID
+     *
+     * @return String
+     */
+    public String getClientId(String header) {
+        String clientId = extractClientId(header, null);
+        if (clientId == null) {
+            throw new FailException("Invalid basic authentication token");
+        }
+        return clientId;
+    }
 }
