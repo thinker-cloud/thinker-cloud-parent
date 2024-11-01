@@ -10,7 +10,21 @@ import org.springframework.security.core.Authentication;
  *
  * @author admin
  */
-public interface AuthenticationSuccessHandler {
+public interface AuthenticationSuccessHandler extends org.springframework.security.web.authentication.AuthenticationSuccessHandler {
+
+    /**
+     * Called when a user has been successfully authenticated.
+     *
+     * @param request        the request which caused the successful authentication
+     * @param response       the response
+     * @param authentication the <tt>Authentication</tt> object which was created during
+     *                       the authentication process.
+     */
+    @Override
+    default void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                         Authentication authentication) {
+        this.handle(authentication, request, response);
+    }
 
     /**
      * 业务处理
