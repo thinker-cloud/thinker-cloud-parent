@@ -53,7 +53,7 @@
         <project.build.encoding>UTF-8</project.build.encoding>
 
         <!-- 基础依赖 -->
-        <spring-boot.version>3.3.3</spring-boot.version>
+        <spring-boot.version>3.3.5</spring-boot.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
 
@@ -67,7 +67,7 @@
         <xxl-job.version>2.4.1</xxl-job.version>
         <redisson.version>3.34.1</redisson.version>
         <rocketmq-client.version>5.3.0</rocketmq-client.version>
-        <spring-boot-admin.version>3.3.3</spring-boot-admin.version>
+        <spring-boot-admin.version>3.3.4</spring-boot-admin.version>
         <spring-boot-rocketmq.version>2.3.1</spring-boot-rocketmq.version>
 
         <!-- RPC 框架 -->
@@ -76,7 +76,7 @@
         <!-- 工具包 -->
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
-        <hutool.version>5.8.26</hutool.version>
+        <hutool.version>5.8.32</hutool.version>
         <easypoi.version>4.5.0</easypoi.version>
         <fastjson.version>2.0.39</fastjson.version>
         <guava.version>32.1.2-jre</guava.version>
