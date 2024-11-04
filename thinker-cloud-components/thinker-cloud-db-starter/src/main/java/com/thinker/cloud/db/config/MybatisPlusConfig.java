@@ -16,7 +16,7 @@ import com.thinker.cloud.db.tenant.TenantRequestInterceptor;
 import com.thinker.cloud.db.typehandler.IntegerArrayTypeHandler;
 import com.thinker.cloud.db.typehandler.LongArrayTypeHandler;
 import com.thinker.cloud.db.typehandler.StringArrayTypeHandler;
-import jakarta.annotation.Resource;
+import lombok.AllArgsConstructor;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -31,12 +31,12 @@ import org.springframework.context.annotation.Configuration;
  * @author admin
  */
 @Configuration
+@AllArgsConstructor
 @AutoConfigureAfter(DbConfigProperties.class)
 @ConditionalOnBean(DataSourceAutoConfiguration.class)
 public class MybatisPlusConfig {
 
-    @Resource
-    private DbConfigProperties dbConfigProperties;
+    private final DbConfigProperties dbConfigProperties;
 
     /**
      * 字段自动填充处理器对象

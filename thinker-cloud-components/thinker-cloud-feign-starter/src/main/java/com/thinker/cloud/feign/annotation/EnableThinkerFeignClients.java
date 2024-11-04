@@ -8,8 +8,7 @@ import java.lang.annotation.*;
 /**
  * 启用 Feign 客户端
  *
- * @author xfy
- * @since 2024-08-21 11:45
+ * @author admin
  **/
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

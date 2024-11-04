@@ -1,6 +1,6 @@
 package com.thinker.cloud.redis.lock.aspect;
 
-import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
+import com.thinker.cloud.redis.cache.generator.CustomCacheKeyGenerator;
 import com.thinker.cloud.redis.lock.annotation.DistributedLock;
 import com.thinker.cloud.redis.lock.model.LockInfo;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class LockInfoProvider {
 
     private static final String LOCK_NAME_PREFIX = "distributed_lock:";
 
-    private final CacheKeyGenerator cacheKeyGenerator;
+    private final CustomCacheKeyGenerator cacheKeyGenerator;
 
     public LockInfo get(JoinPoint joinPoint, DistributedLock distributedLock) {
         // 若没有配置 幂等 标识编号，则使用 url + 参数列表作为区分

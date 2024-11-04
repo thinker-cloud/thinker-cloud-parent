@@ -5,8 +5,7 @@ import java.util.Optional;
 /**
  * 禁用缓存
  *
- * @author xfy
- * @since 2023-11-07 17:14
+ * @author admin
  **/
 public interface DisableCache {
 

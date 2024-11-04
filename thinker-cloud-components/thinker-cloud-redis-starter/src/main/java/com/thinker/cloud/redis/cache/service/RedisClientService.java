@@ -104,9 +104,8 @@ public class RedisClientService {
      * @param keys    缓存key
      * @param timeout 超时时间
      * @param unit    时间单位
-     * @return boolean
      */
-    public boolean expire(Set<String> keys, long timeout, TimeUnit unit) {
+    public void expire(Set<String> keys, long timeout, TimeUnit unit) {
         StringRedisSerializer keySerializer = new StringRedisSerializer();
         long rawTimeout = TimeoutUtils.toMillis(timeout, unit);
         redisTemplate.execute(connection -> {
@@ -122,7 +121,6 @@ public class RedisClientService {
             }
             return true;
         }, true);
-        return true;
     }
 
     /**

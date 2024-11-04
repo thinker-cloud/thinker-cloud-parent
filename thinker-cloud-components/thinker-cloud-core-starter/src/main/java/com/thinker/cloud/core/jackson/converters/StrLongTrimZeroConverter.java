@@ -10,8 +10,7 @@ import java.math.BigDecimal;
 /**
  * 去除字符串数字.后面的0
  *
- * @author xfy
- * @since 2024-03-23 16:47
+ * @author admin
  **/
 public class StrLongTrimZeroConverter implements Converter<String, Long> {
 

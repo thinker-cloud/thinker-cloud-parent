@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Lazy;
  * Redisson延迟队列顶层接口抽象类
  *
  * @author admin
- * @since 2023-12-02 16:07
  **/
 @Slf4j
 public abstract class AbstractRedissonDelayQueueExecutor<T extends DelayMessage> implements DelayQueueExecutor<T> {

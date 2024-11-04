@@ -4,8 +4,9 @@ import com.thinker.cloud.core.aspect.expression.ExpressionResolver;
 import com.thinker.cloud.redis.cache.aspect.CacheableAspect;
 import com.thinker.cloud.redis.cache.fast.FastRedisService;
 import com.thinker.cloud.redis.cache.fast.FastStringRedisCache;
-import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
+import com.thinker.cloud.redis.cache.generator.CustomCacheKeyGenerator;
 import com.thinker.cloud.redis.cache.service.RedisClientService;
+import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -23,22 +24,12 @@ import org.springframework.context.annotation.Configuration;
 public class RedisCacheAutoConfiguration {
 
     /**
-     * 切面 拦截处理所有 @Cacheable
-     *
-     * @return CacheableAspect
-     */
-    @Bean
-    public CacheableAspect cacheableAspect() {
-        return new CacheableAspect();
-    }
-
-    /**
-     * redis基础服务
+     * redis客户端服务
      *
      * @return BaseRedisService
      */
     @Bean
-    public RedisClientService baseRedisService() {
+    public RedisClientService redisClientService() {
         return new RedisClientService();
     }
 
@@ -69,8 +60,19 @@ public class RedisCacheAutoConfiguration {
      */
     @Bean
     @ConditionalOnBean(ExpressionResolver.class)
-    @ConditionalOnMissingBean(CacheKeyGenerator.class)
-    public CacheKeyGenerator cacheKeyGenerator() {
-        return new CacheKeyGenerator();
+    @ConditionalOnMissingBean(CustomCacheKeyGenerator.class)
+    public CustomCacheKeyGenerator customCacheKeyGenerator(ExpressionResolver expressionResolver) {
+        return new CustomCacheKeyGenerator(expressionResolver);
+    }
+
+    /**
+     * 切面 拦截处理所有 @Cacheable
+     *
+     * @return CacheableAspect
+     */
+    @Bean
+    @ConditionalOnBean({RedissonClient.class, CustomCacheKeyGenerator.class})
+    public CacheableAspect cacheableAspect(RedissonClient redissonClient, CustomCacheKeyGenerator cacheKeyGenerator) {
+        return new CacheableAspect(redissonClient, cacheKeyGenerator);
     }
 }

@@ -4,9 +4,9 @@ import com.thinker.cloud.core.exception.AbstractException;
 import com.thinker.cloud.core.exception.CacheableException;
 import com.thinker.cloud.core.exception.LockException;
 import com.thinker.cloud.redis.cache.annotation.Cacheable;
-import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
+import com.thinker.cloud.redis.cache.generator.CustomCacheKeyGenerator;
 import com.thinker.cloud.redis.cache.interfaces.DisableCache;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -29,17 +29,15 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Aspect
+@RequiredArgsConstructor
 public class CacheableAspect {
 
     private static final String CACHE_KEY = "cacheable";
     private static final String EMPTY = "EMPTY";
     private static final long LOCK_TIME = 3;
 
-    @Resource
-    private RedissonClient redisson;
-
-    @Resource
-    private CacheKeyGenerator cacheKeyGenerator;
+    private final RedissonClient redissonClient;
+    private final CustomCacheKeyGenerator cacheKeyGenerator;
 
     @SneakyThrows
     @Around(value = "@annotation(cacheable)")
@@ -62,14 +60,14 @@ public class CacheableAspect {
         TimeUnit timeUnit = cacheable.timeUnit();
 
         // 缓存存在值，则直接返回
-        RMapCache<String, Object> rMapCache = redisson.getMapCache(prefix);
+        RMapCache<String, Object> rMapCache = redissonClient.getMapCache(prefix);
         Object result = rMapCache.get(key);
         if (null != result) {
             return result;
         }
 
         // 缓存没有则加锁执行代理方法然后放入缓存中
-        RLock lock = redisson.getLock(key);
+        RLock lock = redissonClient.getLock(key);
         try {
             if (lock.tryLock(LOCK_TIME, LOCK_TIME, TimeUnit.SECONDS)) {
                 // 再次尝试获取，防止其他请求已执行

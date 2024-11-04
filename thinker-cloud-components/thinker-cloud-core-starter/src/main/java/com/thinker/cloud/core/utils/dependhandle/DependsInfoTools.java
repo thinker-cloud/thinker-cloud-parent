@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 /**
  * 依赖属性查询工具
  *
- * @author xfy
- * @since 2023/06/13 15:02
+ * @author admin
  */
 public class DependsInfoTools {
 

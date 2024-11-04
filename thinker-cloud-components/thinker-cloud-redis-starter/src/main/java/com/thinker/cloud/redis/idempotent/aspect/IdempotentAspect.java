@@ -3,9 +3,9 @@ package com.thinker.cloud.redis.idempotent.aspect;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import com.thinker.cloud.core.exception.IdempotentException;
-import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
+import com.thinker.cloud.redis.cache.generator.CustomCacheKeyGenerator;
 import com.thinker.cloud.redis.idempotent.annotation.Idempotent;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Aspect
+@RequiredArgsConstructor
 public class IdempotentAspect {
 
     private final ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<>();
@@ -35,11 +36,8 @@ public class IdempotentAspect {
     private static final String KEY = "key";
     private static final String DEL_KEY = "delKey";
 
-    @Resource
-    private RedissonClient redisson;
-
-    @Resource
-    private CacheKeyGenerator cacheKeyGenerator;
+    private final RedissonClient redissonClient;
+    private final CustomCacheKeyGenerator cacheKeyGenerator;
 
     @Before(value = "@annotation(idempotent)")
     public void beforePointCut(JoinPoint joinPoint, Idempotent idempotent) {
@@ -53,7 +51,7 @@ public class IdempotentAspect {
         boolean delKey = idempotent.delKey();
 
         // do not need check null
-        RMapCache<String, Object> rMapCache = redisson.getMapCache(cacheKey);
+        RMapCache<String, Object> rMapCache = redissonClient.getMapCache(cacheKey);
         String value = DateUtil.now();
         Object v1;
         if (null != rMapCache.get(key)) {
@@ -84,7 +82,7 @@ public class IdempotentAspect {
             return;
         }
 
-        RMapCache<Object, Object> mapCache = redisson.getMapCache(CACHE_KEY);
+        RMapCache<Object, Object> mapCache = redissonClient.getMapCache(CACHE_KEY);
         if (mapCache.isEmpty()) {
             return;
         }

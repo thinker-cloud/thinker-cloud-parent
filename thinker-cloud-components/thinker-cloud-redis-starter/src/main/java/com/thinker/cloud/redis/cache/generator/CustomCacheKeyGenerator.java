@@ -5,23 +5,22 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.thinker.cloud.core.aspect.expression.ExpressionResolver;
 import com.thinker.cloud.core.utils.DeflaterUtil;
-import jakarta.annotation.Resource;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.lang.NonNull;
 
 /**
- * 缓存key生成器
+ * 自定义缓存key生成器
  *
- * @author xfy
- * @since 2023-11-03 10:00
+ * @author admin
  **/
 @Slf4j
-public class CacheKeyGenerator {
+@AllArgsConstructor
+public class CustomCacheKeyGenerator {
 
-    @Resource
-    private ExpressionResolver keyResolver;
+    private final ExpressionResolver keyResolver;
 
     /**
      * 生成缓存key
