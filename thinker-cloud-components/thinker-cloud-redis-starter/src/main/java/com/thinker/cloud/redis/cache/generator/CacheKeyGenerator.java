@@ -18,7 +18,7 @@ import org.springframework.lang.NonNull;
  **/
 @Slf4j
 @AllArgsConstructor
-public class CustomCacheKeyGenerator {
+public class CacheKeyGenerator {
 
     private final ExpressionResolver keyResolver;
 

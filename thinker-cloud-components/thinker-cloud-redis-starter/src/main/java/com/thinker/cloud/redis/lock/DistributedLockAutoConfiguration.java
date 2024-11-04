@@ -1,6 +1,6 @@
 package com.thinker.cloud.redis.lock;
 
-import com.thinker.cloud.redis.cache.generator.CustomCacheKeyGenerator;
+import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
 import com.thinker.cloud.redis.lock.aspect.DistributedLockAspect;
 import com.thinker.cloud.redis.lock.aspect.LockInfoProvider;
 import com.thinker.cloud.redis.lock.distributed.RedissonDistributedLock;
@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 public class DistributedLockAutoConfiguration {
 
     private final RedissonClient redissonClient;
-    private final CustomCacheKeyGenerator cacheKeyGenerator;
+    private final CacheKeyGenerator cacheKeyGenerator;
 
     @Bean
     @ConditionalOnMissingBean

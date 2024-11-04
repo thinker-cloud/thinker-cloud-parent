@@ -1,6 +1,6 @@
 package com.thinker.cloud.redis.idempotent;
 
-import com.thinker.cloud.redis.cache.generator.CustomCacheKeyGenerator;
+import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
 import com.thinker.cloud.redis.idempotent.aspect.IdempotentAspect;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -24,8 +24,8 @@ public class IdempotentAutoConfiguration {
      * @return Aspect
      */
     @Bean
-    @ConditionalOnBean({RedissonClient.class, CustomCacheKeyGenerator.class})
-    public IdempotentAspect idempotentAspect(RedissonClient redissonClient, CustomCacheKeyGenerator cacheKeyGenerator) {
+    @ConditionalOnBean({RedissonClient.class, CacheKeyGenerator.class})
+    public IdempotentAspect idempotentAspect(RedissonClient redissonClient, CacheKeyGenerator cacheKeyGenerator) {
         return new IdempotentAspect(redissonClient, cacheKeyGenerator);
     }
 

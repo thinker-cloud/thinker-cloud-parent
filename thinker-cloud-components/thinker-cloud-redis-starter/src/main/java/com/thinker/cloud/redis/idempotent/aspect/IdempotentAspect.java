@@ -3,7 +3,7 @@ package com.thinker.cloud.redis.idempotent.aspect;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import com.thinker.cloud.core.exception.IdempotentException;
-import com.thinker.cloud.redis.cache.generator.CustomCacheKeyGenerator;
+import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
 import com.thinker.cloud.redis.idempotent.annotation.Idempotent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class IdempotentAspect {
     private static final String DEL_KEY = "delKey";
 
     private final RedissonClient redissonClient;
-    private final CustomCacheKeyGenerator cacheKeyGenerator;
+    private final CacheKeyGenerator cacheKeyGenerator;
 
     @Before(value = "@annotation(idempotent)")
     public void beforePointCut(JoinPoint joinPoint, Idempotent idempotent) {

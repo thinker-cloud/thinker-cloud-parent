@@ -4,7 +4,7 @@ import com.thinker.cloud.core.exception.AbstractException;
 import com.thinker.cloud.core.exception.CacheableException;
 import com.thinker.cloud.core.exception.LockException;
 import com.thinker.cloud.redis.cache.annotation.Cacheable;
-import com.thinker.cloud.redis.cache.generator.CustomCacheKeyGenerator;
+import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
 import com.thinker.cloud.redis.cache.interfaces.DisableCache;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -37,7 +37,7 @@ public class CacheableAspect {
     private static final long LOCK_TIME = 3;
 
     private final RedissonClient redissonClient;
-    private final CustomCacheKeyGenerator cacheKeyGenerator;
+    private final CacheKeyGenerator cacheKeyGenerator;
 
     @SneakyThrows
     @Around(value = "@annotation(cacheable)")

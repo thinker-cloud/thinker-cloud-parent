@@ -4,7 +4,7 @@ import com.thinker.cloud.core.aspect.expression.ExpressionResolver;
 import com.thinker.cloud.redis.cache.aspect.CacheableAspect;
 import com.thinker.cloud.redis.cache.fast.FastRedisService;
 import com.thinker.cloud.redis.cache.fast.FastStringRedisCache;
-import com.thinker.cloud.redis.cache.generator.CustomCacheKeyGenerator;
+import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
 import com.thinker.cloud.redis.cache.service.RedisClientService;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -60,9 +60,9 @@ public class RedisCacheAutoConfiguration {
      */
     @Bean
     @ConditionalOnBean(ExpressionResolver.class)
-    @ConditionalOnMissingBean(CustomCacheKeyGenerator.class)
-    public CustomCacheKeyGenerator customCacheKeyGenerator(ExpressionResolver expressionResolver) {
-        return new CustomCacheKeyGenerator(expressionResolver);
+    @ConditionalOnMissingBean(CacheKeyGenerator.class)
+    public CacheKeyGenerator cacheKeyGenerator(ExpressionResolver expressionResolver) {
+        return new CacheKeyGenerator(expressionResolver);
     }
 
     /**
@@ -71,8 +71,8 @@ public class RedisCacheAutoConfiguration {
      * @return CacheableAspect
      */
     @Bean
-    @ConditionalOnBean({RedissonClient.class, CustomCacheKeyGenerator.class})
-    public CacheableAspect cacheableAspect(RedissonClient redissonClient, CustomCacheKeyGenerator cacheKeyGenerator) {
+    @ConditionalOnBean({RedissonClient.class, CacheKeyGenerator.class})
+    public CacheableAspect cacheableAspect(RedissonClient redissonClient, CacheKeyGenerator cacheKeyGenerator) {
         return new CacheableAspect(redissonClient, cacheKeyGenerator);
     }
 }
