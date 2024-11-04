@@ -1,5 +1,6 @@
 package com.thinker.cloud.security.service;
 
+import com.thinker.cloud.security.constants.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -32,8 +33,6 @@ import java.util.concurrent.TimeUnit;
 public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
     private final static Long TIMEOUT = 10L;
-
-    private static final String AUTHORIZATION = "token";
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -146,7 +145,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     }
 
     private static String buildKey(String type, String id) {
-        return String.format("%s::%s::%s", AUTHORIZATION, type, id);
+        return String.format("%s:%s::%s", SecurityConstants.TOKEN_PREFIX, type, id);
     }
 
     private static boolean isState(OAuth2Authorization authorization) {

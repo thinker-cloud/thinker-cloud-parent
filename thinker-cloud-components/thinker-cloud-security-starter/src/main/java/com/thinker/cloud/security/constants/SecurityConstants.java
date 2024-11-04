@@ -1,5 +1,7 @@
 package com.thinker.cloud.security.constants;
 
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+
 /**
  * 公共常量类
  *
@@ -36,6 +38,11 @@ public interface SecurityConstants {
      * token 相关前缀
      */
     String TOKEN_PREFIX = "token:";
+
+    /**
+     * oauth_access 前缀
+     */
+    String OAUTH_ACCESS_PREFIX = TOKEN_PREFIX + ":" + OAuth2ParameterNames.ACCESS_TOKEN;
 
     /**
      * oauth 相关前缀
