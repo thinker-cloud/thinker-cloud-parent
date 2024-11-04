@@ -1,0 +1,4 @@
+consumerFilter=com.thinker.cloud.dubbo.filter.ConsumerFilter
+providerFilter=com.thinker.cloud.dubbo.filter.ProviderFilter
+exceptionFilter=com.thinker.cloud.dubbo.filter.ExceptionFilter
+validationFilter=com.thinker.cloud.dubbo.filter.ValidationFilter
