@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
     private final static Long TIMEOUT = 10L;
-
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
