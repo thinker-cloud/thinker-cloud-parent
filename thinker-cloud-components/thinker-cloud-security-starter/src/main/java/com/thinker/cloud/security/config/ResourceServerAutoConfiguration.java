@@ -17,14 +17,15 @@
 package com.thinker.cloud.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thinker.cloud.security.component.*;
+import com.thinker.cloud.security.component.BearerTokenExtractor;
+import com.thinker.cloud.security.component.Oauth2AuthExceptionEntryPoint;
+import com.thinker.cloud.security.component.PermissionService;
+import com.thinker.cloud.security.component.PermitAllUrlMatcher;
 import com.thinker.cloud.security.properties.ThinkerSecurityProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authorization.method.PrePostTemplateDefaults;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
 /**
  * 资源服务器自动配置
@@ -76,17 +77,6 @@ public class ResourceServerAutoConfiguration {
     @Bean
     public Oauth2AuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper) {
         return new Oauth2AuthExceptionEntryPoint(objectMapper);
-    }
-
-    /**
-     * 资源服务器toke内省处理器
-     *
-     * @param authorizationService token存储实现
-     * @return OpaqueTokenIntrospector
-     */
-    @Bean
-    public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
-        return new AuthorizationServiceIntrospector(authorizationService);
     }
 
     /**

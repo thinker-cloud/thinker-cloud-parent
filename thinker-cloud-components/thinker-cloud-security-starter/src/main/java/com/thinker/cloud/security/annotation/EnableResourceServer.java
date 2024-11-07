@@ -16,7 +16,6 @@
 
 package com.thinker.cloud.security.annotation;
 
-import com.thinker.cloud.security.config.ResourceServerAutoConfiguration;
 import com.thinker.cloud.security.config.ResourceServerConfiguration;
 import org.springframework.context.annotation.Import;
 
@@ -31,7 +30,7 @@ import java.lang.annotation.*;
 @Inherited
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import({ResourceServerAutoConfiguration.class, ResourceServerConfiguration.class})
+@Import(ResourceServerConfiguration.class)
 public @interface EnableResourceServer {
 
 }

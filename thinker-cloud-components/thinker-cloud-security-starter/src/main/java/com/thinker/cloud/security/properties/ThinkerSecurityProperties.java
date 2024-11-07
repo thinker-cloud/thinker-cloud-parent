@@ -38,4 +38,9 @@ public class ThinkerSecurityProperties {
      */
     private Set<String> ignoreUrls = Collections.emptySet();
 
+    /**
+     * 授权服务器URL(颁发者标识符)
+     */
+    private String issuer = "http://localhost:8801";
+
 }

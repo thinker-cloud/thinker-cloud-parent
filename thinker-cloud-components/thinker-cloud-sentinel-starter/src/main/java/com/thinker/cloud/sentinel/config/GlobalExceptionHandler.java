@@ -185,6 +185,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Result<Void> bindExceptionHandler(NoResourceFoundException e) {
         log.debug("请求路径 404 {}", e.getMessage(), e);
-        return Result.failure(e.getMessage());
+        return Result.failure(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 }
