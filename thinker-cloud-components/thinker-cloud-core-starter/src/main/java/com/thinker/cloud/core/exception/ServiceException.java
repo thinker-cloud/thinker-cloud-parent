@@ -13,7 +13,7 @@ import java.io.Serial;
 public class ServiceException extends AbstractException {
 
     @Serial
-    private static final long serialVersionUID = -3400616766096741409L;
+    private static final long serialVersionUID = -8793220535242241031L;
 
     public ServiceException(String message) {
         super(message);

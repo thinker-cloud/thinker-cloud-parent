@@ -15,7 +15,7 @@ import java.io.Serial;
 public class FailException extends AbstractException {
 
     @Serial
-    private static final long serialVersionUID = -3400616766096741409L;
+    private static final long serialVersionUID = -5780284091388498505L;
 
     private Object data;
 
