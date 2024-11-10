@@ -22,10 +22,10 @@ import static org.apache.dubbo.common.constants.FilterConstants.VALIDATION_KEY;
  * @author admin
  **/
 @Slf4j
+@Setter
 @Activate(group = {CONSUMER, PROVIDER}, value = VALIDATION_KEY, order = 10000)
 public class ValidationFilter implements Filter {
 
-    @Setter
     private Validation validation;
 
     @Override

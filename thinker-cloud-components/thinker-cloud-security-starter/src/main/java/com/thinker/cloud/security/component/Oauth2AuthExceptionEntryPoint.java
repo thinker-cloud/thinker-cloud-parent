@@ -16,6 +16,7 @@
 
 package com.thinker.cloud.security.component;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.core.constants.CommonConstants;
@@ -55,10 +56,10 @@ public class Oauth2AuthExceptionEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.HTTP_UNAUTHORIZED);
         Result<String> result = new Result<>();
-        result.setMessage(authException.getMessage());
-        result.setData(authException.getMessage());
-        result.setCode(HttpStatus.HTTP_UNAUTHORIZED);
         result.setSuccess(Boolean.FALSE);
+        result.setCode(HttpStatus.HTTP_UNAUTHORIZED);
+        String message = authException.getMessage();
+        result.setMessage(StrUtil.isBlank(message) ? "登录失败" : message);
 
         if (authException instanceof InvalidBearerTokenException
                 || authException instanceof CredentialsExpiredException
@@ -71,7 +72,7 @@ public class Oauth2AuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
         if (authException instanceof UsernameNotFoundException) {
             String msg = SecurityMessageSourceUtils.getAccessor().getMessage(
-                    "AbstractUserDetailsAuthenticationProvider.noopBindAccount"
+                    "AbstractUserDetailsAuthenticationProvider.badCredentials"
                     , authException.getMessage(), Locale.CHINA);
             result.setCode(ResponseCode.NOOP_BIND_ACCOUNT.getCode());
             result.setMessage(msg);
@@ -86,5 +87,4 @@ public class Oauth2AuthExceptionEntryPoint implements AuthenticationEntryPoint {
         PrintWriter printWriter = response.getWriter();
         printWriter.append(objectMapper.writeValueAsString(result));
     }
-
 }

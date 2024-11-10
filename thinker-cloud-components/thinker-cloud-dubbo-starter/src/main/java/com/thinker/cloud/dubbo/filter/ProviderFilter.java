@@ -1,5 +1,7 @@
 package com.thinker.cloud.dubbo.filter;
 
+import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
@@ -17,7 +19,9 @@ public class ProviderFilter implements Filter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        log.info("服务提供者相关拦截处理，上下文：{}", RpcContext.getServiceContext());
+        RpcContextAttachment serverAttachment = RpcContext.getServerAttachment();
+        TenantContextHolder.setTenantId((Long) serverAttachment.getObjectAttachment(CommonConstants.TENANT));
+        log.info("服务提供者上下文拦截处理，context：{}", RpcContext.getServiceContext());
         return invoker.invoke(invocation);
     }
 }

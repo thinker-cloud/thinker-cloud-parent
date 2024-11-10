@@ -34,7 +34,7 @@ public class TenantContextHolderFilter extends GenericFilterBean {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String tenant = request.getHeader(CommonConstants.TENANT);
-        log.debug("获取header中的租户ID为:{}", tenant);
+        log.debug("获取header中的租户:{}", tenant);
 
         try {
             Long tenantId = Optional.ofNullable(tenant)
