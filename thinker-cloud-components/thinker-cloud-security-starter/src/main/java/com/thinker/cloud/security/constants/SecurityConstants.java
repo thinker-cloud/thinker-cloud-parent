@@ -53,19 +53,14 @@ public interface SecurityConstants {
     String CLIENT_ID = "clientId";
 
     /**
-     * APP登录URL
+     * 会员登录URL（C端用户）
      */
-    String APP_TOKEN_URL = "/app/token";
+    String MEMBER_TOKEN_URL = "/member/token";
 
     /**
-     * 默认登录URL
+     * 默认登录URL（后台用户）
      */
     String OAUTH_TOKEN_URL = "/oauth2/token";
-
-    /**
-     * 社交登录URL
-     */
-    String SOCIAL_TOKEN_URL = "/social/token";
 
     /**
      * 请求映射处理器bean名称

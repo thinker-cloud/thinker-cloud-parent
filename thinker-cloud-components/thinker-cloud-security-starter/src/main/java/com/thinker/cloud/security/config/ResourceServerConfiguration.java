@@ -21,7 +21,6 @@ import com.thinker.cloud.security.component.BearerTokenExtractor;
 import com.thinker.cloud.security.component.Oauth2AuthExceptionEntryPoint;
 import com.thinker.cloud.security.component.PermitAllUrlMatcher;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -37,7 +36,6 @@ import org.springframework.security.web.SecurityFilterChain;
  *
  * @author admin
  */
-@Slf4j
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor

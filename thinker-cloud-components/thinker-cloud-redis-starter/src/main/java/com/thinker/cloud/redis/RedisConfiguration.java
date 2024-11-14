@@ -1,6 +1,7 @@
 package com.thinker.cloud.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.core.constants.CommonConstants;
@@ -24,8 +25,10 @@ import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
+import org.springframework.data.redis.core.RedisKeyValueAdapter;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.CollectionUtils;
@@ -43,6 +46,8 @@ import java.util.*;
 @Configuration
 @AllArgsConstructor
 @AutoConfigureBefore(RedisAutoConfiguration.class)
+@EnableRedisRepositories(basePackages = "com.thinker.cloud",
+        enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 public class RedisConfiguration {
 
     private final RedisProperties redisProperties;
@@ -93,15 +98,17 @@ public class RedisConfiguration {
         // 3.配置key序列化
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         redisTemplate.setKeySerializer(stringRedisSerializer);
+        redisTemplate.setStringSerializer(stringRedisSerializer);
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
 
         // 4.配置Value序列化 jackson
         ObjectMapper objMapper = new ObjectMapper();
         objMapper.setLocale(Locale.CHINA);
-        objMapper.registerModule(new JavaTimeModule());
         objMapper.setTimeZone(TimeZone.getTimeZone(CommonConstants.ASIA_SHANGHAI));
+        objMapper.registerModule(new JavaTimeModule());
         objMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        objMapper.activateDefaultTyping(objMapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
+        objMapper.activateDefaultTyping(objMapper.getPolymorphicTypeValidator()
+                , ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(objMapper, Object.class);
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);

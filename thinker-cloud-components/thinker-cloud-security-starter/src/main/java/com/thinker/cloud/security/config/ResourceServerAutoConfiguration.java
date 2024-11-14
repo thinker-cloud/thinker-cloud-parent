@@ -26,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authorization.method.PrePostTemplateDefaults;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * 资源服务器自动配置
@@ -87,5 +89,15 @@ public class ResourceServerAutoConfiguration {
     @Bean
     public PrePostTemplateDefaults prePostTemplateDefaults() {
         return new PrePostTemplateDefaults();
+    }
+
+    /**
+     * 密码编码器
+     *
+     * @return PasswordEncoder
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
