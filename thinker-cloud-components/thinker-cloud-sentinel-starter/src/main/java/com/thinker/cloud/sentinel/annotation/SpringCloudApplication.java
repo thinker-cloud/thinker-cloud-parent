@@ -1,4 +1,4 @@
-package com.thinker.cloud.core.annotation;
+package com.thinker.cloud.sentinel.annotation;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
