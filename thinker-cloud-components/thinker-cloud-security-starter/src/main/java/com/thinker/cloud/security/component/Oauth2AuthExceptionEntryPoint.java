@@ -33,11 +33,14 @@ import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.PrintWriter;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * 客户端异常处理 AuthenticationException 不同细化异常处理
@@ -61,8 +64,25 @@ public class Oauth2AuthExceptionEntryPoint implements AuthenticationEntryPoint {
         String message = authException.getMessage();
         result.setMessage(StrUtil.isBlank(message) ? "登录失败" : message);
 
-        if (authException instanceof InvalidBearerTokenException
-                || authException instanceof CredentialsExpiredException
+        if (authException instanceof OAuth2AuthenticationException e) {
+            if (authException instanceof InvalidBearerTokenException) {
+                String msg = SecurityMessageSourceUtils.getAccessor().getMessage(
+                        "AbstractUserDetailsAuthenticationProvider.credentialsExpired"
+                        , authException.getMessage(), Locale.CHINA);
+                result.setMessage(msg);
+            } else if (Objects.nonNull(e.getError())) {
+                String errorCode = e.getError().getErrorCode();
+                if (OAuth2ErrorCodes.INVALID_CLIENT.equals(errorCode)
+                        || OAuth2ErrorCodes.UNAUTHORIZED_CLIENT.equals(errorCode)) {
+                    String msg = SecurityMessageSourceUtils.getAccessor().getMessage(
+                            "AbstractUserDetailsAuthenticationProvider.badClientCredentials"
+                            , authException.getMessage(), Locale.CHINA);
+                    result.setMessage(msg);
+                }
+            }
+        }
+
+        if (authException instanceof CredentialsExpiredException
                 || authException instanceof InsufficientAuthenticationException) {
             String msg = SecurityMessageSourceUtils.getAccessor().getMessage(
                     "AbstractUserDetailsAuthenticationProvider.credentialsExpired"

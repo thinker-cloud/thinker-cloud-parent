@@ -33,19 +33,19 @@ public class AuthorizationServiceIntrospector implements OpaqueTokenIntrospector
 
     @Override
     public OAuth2AuthenticatedPrincipal introspect(String token) {
-        OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
-        if (Objects.isNull(authorization)) {
-            throw new InvalidBearerTokenException("invalid_token: " + token);
-        }
-
-        // 客户端模式默认返回
-        AuthorizationGrantType authorizationGrantType = authorization.getAuthorizationGrantType();
-        if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(authorizationGrantType)) {
-            return new DefaultOAuth2AuthenticatedPrincipal(authorization.getPrincipalName()
-                    , authorization.getAttributes(), AuthorityUtils.NO_AUTHORITIES);
-        }
-
         try {
+            OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+            if (Objects.isNull(authorization)) {
+                throw new InvalidBearerTokenException("invalid_token: " + token);
+            }
+
+            // 客户端模式默认返回
+            AuthorizationGrantType authorizationGrantType = authorization.getAuthorizationGrantType();
+            if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(authorizationGrantType)) {
+                return new DefaultOAuth2AuthenticatedPrincipal(authorization.getPrincipalName()
+                        , authorization.getAttributes(), AuthorityUtils.NO_AUTHORITIES);
+            }
+
             // 获取授权关联凭证对象
             Map<String, Object> attributes = authorization.getAttributes();
             Authentication authentication = (Authentication) attributes.get(Principal.class.getName());

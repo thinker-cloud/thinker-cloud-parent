@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author vains
  */
 @Data
-@RedisHash(value = "authorizationConsent")
+@RedisHash(value = "oauth:authorizationConsent")
 public class RedisAuthorizationConsent implements Serializable {
 
     /**

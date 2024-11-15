@@ -41,6 +41,16 @@ public class LocalDateTimeUtil {
     }
 
     /**
+     * LocalDateTime转换Instant
+     *
+     * @param date date
+     * @return LocalDateTime
+     */
+    public static Instant toInstant(LocalDateTime date) {
+        return date.atZone(SYSTEM_ZONE_ID).toInstant();
+    }
+
+    /**
      * Date转换LocalDateTime
      *
      * @param date date

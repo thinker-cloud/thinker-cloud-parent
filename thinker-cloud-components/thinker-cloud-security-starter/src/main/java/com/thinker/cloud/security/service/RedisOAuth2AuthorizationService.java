@@ -30,6 +30,10 @@ import java.util.function.Consumer;
 /**
  * 基于redis的授权管理服务
  *
+ * <p>
+ * 自定义授权模式Token对象Jackson反序列化存在没有无参构造器导致报错问题，需要自定义反序列化类
+ * 参考{@see org.springframework.security.jackson2.UsernamePasswordAuthenticationTokenMixin}
+ *
  * @author admin
  */
 @RequiredArgsConstructor

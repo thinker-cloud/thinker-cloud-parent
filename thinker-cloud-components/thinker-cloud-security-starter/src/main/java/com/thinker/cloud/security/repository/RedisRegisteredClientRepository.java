@@ -1,26 +1,25 @@
 package com.thinker.cloud.security.repository;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cn.hutool.core.util.BooleanUtil;
+import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.core.utils.date.LocalDateTimeUtil;
+import com.thinker.cloud.security.constants.SecurityConstants;
 import com.thinker.cloud.security.repository.entity.RedisRegisteredClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -35,24 +34,8 @@ public class RedisRegisteredClientRepository implements RegisteredClientReposito
 
     private final RedisOauthClientRepository repository;
 
-    private final static ObjectMapper MAPPER = new ObjectMapper();
-
-    static {
-        // 初始化序列化配置
-        ClassLoader classLoader = RedisRegisteredClientRepository.class.getClassLoader();
-        // 加载security提供的Modules
-        List<Module> modules = SecurityJackson2Modules.getModules(classLoader);
-        MAPPER.registerModules(modules);
-        // 加载Authorization Server提供的Module
-        MAPPER.registerModule(new OAuth2AuthorizationServerJackson2Module());
-    }
-
     @Override
     public void save(RegisteredClient registeredClient) {
-        Assert.notNull(registeredClient, "registeredClient cannot be null");
-        repository.findByClientId(registeredClient.getClientId())
-                .ifPresent(existingRegisteredClient -> repository.deleteById(existingRegisteredClient.getId()));
-        repository.save(toEntity(registeredClient));
     }
 
     @Override
@@ -69,22 +52,21 @@ public class RedisRegisteredClientRepository implements RegisteredClientReposito
 
     private RegisteredClient toObject(RedisRegisteredClient client) {
         Set<String> clientAuthenticationMethods = StringUtils.commaDelimitedListToSet(
-                client.getClientAuthenticationMethods());
+                client.getMethods());
         Set<String> authorizationGrantTypes = StringUtils.commaDelimitedListToSet(
-                client.getAuthorizationGrantTypes());
+                client.getGrantTypes());
         Set<String> redirectUris = StringUtils.commaDelimitedListToSet(
                 client.getRedirectUris());
         Set<String> postLogoutRedirectUris = StringUtils.commaDelimitedListToSet(
-                client.getPostLogoutRedirectUris());
+                client.getLogoutRedirectUris());
         Set<String> clientScopes = StringUtils.commaDelimitedListToSet(
                 client.getScopes());
 
         RegisteredClient.Builder builder = RegisteredClient.withId(client.getId())
+                .clientName(client.getName())
                 .clientId(client.getClientId())
-                .clientIdIssuedAt(client.getClientIdIssuedAt())
-                .clientSecret(client.getClientSecret())
-                .clientSecretExpiresAt(client.getClientSecretExpiresAt())
-                .clientName(client.getClientName())
+                .clientIdIssuedAt(LocalDateTimeUtil.toInstant(client.getCreateTime()))
+                .clientSecret(SecurityConstants.SECURITY_NOOP + client.getClientSecret())
                 .clientAuthenticationMethods(authenticationMethods ->
                         clientAuthenticationMethods.forEach(authenticationMethod ->
                                 authenticationMethods.add(resolveClientAuthenticationMethod(authenticationMethod))))
@@ -95,57 +77,23 @@ public class RedisRegisteredClientRepository implements RegisteredClientReposito
                 .postLogoutRedirectUris((uris) -> uris.addAll(postLogoutRedirectUris))
                 .scopes((scopes) -> scopes.addAll(clientScopes));
 
-        Map<String, Object> clientSettingsMap = parseMap(client.getClientSettings());
-        builder.clientSettings(ClientSettings.withSettings(clientSettingsMap).build());
+        Optional.ofNullable(client.getExpiresAt())
+                .map(LocalDateTimeUtil::toInstant)
+                .ifPresent(builder::clientSecretExpiresAt);
 
-        Map<String, Object> tokenSettingsMap = parseMap(client.getTokenSettings());
-        builder.tokenSettings(TokenSettings.withSettings(tokenSettingsMap).build());
+        builder.clientSettings(ClientSettings.builder()
+                .setting(CommonConstants.TENANT, client.getTenantId())
+                .requireAuthorizationConsent(!BooleanUtil.toBoolean(client.getAutoApprove()))
+                .build());
+
+        builder.tokenSettings(TokenSettings.builder()
+                .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
+                .accessTokenTimeToLive(Duration.ofSeconds(client.getAccessTokenValidity()))
+                .refreshTokenTimeToLive(Duration.ofSeconds(client.getRefreshTokenValidity()))
+                .reuseRefreshTokens(Boolean.TRUE)
+                .build());
 
         return builder.build();
-    }
-
-    private RedisRegisteredClient toEntity(RegisteredClient registeredClient) {
-        List<String> clientAuthenticationMethods = new ArrayList<>(registeredClient.getClientAuthenticationMethods().size());
-        registeredClient.getClientAuthenticationMethods().forEach(clientAuthenticationMethod ->
-                clientAuthenticationMethods.add(clientAuthenticationMethod.getValue()));
-
-        List<String> authorizationGrantTypes = new ArrayList<>(registeredClient.getAuthorizationGrantTypes().size());
-        registeredClient.getAuthorizationGrantTypes().forEach(authorizationGrantType ->
-                authorizationGrantTypes.add(authorizationGrantType.getValue()));
-
-        RedisRegisteredClient entity = new RedisRegisteredClient();
-        entity.setId(registeredClient.getId());
-        entity.setClientId(registeredClient.getClientId());
-        entity.setClientIdIssuedAt(registeredClient.getClientIdIssuedAt());
-        entity.setClientSecret(registeredClient.getClientSecret());
-        entity.setClientSecretExpiresAt(registeredClient.getClientSecretExpiresAt());
-        entity.setClientName(registeredClient.getClientName());
-        entity.setClientAuthenticationMethods(StringUtils.collectionToCommaDelimitedString(clientAuthenticationMethods));
-        entity.setAuthorizationGrantTypes(StringUtils.collectionToCommaDelimitedString(authorizationGrantTypes));
-        entity.setRedirectUris(StringUtils.collectionToCommaDelimitedString(registeredClient.getRedirectUris()));
-        entity.setPostLogoutRedirectUris(StringUtils.collectionToCommaDelimitedString(registeredClient.getPostLogoutRedirectUris()));
-        entity.setScopes(StringUtils.collectionToCommaDelimitedString(registeredClient.getScopes()));
-        entity.setClientSettings(writeMap(registeredClient.getClientSettings().getSettings()));
-        entity.setTokenSettings(writeMap(registeredClient.getTokenSettings().getSettings()));
-
-        return entity;
-    }
-
-    private Map<String, Object> parseMap(String data) {
-        try {
-            return MAPPER.readValue(data, new TypeReference<>() {
-            });
-        } catch (Exception ex) {
-            throw new IllegalArgumentException(ex.getMessage(), ex);
-        }
-    }
-
-    private String writeMap(Map<String, Object> data) {
-        try {
-            return MAPPER.writeValueAsString(data);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException(ex.getMessage(), ex);
-        }
     }
 
     private static AuthorizationGrantType resolveAuthorizationGrantType(String authorizationGrantType) {

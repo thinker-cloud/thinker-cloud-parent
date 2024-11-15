@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @author vains
  */
 @Data
-@RedisHash(value = "authorization")
+@RedisHash(value = "oauth:authorization")
 public class RedisOAuth2Authorization implements Serializable {
 
     /**

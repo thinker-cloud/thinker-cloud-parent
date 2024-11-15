@@ -12,7 +12,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.util.Optional;
@@ -24,7 +23,6 @@ import java.util.Optional;
  * @author admin
  */
 @Slf4j
-@Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class TenantContextHolderFilter extends GenericFilterBean {
 

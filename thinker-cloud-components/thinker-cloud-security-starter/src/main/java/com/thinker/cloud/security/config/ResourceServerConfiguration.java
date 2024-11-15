@@ -16,12 +16,10 @@
 
 package com.thinker.cloud.security.config;
 
-import com.thinker.cloud.security.component.AuthorizationServiceIntrospector;
-import com.thinker.cloud.security.component.BearerTokenExtractor;
-import com.thinker.cloud.security.component.Oauth2AuthExceptionEntryPoint;
-import com.thinker.cloud.security.component.PermitAllUrlMatcher;
+import com.thinker.cloud.security.component.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -39,10 +37,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
+@ComponentScan("com.thinker.cloud.security")
 public class ResourceServerConfiguration {
 
     private final PermitAllUrlMatcher permitAllUrlMatcher;
     private final BearerTokenExtractor bearerTokenExtractor;
+    private final AuthAccessDeniedHandler accessDeniedHandler;
     private final Oauth2AuthExceptionEntryPoint authExceptionEntryPoint;
     private final AuthorizationServiceIntrospector authorizationServiceIntrospector;
 
@@ -56,9 +56,14 @@ public class ResourceServerConfiguration {
                         .authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .opaqueToken(token -> token.introspector(authorizationServiceIntrospector))
-                        // 客户端身份验证入口点
+                        // 身份验证入口点
                         .authenticationEntryPoint(authExceptionEntryPoint)
                         .bearerTokenResolver(bearerTokenExtractor))
+                .exceptionHandling(handler -> handler
+                        // 访问被拒绝处理程序
+                        .accessDeniedHandler(accessDeniedHandler)
+                        // 身份验证入口点
+                        .authenticationEntryPoint(authExceptionEntryPoint))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();

@@ -17,10 +17,7 @@
 package com.thinker.cloud.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thinker.cloud.security.component.BearerTokenExtractor;
-import com.thinker.cloud.security.component.Oauth2AuthExceptionEntryPoint;
-import com.thinker.cloud.security.component.PermissionService;
-import com.thinker.cloud.security.component.PermitAllUrlMatcher;
+import com.thinker.cloud.security.component.*;
 import com.thinker.cloud.security.properties.ThinkerSecurityProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -71,6 +68,17 @@ public class ResourceServerAutoConfiguration {
     }
 
     /**
+     * 拒绝身份验证访问处理
+     *
+     * @param objectMapper jackson 输出对象
+     * @return AuthAccessDeniedHandler
+     */
+    @Bean
+    public AuthAccessDeniedHandler accessDeniedHandler(ObjectMapper objectMapper) {
+        return new AuthAccessDeniedHandler(objectMapper);
+    }
+
+    /**
      * 资源服务器异常处理
      *
      * @param objectMapper jackson 输出对象
@@ -84,7 +92,7 @@ public class ResourceServerAutoConfiguration {
     /**
      * 支持自定义权限表达式
      *
-     * @return {@link PrePostTemplateDefaults }
+     * @return PrePostTemplateDefaults
      */
     @Bean
     public PrePostTemplateDefaults prePostTemplateDefaults() {
@@ -100,4 +108,5 @@ public class ResourceServerAutoConfiguration {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 }

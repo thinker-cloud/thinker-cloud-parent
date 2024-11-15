@@ -1,4 +1,3 @@
 com.thinker.cloud.db.config.MybatisPlusConfig
 com.thinker.cloud.db.properties.DbConfigProperties
-com.thinker.cloud.db.tenant.TenantContextHolderFilter
 com.thinker.cloud.db.resolver.TenantKeyStrResolver
