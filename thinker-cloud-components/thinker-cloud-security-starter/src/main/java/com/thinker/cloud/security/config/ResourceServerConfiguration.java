@@ -19,7 +19,6 @@ package com.thinker.cloud.security.config;
 import com.thinker.cloud.security.component.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -37,7 +36,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-@ComponentScan("com.thinker.cloud.security")
 public class ResourceServerConfiguration {
 
     private final PermitAllUrlMatcher permitAllUrlMatcher;

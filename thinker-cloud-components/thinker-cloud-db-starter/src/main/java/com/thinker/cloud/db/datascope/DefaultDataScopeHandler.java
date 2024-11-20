@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.db.enums.DataScopeTypeEnum;
 import com.thinker.cloud.db.properties.DbConfigProperties;
 import com.thinker.cloud.security.constants.SecurityConstants;
-import com.thinker.cloud.security.userdetail.AuthUser;
+import com.thinker.cloud.security.model.AuthUser;
 import com.thinker.cloud.security.utils.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -129,7 +129,7 @@ public class DefaultDataScopeHandler implements DataScopeHandler {
         try {
             tables.addAll(TablesNamesFinder.findTables(originalSql));
         } catch (JSQLParserException e) {
-            log.error("获取表名失败，Sql解析异常，ex={}" , e.getMessage(), e);
+            log.error("获取表名失败，Sql解析异常，ex={}", e.getMessage(), e);
         }
 
         // 存在指定表忽略权限处理

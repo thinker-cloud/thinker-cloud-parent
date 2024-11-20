@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.Objects;
 
@@ -24,7 +23,6 @@ import java.util.Objects;
  * @author admin
  **/
 @Slf4j
-@Configuration
 @AllArgsConstructor
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedissonConfiguration {

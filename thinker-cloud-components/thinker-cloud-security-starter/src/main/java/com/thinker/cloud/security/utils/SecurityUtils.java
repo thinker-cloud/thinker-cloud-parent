@@ -18,7 +18,7 @@ package com.thinker.cloud.security.utils;
 
 import cn.hutool.core.util.StrUtil;
 import com.thinker.cloud.security.constants.SecurityConstants;
-import com.thinker.cloud.security.userdetail.AuthUser;
+import com.thinker.cloud.security.model.AuthUser;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

@@ -59,9 +59,9 @@
 
         <!-- 数据库 -->
         <druid.version>1.2.23</druid.version>
-        <mybatis-plus.version>3.5.7</mybatis-plus.version>
+        <mybatis-plus.version>3.5.9</mybatis-plus.version>
         <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
-        <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
+        <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
 
         <!-- 中间件 -->
         <xxl-job.version>2.4.1</xxl-job.version>
@@ -219,6 +219,11 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-jsqlparser</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>

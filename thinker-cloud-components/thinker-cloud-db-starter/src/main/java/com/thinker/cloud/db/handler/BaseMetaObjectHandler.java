@@ -1,7 +1,7 @@
 package com.thinker.cloud.db.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.thinker.cloud.security.userdetail.AuthUser;
+import com.thinker.cloud.security.model.AuthUser;
 import com.thinker.cloud.security.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;

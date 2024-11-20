@@ -1,5 +1,4 @@
 com.thinker.cloud.redis.RedisConfiguration
-com.thinker.cloud.redis.RedissonConfiguration
 com.thinker.cloud.redis.cache.RedisCacheAutoConfiguration
 com.thinker.cloud.redis.lock.DistributedLockAutoConfiguration
 com.thinker.cloud.redis.idempotent.IdempotentAutoConfiguration

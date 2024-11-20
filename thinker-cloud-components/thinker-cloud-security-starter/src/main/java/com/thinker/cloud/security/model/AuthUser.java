@@ -1,4 +1,4 @@
-package com.thinker.cloud.security.userdetail;
+package com.thinker.cloud.security.model;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

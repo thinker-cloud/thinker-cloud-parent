@@ -92,7 +92,7 @@ public class Oauth2AuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
         if (authException instanceof UsernameNotFoundException) {
             String msg = SecurityMessageSourceUtils.getAccessor().getMessage(
-                    "AbstractUserDetailsAuthenticationProvider.badCredentials"
+                    "AbstractUserDetailsAuthenticationProvider.userNotFound"
                     , authException.getMessage(), Locale.CHINA);
             result.setCode(ResponseCode.NOOP_BIND_ACCOUNT.getCode());
             result.setMessage(msg);

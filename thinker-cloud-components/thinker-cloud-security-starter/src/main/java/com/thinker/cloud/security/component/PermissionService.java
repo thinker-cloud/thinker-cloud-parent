@@ -18,7 +18,7 @@
 package com.thinker.cloud.security.component;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.thinker.cloud.security.userdetail.AuthUser;
+import com.thinker.cloud.security.model.AuthUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

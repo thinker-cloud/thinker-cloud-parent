@@ -1,7 +1,7 @@
 package com.thinker.cloud.security.component;
 
 import com.thinker.cloud.security.constants.SecurityConstants;
-import com.thinker.cloud.security.userdetail.AuthUser;
+import com.thinker.cloud.security.model.AuthUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.util.StandardSessionIdGenerator;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;

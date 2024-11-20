@@ -1,4 +1,4 @@
-com.thinker.cloud.security.config.ResourceServerAutoConfiguration
+com.thinker.cloud.security.config.AuthorizationAutoConfiguration
 com.thinker.cloud.security.config.SecurityMessageSourceConfiguration
 com.thinker.cloud.security.credential.CredentialTemplate
 com.thinker.cloud.security.component.SecurityInnerAspect

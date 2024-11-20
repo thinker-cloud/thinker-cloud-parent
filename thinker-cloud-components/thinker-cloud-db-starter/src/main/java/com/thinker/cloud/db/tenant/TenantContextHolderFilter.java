@@ -14,8 +14,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.GenericFilterBean;
 
-import java.util.Optional;
-
 
 /**
  * 租户上下文过滤器
@@ -35,16 +33,12 @@ public class TenantContextHolderFilter extends GenericFilterBean {
         log.debug("获取header中的租户:{}", tenant);
 
         try {
-            Long tenantId = Optional.ofNullable(tenant)
-                    .filter(StrUtil::isNotBlank)
-                    .map(Long::valueOf)
-                    .orElse(CommonConstants.DEFAULT_TENANT);
-            TenantContextHolder.setTenantId(tenantId);
-        } catch (Exception e) {
-            TenantContextHolder.setTenantId(CommonConstants.DEFAULT_TENANT);
+            if (StrUtil.isNotBlank(tenant)) {
+                TenantContextHolder.setTenantId(Long.valueOf(tenant));
+            }
+            filterChain.doFilter(request, response);
+        } finally {
+            TenantContextHolder.clear();
         }
-
-        filterChain.doFilter(request, response);
-        TenantContextHolder.clear();
     }
 }

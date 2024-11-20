@@ -19,21 +19,21 @@ package com.thinker.cloud.security.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.security.component.*;
 import com.thinker.cloud.security.properties.ThinkerSecurityProperties;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authorization.method.PrePostTemplateDefaults;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * 资源服务器自动配置
+ * 授权认证自动配置
  *
  * @author admin
  */
-@RequiredArgsConstructor
+@ComponentScan("com.thinker.cloud.security")
 @EnableConfigurationProperties(ThinkerSecurityProperties.class)
-public class ResourceServerAutoConfiguration {
+public class AuthorizationAutoConfiguration {
 
     /**
      * 鉴权具体的实现逻辑

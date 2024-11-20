@@ -1,6 +1,8 @@
 package com.thinker.cloud.security.component;
 
+import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
 import com.thinker.cloud.security.constants.SecurityConstants;
+import com.thinker.cloud.security.model.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -50,12 +52,15 @@ public class AuthorizationServiceIntrospector implements OpaqueTokenIntrospector
             Map<String, Object> attributes = authorization.getAttributes();
             Authentication authentication = (Authentication) attributes.get(Principal.class.getName());
             OAuth2AuthenticatedPrincipal principal = (OAuth2AuthenticatedPrincipal) authentication.getPrincipal();
+            if (principal instanceof AuthUser authUser) {
+                TenantContextHolder.setTenantId(authUser.getTenantId());
+            }
 
             // 注入客户端信息，方便上下文中获取
             principal.getAttributes().put(SecurityConstants.CLIENT_ID, authorization.getRegisteredClientId());
             return principal;
         } catch (Exception e) {
-            log.error("资源服务器 introspect Token error {}", e.getLocalizedMessage(), e);
+            log.error("auth resource server introspect Token error {}", e.getLocalizedMessage(), e);
             throw new InvalidBearerTokenException("invalid_token: " + token);
         }
     }

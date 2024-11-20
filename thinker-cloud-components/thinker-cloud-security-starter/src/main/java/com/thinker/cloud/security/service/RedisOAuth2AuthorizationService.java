@@ -1,10 +1,15 @@
 package com.thinker.cloud.security.service;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.thinker.cloud.security.repository.RedisOAuth2AuthorizationRepository;
 import com.thinker.cloud.security.repository.entity.RedisOAuth2Authorization;
+import com.thinker.cloud.security.token.jackson2.CustomOAuth2AuthorizationJackson2Module;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
@@ -46,12 +51,20 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
 
     static {
         // 初始化序列化配置
-        ClassLoader classLoader = RedisOAuth2AuthorizationService.class.getClassLoader();
+        MAPPER.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        MAPPER.activateDefaultTyping(LaissezFaireSubTypeValidator.instance
+                , ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+
         // 加载security提供的Modules
+        ClassLoader classLoader = RedisOAuth2AuthorizationService.class.getClassLoader();
         List<Module> modules = SecurityJackson2Modules.getModules(classLoader);
         MAPPER.registerModules(modules);
+
         // 加载Authorization Server提供的Module
         MAPPER.registerModule(new OAuth2AuthorizationServerJackson2Module());
+
+        // 加载自定义授权module
+        MAPPER.registerModule(new CustomOAuth2AuthorizationJackson2Module());
     }
 
     @Override
