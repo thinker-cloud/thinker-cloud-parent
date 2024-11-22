@@ -2,6 +2,7 @@ package com.thinker.cloud.db.dynamic.datasource.config;
 
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration;
 import com.thinker.cloud.db.dynamic.datasource.aspect.DynamicDataSourceAspect;
+import com.thinker.cloud.db.dynamic.datasource.plugins.DynamicMasterSlaveInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -26,5 +27,15 @@ public class DynamicDataSourceConfiguration {
     @Bean
     public DynamicDataSourceAspect dynamicDataSourceAspect() {
         return new DynamicDataSourceAspect();
+    }
+
+    /**
+     * 动态切换主从
+     *
+     * @return DynamicMasterSlaveInterceptor
+     */
+    @Bean
+    public DynamicMasterSlaveInterceptor dynamicMasterSlaveInterceptor() {
+        return new DynamicMasterSlaveInterceptor();
     }
 }

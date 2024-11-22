@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 分页工具封装
@@ -68,6 +69,8 @@ public class MyPageUtil {
     public static <T> IPage<T> generatePage(PageQuery query) {
         // 分页对象
         Page<T> page = new Page<>(query.getPage(), query.getLimit());
+        Optional.ofNullable(query.getIsAutoCount()).ifPresent(page::setSearchCount);
+        Optional.ofNullable(query.getMaxQueryLimit()).ifPresent(page::setMaxLimit);
 
         // 排序字段
         String orderField = query.getOrderField();

@@ -37,9 +37,10 @@ public class DynamicDataSourceAspect {
         // 获取需要切换的数据源
         DS ds = this.getDataSource(joinPoint);
         if (Objects.nonNull(ds) && StrUtil.isNotBlank(ds.value())) {
+            if (Objects.equals(ds.value(), DynamicDataSourceContextHolder.peek())) {
+                return joinPoint.proceed();
+            }
             DynamicDataSourceContextHolder.push(ds.value());
-        } else {
-            DynamicDataSourceContextHolder.push(primary);
         }
 
         try {
@@ -53,7 +54,7 @@ public class DynamicDataSourceAspect {
     /**
      * 获取需要切换的数据源
      */
-    public DS getDataSource(ProceedingJoinPoint joinPoint) {
+    private DS getDataSource(ProceedingJoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         DS dataSource = AnnotationUtils.findAnnotation(signature.getMethod(), DS.class);
         if (Objects.nonNull(dataSource)) {

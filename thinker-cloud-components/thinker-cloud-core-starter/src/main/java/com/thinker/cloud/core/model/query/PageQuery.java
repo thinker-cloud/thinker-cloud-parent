@@ -1,6 +1,7 @@
 package com.thinker.cloud.core.model.query;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinker.cloud.core.constants.CommonConstants;
 import com.thinker.cloud.core.utils.MyPageUtil;
 import lombok.Data;
@@ -45,6 +46,18 @@ public class PageQuery extends Query implements Serializable {
      * 排序方式
      */
     private String order = CommonConstants.DESC;
+
+    /**
+     * 是否自动count
+     */
+    @JsonIgnore
+    private Boolean isAutoCount;
+
+    /**
+     * 最大查询条数
+     */
+    @JsonIgnore
+    private Long maxQueryLimit;
 
     /**
      * 生成分页组件

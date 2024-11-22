@@ -10,6 +10,7 @@ import com.thinker.cloud.db.datascope.DataScopeInterceptor;
 import com.thinker.cloud.db.datascope.DefaultDataScopeHandler;
 import com.thinker.cloud.db.handler.BaseMetaObjectHandler;
 import com.thinker.cloud.db.injector.EnhanceSqlInjector;
+import com.thinker.cloud.db.plugins.PageHandlerInterceptor;
 import com.thinker.cloud.db.properties.DbConfigProperties;
 import com.thinker.cloud.db.tenant.TenantMaintenanceHandler;
 import com.thinker.cloud.db.tenant.TenantRequestInterceptor;
@@ -57,19 +58,28 @@ public class MybatisPlusConfig {
     }
 
     /**
+     * 分页插件优化拦截器
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public PageHandlerInterceptor pageHandlerInterceptor() {
+        return new PageHandlerInterceptor();
+    }
+
+    /**
      * mybatis plus 拦截器配置
+     * <p>
+     * 注意：使用多个插件时，需要注意它们的顺序。建议的顺序是：
+     * <p>
+     * 1. 多租户、动态表名
+     * 2. 分页、乐观锁
+     * 3. SQL 性能规范、防止全表更新与删除
+     * 总结：对 SQL 进行单次改造的插件应优先放入，不对 SQL 进行改造的插件最后放入。
      */
     @Bean
     @ConditionalOnMissingBean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-
-        // 分页支持
-        DbType dbType = DbType.getDbType(dbConfigProperties.getType());
-        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(dbType));
-
-        // 乐观锁支持
-        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
 
         // 多租户支持
         if (dbConfigProperties.getTenant().getEnable()) {
@@ -84,6 +94,13 @@ public class MybatisPlusConfig {
             DataScopeInterceptor dataScopeInterceptor = new DataScopeInterceptor(dataScopeHandler);
             interceptor.addInnerInterceptor(dataScopeInterceptor);
         }
+
+        // 分页支持
+        DbType dbType = DbType.getDbType(dbConfigProperties.getType());
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(dbType));
+
+        // 乐观锁支持
+        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         return interceptor;
     }
 
