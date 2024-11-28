@@ -18,8 +18,7 @@ package com.thinker.cloud.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.security.component.*;
-import com.thinker.cloud.security.properties.ThinkerSecurityProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import com.thinker.cloud.security.properties.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authorization.method.PrePostTemplateDefaults;
@@ -32,7 +31,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author admin
  */
 @ComponentScan("com.thinker.cloud.security")
-@EnableConfigurationProperties(ThinkerSecurityProperties.class)
 public class AuthorizationAutoConfiguration {
 
     /**
@@ -48,12 +46,12 @@ public class AuthorizationAutoConfiguration {
     /**
      * 白名单放行url解析器
      *
-     * @param thinkerSecurityProperties 安全配置信息
+     * @param securityProperties 安全配置信息
      * @return PermitAllUrlResolver
      */
     @Bean
-    public PermitAllUrlMatcher permitAllUrlResolver(ThinkerSecurityProperties thinkerSecurityProperties) {
-        return new PermitAllUrlMatcher(thinkerSecurityProperties);
+    public PermitAllUrlMatcher permitAllUrlResolver(SecurityProperties securityProperties) {
+        return new PermitAllUrlMatcher(securityProperties);
     }
 
     /**

@@ -2,7 +2,7 @@
   "groups": [
     {
       "name": "thinker.cloud.security",
-      "type": "com.thinker.cloud.security.properties.ThinkerSecurityProperties",
+      "type": "com.thinker.cloud.security.properties.SecurityProperties",
       "description": "Configuration properties for thinker cloud security settings."
     }
   ],

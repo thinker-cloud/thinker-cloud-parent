@@ -9,32 +9,29 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>thinker-cloud-redis-starter</artifactId>
-	<name>thinker-cloud-redis-starter</name>
+	<artifactId>thinker-cloud-session-starter</artifactId>
+	<name>thinker-cloud-session-starter</name>
 	<packaging>jar</packaging>
-	<description>Thinker Cloud Redis Starter</description>
+	<description>Thinker Cloud Session Starter</description>
 	<url>https://www.isexcuse.com</url>
 
 	<dependencies>
+		<!-- Thinker Redis -->
 		<dependency>
 			<groupId>com.thinker.cloud</groupId>
-			<artifactId>thinker-cloud-core-starter</artifactId>
+			<artifactId>thinker-cloud-redis-starter</artifactId>
 		</dependency>
 
+		<!-- Session Redis -->
 		<dependency>
-			<groupId>io.lettuce</groupId>
-			<artifactId>lettuce-core</artifactId>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
 		</dependency>
 
+		<!-- 提供 Web、Security 序列化与反序列化 -->
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-pool2</artifactId>
-		</dependency>
-
-		<!--redisson-->
-		<dependency>
-			<groupId>org.redisson</groupId>
-			<artifactId>redisson-spring-boot-starter</artifactId>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
 		</dependency>
 	</dependencies>
 </project>

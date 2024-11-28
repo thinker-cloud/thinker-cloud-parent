@@ -6,16 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -28,15 +26,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 @EnableScheduling
 @AllArgsConstructor
-@ConditionalOnBean(AsyncTaskProperties.class)
 public class AsyncTaskExecutorConfiguration implements AsyncConfigurer {
 
     private final AsyncTaskProperties asyncTaskProperties;
 
-    @Primary
+    @Bean
     @Override
-    @Bean(name = "taskExecutor")
-    public TaskExecutor getAsyncExecutor() {
+    public Executor getAsyncExecutor() {
         log.debug("Creating Async Task Executor");
         ThreadPoolTaskExecutor taskExecutor = new ThinkerThreadPoolTaskExecutor();
         taskExecutor.setCorePoolSize(asyncTaskProperties.getCorePoolSize());
@@ -48,7 +44,7 @@ public class AsyncTaskExecutorConfiguration implements AsyncConfigurer {
 
         // 配置拒绝策略
         taskExecutor.setRejectedExecutionHandler((r, executor) -> {
-            log.info("线程池内加入任务被拒绝, 使用当前线程执行: {}", r);
+            log.error("异步任务线程池内加入任务被拒绝");
             // 抛异常
             new ThreadPoolExecutor.CallerRunsPolicy();
         });

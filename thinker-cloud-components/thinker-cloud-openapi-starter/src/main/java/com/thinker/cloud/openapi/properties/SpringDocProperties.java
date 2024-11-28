@@ -18,7 +18,7 @@ package com.thinker.cloud.openapi.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 /**
  * 接口文档配置
@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Configuration;
  * @author admin
  */
 @Data
-@Configuration
+@RefreshScope
 @ConfigurationProperties("springdoc.api-docs")
 public class SpringDocProperties {
 

@@ -63,6 +63,12 @@
 			<artifactId>thinker-cloud-sentinel-starter</artifactId>
 		</dependency>
 
+		<!-- Session -->
+		<dependency>
+			<groupId>com.thinker.cloud</groupId>
+			<artifactId>thinker-cloud-session-starter</artifactId>
+		</dependency>
+
 		<!-- 监控 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

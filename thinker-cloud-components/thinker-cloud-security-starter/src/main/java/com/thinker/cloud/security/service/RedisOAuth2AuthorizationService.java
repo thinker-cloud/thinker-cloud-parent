@@ -1,12 +1,9 @@
 package com.thinker.cloud.security.service;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.thinker.cloud.redis.RedisConfiguration;
 import com.thinker.cloud.security.repository.RedisOAuth2AuthorizationRepository;
 import com.thinker.cloud.security.repository.entity.RedisOAuth2Authorization;
 import com.thinker.cloud.security.token.jackson2.CustomOAuth2AuthorizationJackson2Module;
@@ -47,14 +44,9 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     private final RegisteredClientRepository registeredClientRepository;
     private final RedisOAuth2AuthorizationRepository oAuth2AuthorizationRepository;
 
-    private final static ObjectMapper MAPPER = new ObjectMapper();
+    private final static ObjectMapper MAPPER = RedisConfiguration.objectMapper();
 
     static {
-        // 初始化序列化配置
-        MAPPER.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        MAPPER.activateDefaultTyping(LaissezFaireSubTypeValidator.instance
-                , ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-
         // 加载security提供的Modules
         ClassLoader classLoader = RedisOAuth2AuthorizationService.class.getClassLoader();
         List<Module> modules = SecurityJackson2Modules.getModules(classLoader);

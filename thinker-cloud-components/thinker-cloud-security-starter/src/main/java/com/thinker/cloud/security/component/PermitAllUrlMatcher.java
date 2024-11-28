@@ -8,7 +8,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.google.common.collect.Sets;
 import com.thinker.cloud.security.annotation.Inner;
 import com.thinker.cloud.security.constants.SecurityConstants;
-import com.thinker.cloud.security.properties.ThinkerSecurityProperties;
+import com.thinker.cloud.security.properties.SecurityProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class PermitAllUrlMatcher implements InitializingBean, RequestMatcher {
             "/favicon.ico", "/error", "/actuator/**", "/webjars/**", "/css/**"
     );
 
-    private final ThinkerSecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
     @Override
     public void afterPropertiesSet() {

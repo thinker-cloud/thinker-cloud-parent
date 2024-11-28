@@ -1,27 +1,28 @@
-package com.thinker.cloud.core.properties;
+package com.thinker.cloud.session.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 /**
- * 异步任务配置
+ * Spring Session 线程池配置
  *
  * @author admin
- */
+ **/
 @Data
 @RefreshScope
-@ConfigurationProperties(prefix = "thinker.cloud.async.task")
-public class AsyncTaskProperties {
+@ConfigurationProperties(prefix = "thinker.cloud.session.task")
+public class SessionTaskProperties {
+
     /**
      * 线程池维护线程的核心数量.
      */
-    private int corePoolSize = 30;
+    private int corePoolSize = 8;
 
     /**
      * 线程池维护线程的最大数量
      */
-    private int maxPoolSize = 100;
+    private int maxPoolSize = 16;
 
     /**
      * 队列最大长度
@@ -31,10 +32,11 @@ public class AsyncTaskProperties {
     /**
      * 允许线程空闲时间
      */
-    private int keepAliveSeconds = 3000;
+    private int keepAliveSeconds = 10;
 
     /**
      * 线程池前缀
      */
-    private String threadNamePrefix = "thinker-task-executor-";
+    private String threadNamePrefix = "thinker-session-task-executor-";
+
 }

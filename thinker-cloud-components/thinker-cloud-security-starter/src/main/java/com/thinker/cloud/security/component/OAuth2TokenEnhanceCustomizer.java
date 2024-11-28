@@ -3,7 +3,6 @@ package com.thinker.cloud.security.component;
 import com.thinker.cloud.security.constants.SecurityConstants;
 import com.thinker.cloud.security.model.AuthUser;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.util.StandardSessionIdGenerator;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
@@ -47,8 +46,6 @@ public class OAuth2TokenEnhanceCustomizer implements OAuth2TokenCustomizer<OAuth
             claims.claim(SecurityConstants.USERNAME, authUser.getUsername());
         } else if (context.getTokenType().getValue().equals(OidcParameterNames.ID_TOKEN)) {
             claims.claim(IdTokenClaimNames.AUTH_TIME, Date.from(Instant.now()));
-            StandardSessionIdGenerator standardSessionIdGenerator = new StandardSessionIdGenerator();
-            claims.claim("sid", standardSessionIdGenerator.generateSessionId());
         }
     }
 }

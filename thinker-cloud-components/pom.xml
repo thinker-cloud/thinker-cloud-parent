@@ -31,6 +31,7 @@
         <module>thinker-cloud-seata-starter</module>
         <module>thinker-cloud-security-starter</module>
         <module>thinker-cloud-sentinel-starter</module>
+        <module>thinker-cloud-session-starter</module>
         <module>thinker-cloud-task-starter</module>
         <module>thinker-cloud-web-starter</module>
         <module>thinker-cloud-websocket-starter</module>

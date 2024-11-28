@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 @RefreshScope
 @ConfigurationProperties(prefix = "thinker.cloud.security")
-public class ThinkerSecurityProperties {
+public class SecurityProperties {
 
     /**
      * 网关解密登录前端密码 秘钥

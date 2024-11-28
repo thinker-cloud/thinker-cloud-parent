@@ -1,0 +1,41 @@
+{
+  "groups": [
+    {
+      "name": "thinker.cloud.cookie",
+      "type": "com.thinker.cloud.session.properties.SessionProperties",
+      "description": "Configuration properties for thinker cloud session settings."
+    }
+  ],
+  "properties": [
+    {
+      "name": "thinker.cloud.cookie.cookie-path",
+      "type": "java.lang.String",
+      "description": "Sets the path of the cookie. Defaults to the context path from the HttpServletRequest if not set. If null, the default context path will be used.",
+      "default": null
+    },
+    {
+      "name": "thinker.cloud.cookie.cookie-name",
+      "type": "java.lang.String",
+      "description": "The name of the cookie. It cannot be empty.",
+      "default": "SESSION"
+    },
+    {
+      "name": "thinker.cloud.cookie.cookie-max-age",
+      "type": "java.lang.Integer",
+      "description": "Sets the maxAge attribute of the cookie. Defaults to expire when the browser is closed. 1209600 equals 60 * 60 * 24 * 14 seconds.",
+      "default": 1209600
+    },
+    {
+      "name": "thinker.cloud.cookie.cookie-domain",
+      "type": "java.lang.String",
+      "description": "Sets an explicit domain for the cookie. This allows the cookie to be shared across subdomains when the request comes from www.example.com, using the 'example.com' domain.",
+      "default": "example.com"
+    },
+    {
+      "name": "thinker.cloud.cookie.use-base64-encoding",
+      "type": "boolean",
+      "description": "Sets whether the cookie value should be Base64 encoded. This is valuable for supporting RFC 6265, which recommends Base 64 encoding for cookie values.",
+      "default": true
+    }
+  ]
+}

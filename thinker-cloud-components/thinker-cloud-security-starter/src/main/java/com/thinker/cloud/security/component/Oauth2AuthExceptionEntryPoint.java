@@ -20,7 +20,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.core.constants.CommonConstants;
-import com.thinker.cloud.core.enums.ResponseCode;
 import com.thinker.cloud.core.model.Result;
 import com.thinker.cloud.security.exception.AbstractAuthenticationException;
 import com.thinker.cloud.security.utils.SecurityMessageSourceUtils;
@@ -94,9 +93,7 @@ public class Oauth2AuthExceptionEntryPoint implements AuthenticationEntryPoint {
             String msg = SecurityMessageSourceUtils.getAccessor().getMessage(
                     "AbstractUserDetailsAuthenticationProvider.userNotFound"
                     , authException.getMessage(), Locale.CHINA);
-            result.setCode(ResponseCode.NOOP_BIND_ACCOUNT.getCode());
             result.setMessage(msg);
-            response.setStatus(HttpStatus.HTTP_INTERNAL_ERROR);
         }
 
         if (authException instanceof AbstractAuthenticationException) {

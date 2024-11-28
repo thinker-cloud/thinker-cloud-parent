@@ -1,0 +1,4 @@
+com.thinker.cloud.session.config.SessionConfiguration
+com.thinker.cloud.session.config.SessionSerializerConfiguration
+com.thinker.cloud.session.properties.SessionProperties
+com.thinker.cloud.session.properties.SessionTaskProperties

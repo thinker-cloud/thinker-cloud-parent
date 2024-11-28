@@ -1,4 +1,6 @@
 com.thinker.cloud.core.config.WebMvcConfiguration
 com.thinker.cloud.core.config.JacksonConfiguration
+com.thinker.cloud.core.properties.AsyncTaskProperties
+com.thinker.cloud.core.properties.RestTemplateProperties
 com.thinker.cloud.core.aspect.expression.ExpressionResolver
 com.thinker.cloud.core.config.AsyncTaskExecutorConfiguration

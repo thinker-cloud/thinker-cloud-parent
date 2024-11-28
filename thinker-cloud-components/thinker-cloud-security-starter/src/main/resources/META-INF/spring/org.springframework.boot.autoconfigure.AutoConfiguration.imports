@@ -1,5 +1,6 @@
 com.thinker.cloud.security.config.AuthorizationAutoConfiguration
 com.thinker.cloud.security.config.SecurityMessageSourceConfiguration
+com.thinker.cloud.security.properties.SecurityProperties
 com.thinker.cloud.security.credential.CredentialTemplate
 com.thinker.cloud.security.component.SecurityInnerAspect
 com.thinker.cloud.security.component.OAuth2TokenEnhanceCustomizer

@@ -97,13 +97,7 @@ public class RedisConfiguration {
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
 
         // 4.配置Value序列化 jackson
-        ObjectMapper objMapper = new ObjectMapper();
-        objMapper.setLocale(Locale.CHINA);
-        objMapper.setTimeZone(TimeZone.getTimeZone(CommonConstants.ASIA_SHANGHAI));
-        objMapper.registerModule(new JavaTimeModule());
-        objMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        objMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance
-                , ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        ObjectMapper objMapper = objectMapper();
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(objMapper, Object.class);
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
@@ -134,6 +128,20 @@ public class RedisConfiguration {
         // 5.初始化StringRedisTemplate
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
+    }
+
+    /**
+     * ObjectMapper
+     */
+    public static ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setLocale(Locale.CHINA);
+        objectMapper.setTimeZone(TimeZone.getTimeZone(CommonConstants.ASIA_SHANGHAI));
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance
+                , ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        return objectMapper;
     }
 
     /**
