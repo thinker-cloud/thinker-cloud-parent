@@ -1,6 +1,6 @@
 package com.thinker.cloud.redis.delayqueue.redisson;
 
-import com.thinker.cloud.core.exception.DelayedQueueException;
+import com.thinker.cloud.common.exception.DelayedQueueException;
 import com.thinker.cloud.redis.delayqueue.core.DelayQueueHolder;
 import com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties;
 import lombok.RequiredArgsConstructor;

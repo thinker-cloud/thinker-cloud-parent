@@ -2,7 +2,7 @@ package com.thinker.cloud.core.excel;
 
 import cn.afterturn.easypoi.excel.entity.result.ExcelVerifyHandlerResult;
 import cn.afterturn.easypoi.handler.inter.IExcelVerifyHandler;
-import com.thinker.cloud.core.exception.ValidationException;
+import com.thinker.cloud.common.exception.ValidationException;
 import com.thinker.cloud.core.utils.ValidatorUtil;
 
 /**

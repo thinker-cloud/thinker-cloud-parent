@@ -19,7 +19,7 @@ package com.thinker.cloud.security.component;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.common.constants.CommonConstants;
 import com.thinker.cloud.core.model.Result;
 import com.thinker.cloud.security.exception.AbstractAuthenticationException;
 import com.thinker.cloud.security.utils.SecurityMessageSourceUtils;

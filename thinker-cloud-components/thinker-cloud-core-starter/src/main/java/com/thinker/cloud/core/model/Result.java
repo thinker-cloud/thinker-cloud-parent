@@ -3,8 +3,8 @@ package com.thinker.cloud.core.model;
 
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.thinker.cloud.core.enums.IEnumDict;
-import com.thinker.cloud.core.enums.ResponseCode;
+import com.thinker.cloud.common.enums.IEnumDict;
+import com.thinker.cloud.common.enums.ResponseCode;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

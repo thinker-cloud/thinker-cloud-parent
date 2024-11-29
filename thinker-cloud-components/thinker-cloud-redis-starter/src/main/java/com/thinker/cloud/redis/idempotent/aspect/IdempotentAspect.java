@@ -2,7 +2,7 @@ package com.thinker.cloud.redis.idempotent.aspect;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
-import com.thinker.cloud.core.exception.IdempotentException;
+import com.thinker.cloud.common.exception.IdempotentException;
 import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
 import com.thinker.cloud.redis.idempotent.annotation.Idempotent;
 import lombok.RequiredArgsConstructor;

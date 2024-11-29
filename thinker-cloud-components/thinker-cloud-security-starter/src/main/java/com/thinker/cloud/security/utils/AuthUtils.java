@@ -1,7 +1,10 @@
 package com.thinker.cloud.security.utils;
 
 import cn.hutool.core.codec.Base64;
-import com.thinker.cloud.core.exception.ServiceException;
+import com.thinker.cloud.common.constants.CommonConstants;
+import com.thinker.cloud.common.exception.ServiceException;
+import com.thinker.cloud.core.utils.WebUtil;
+import com.thinker.cloud.common.enums.AuthTypeEnum;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -57,5 +60,18 @@ public class AuthUtils {
         }
 
         return extractAndDecodeHeader(header);
+    }
+
+    /**
+     * 获取客户端授权类型
+     *
+     * @param request request
+     * @return String
+     */
+    public String getAuthType(HttpServletRequest request) {
+        return WebUtil.getHeader(request
+                , CommonConstants.AUTH_TYPE_HEADER
+                , AuthTypeEnum.ADMIN.getValue()
+        );
     }
 }

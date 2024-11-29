@@ -3,7 +3,7 @@ package com.thinker.cloud.security.credential;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.core.exception.ValidationException;
+import com.thinker.cloud.common.exception.ValidationException;
 import com.thinker.cloud.security.credential.model.CredentialParam;
 import com.thinker.cloud.security.credential.model.CredentialType;
 import com.thinker.cloud.security.credential.model.CredentialValid;

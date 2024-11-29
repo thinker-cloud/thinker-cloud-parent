@@ -1,7 +1,7 @@
 package com.thinker.cloud.db.tenant;
 
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.common.constants.CommonConstants;
 import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletRequest;

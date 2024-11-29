@@ -1,8 +1,8 @@
 package com.thinker.cloud.sentinel.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.core.enums.ResponseCode;
-import com.thinker.cloud.core.exception.*;
+import com.thinker.cloud.common.enums.ResponseCode;
+import com.thinker.cloud.common.exception.*;
 import com.thinker.cloud.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

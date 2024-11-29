@@ -58,4 +58,14 @@ public abstract class AbstractAuthenticationToken extends org.springframework.se
     public Object getPrincipal() {
         return this.principal;
     }
+
+    /**
+     * 获取直接参数
+     *
+     * @param key key
+     * @return Object
+     */
+    public Object getParameters(String key) {
+        return this.additionalParameters.get(key);
+    }
 }

@@ -1,6 +1,6 @@
 package com.thinker.cloud.dubbo.filter;
 
-import com.thinker.cloud.core.exception.AbstractException;
+import com.thinker.cloud.common.exception.AbstractException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.common.utils.ReflectUtils;

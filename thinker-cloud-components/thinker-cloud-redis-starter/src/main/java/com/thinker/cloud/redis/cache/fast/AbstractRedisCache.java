@@ -3,7 +3,7 @@ package com.thinker.cloud.redis.cache.fast;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.ListUtil;
 import com.google.common.collect.Lists;
-import com.thinker.cloud.core.cache.base.ICache;
+import com.thinker.cloud.common.cache.base.ICache;
 import com.thinker.cloud.redis.cache.service.RedisClientService;
 import jakarta.annotation.Resource;
 import org.springframework.lang.NonNull;

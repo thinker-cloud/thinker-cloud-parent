@@ -1,6 +1,6 @@
 package com.thinker.cloud.task.cron;
 
-import com.thinker.cloud.core.exception.ValidationException;
+import com.thinker.cloud.common.exception.ValidationException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;

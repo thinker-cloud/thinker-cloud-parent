@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.thread.ThreadUtil;
 import com.google.common.collect.Lists;
-import com.thinker.cloud.core.exception.FailException;
+import com.thinker.cloud.common.exception.FailException;
 import com.thinker.cloud.core.utils.MyPageUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;

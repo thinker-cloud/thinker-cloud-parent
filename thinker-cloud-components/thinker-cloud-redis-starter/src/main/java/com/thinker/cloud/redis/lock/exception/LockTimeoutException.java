@@ -1,7 +1,7 @@
 package com.thinker.cloud.redis.lock.exception;
 
 
-import com.thinker.cloud.core.exception.LockException;
+import com.thinker.cloud.common.exception.LockException;
 
 /**
  * 锁超时异常

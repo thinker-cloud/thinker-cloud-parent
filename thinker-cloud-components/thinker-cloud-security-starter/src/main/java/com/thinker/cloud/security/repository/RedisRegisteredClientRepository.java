@@ -1,8 +1,8 @@
 package com.thinker.cloud.security.repository;
 
 import cn.hutool.core.util.BooleanUtil;
-import com.thinker.cloud.core.constants.CommonConstants;
-import com.thinker.cloud.core.utils.date.LocalDateTimeUtil;
+import com.thinker.cloud.common.constants.CommonConstants;
+import com.thinker.cloud.common.utils.date.LocalDateTimeUtil;
 import com.thinker.cloud.security.constants.SecurityConstants;
 import com.thinker.cloud.security.repository.entity.RedisRegisteredClient;
 import lombok.RequiredArgsConstructor;

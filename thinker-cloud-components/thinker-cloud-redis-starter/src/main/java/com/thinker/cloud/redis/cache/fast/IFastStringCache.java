@@ -1,7 +1,7 @@
 package com.thinker.cloud.redis.cache.fast;
 
 import com.alibaba.fastjson.TypeReference;
-import com.thinker.cloud.core.cache.fast.IDyKey;
+import com.thinker.cloud.common.cache.fast.IDyKey;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

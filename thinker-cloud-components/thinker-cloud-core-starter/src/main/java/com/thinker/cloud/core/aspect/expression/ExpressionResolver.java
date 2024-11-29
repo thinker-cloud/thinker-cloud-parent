@@ -7,7 +7,6 @@ import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -17,7 +16,6 @@ import java.util.Arrays;
  *
  * @author admin
  */
-@Component
 public class ExpressionResolver implements KeyResolver {
 
     private static final SpelExpressionParser PARSER = new SpelExpressionParser();

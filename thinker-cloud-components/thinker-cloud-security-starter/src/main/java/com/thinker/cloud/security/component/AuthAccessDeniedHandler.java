@@ -2,7 +2,7 @@ package com.thinker.cloud.security.component;
 
 import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thinker.cloud.core.enums.ResponseCode;
+import com.thinker.cloud.common.enums.ResponseCode;
 import com.thinker.cloud.core.model.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

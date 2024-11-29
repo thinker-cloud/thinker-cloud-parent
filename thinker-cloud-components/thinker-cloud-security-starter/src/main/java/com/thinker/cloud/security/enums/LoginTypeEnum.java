@@ -1,7 +1,7 @@
 package com.thinker.cloud.security.enums;
 
-import com.thinker.cloud.core.enums.IEnumDict;
-import com.thinker.cloud.core.utils.enums.EnumCacheUtil;
+import com.thinker.cloud.common.enums.IEnumDict;
+import com.thinker.cloud.common.utils.enums.EnumCacheUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

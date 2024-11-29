@@ -1,8 +1,8 @@
 package com.thinker.cloud.db.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.thinker.cloud.core.enums.IEnumDict;
-import com.thinker.cloud.core.utils.enums.EnumCacheUtil;
+import com.thinker.cloud.common.enums.IEnumDict;
+import com.thinker.cloud.common.utils.enums.EnumCacheUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

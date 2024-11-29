@@ -53,16 +53,6 @@ public interface SecurityConstants {
     String CLIENT_ID = "clientId";
 
     /**
-     * 会员登录URL（C端用户）
-     */
-    String MEMBER_TOKEN_URL = "/member/token";
-
-    /**
-     * 默认登录URL（后台用户）
-     */
-    String OAUTH_TOKEN_URL = "/oauth2/token";
-
-    /**
      * 请求映射处理器bean名称
      */
     String REQUEST_MAPPING_HANDLER = "requestMappingHandlerMapping";

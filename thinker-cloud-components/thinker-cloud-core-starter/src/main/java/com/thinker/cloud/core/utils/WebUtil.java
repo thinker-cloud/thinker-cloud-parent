@@ -2,7 +2,8 @@ package com.thinker.cloud.core.utils;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.core.exception.FailException;
+import com.thinker.cloud.common.utils.ClassUtil;
+import com.thinker.cloud.common.exception.FailException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.util.WebUtils;
 
+import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -261,5 +263,45 @@ public class WebUtil extends WebUtils {
             throw new FailException("Invalid basic authentication token");
         }
         return clientId;
+    }
+
+    /**
+     * 获取指定herder
+     *
+     * @param header header
+     * @return String
+     */
+    public String getHeader(String header) {
+        return getRequest().map(request -> getHeader(request, header)).orElse(null);
+    }
+
+    /**
+     * 获取指定herder
+     *
+     * @param request request
+     * @param header  header
+     * @return String
+     */
+    public String getHeader(HttpServletRequest request, String header) {
+        return getHeader(request, header, null);
+    }
+
+    /**
+     * 获取指定herder
+     *
+     * @param request      request
+     * @param header       请求头名称
+     * @param defaultValue 默认值
+     * @return String
+     */
+    public String getHeader(@Nonnull HttpServletRequest request, String header, String defaultValue) {
+        Assert.notNull(request, "request is not null");
+        Assert.hasText(header, "header is not blank");
+
+        String var = request.getHeader(header);
+        if (StrUtil.isBlank(var)) {
+            return defaultValue;
+        }
+        return var;
     }
 }

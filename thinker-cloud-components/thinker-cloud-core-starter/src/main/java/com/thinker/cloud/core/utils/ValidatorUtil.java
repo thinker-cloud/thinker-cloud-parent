@@ -1,8 +1,8 @@
 package com.thinker.cloud.core.utils;
 
 
-import com.thinker.cloud.core.exception.FailException;
-import com.thinker.cloud.core.exception.ValidationException;
+import com.thinker.cloud.common.exception.FailException;
+import com.thinker.cloud.common.exception.ValidationException;
 import jakarta.validation.ConstraintViolation;
 import lombok.experimental.UtilityClass;
 

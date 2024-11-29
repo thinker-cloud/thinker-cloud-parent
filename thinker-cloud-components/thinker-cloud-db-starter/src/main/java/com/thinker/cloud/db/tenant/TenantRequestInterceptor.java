@@ -1,6 +1,6 @@
 package com.thinker.cloud.db.tenant;
 
-import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.common.constants.CommonConstants;
 import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;

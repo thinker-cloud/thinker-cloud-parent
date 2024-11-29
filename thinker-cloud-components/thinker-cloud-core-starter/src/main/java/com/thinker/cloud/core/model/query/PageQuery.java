@@ -2,7 +2,7 @@ package com.thinker.cloud.core.model.query;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thinker.cloud.core.constants.CommonConstants;
+import com.thinker.cloud.common.constants.CommonConstants;
 import com.thinker.cloud.core.utils.MyPageUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,7 +1,7 @@
 package com.thinker.cloud.db.resolver;
 
 
-import com.thinker.cloud.core.resolver.KeyStrResolver;
+import com.thinker.cloud.common.resolver.KeyStrResolver;
 import com.thinker.cloud.core.utils.tenant.TenantContextHolder;
 import org.springframework.stereotype.Component;
 

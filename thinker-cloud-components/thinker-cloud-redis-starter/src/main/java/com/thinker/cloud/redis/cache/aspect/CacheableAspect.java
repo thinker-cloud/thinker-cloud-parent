@@ -1,8 +1,8 @@
 package com.thinker.cloud.redis.cache.aspect;
 
-import com.thinker.cloud.core.exception.AbstractException;
-import com.thinker.cloud.core.exception.CacheableException;
-import com.thinker.cloud.core.exception.LockException;
+import com.thinker.cloud.common.exception.AbstractException;
+import com.thinker.cloud.common.exception.CacheableException;
+import com.thinker.cloud.common.exception.LockException;
 import com.thinker.cloud.redis.cache.annotation.Cacheable;
 import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
 import com.thinker.cloud.redis.cache.interfaces.DisableCache;

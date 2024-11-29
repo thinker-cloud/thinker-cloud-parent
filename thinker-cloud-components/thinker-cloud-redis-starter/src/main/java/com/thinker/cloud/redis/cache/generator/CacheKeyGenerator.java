@@ -4,7 +4,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.thinker.cloud.core.aspect.expression.ExpressionResolver;
-import com.thinker.cloud.core.utils.DeflaterUtil;
+import com.thinker.cloud.common.utils.DeflaterUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

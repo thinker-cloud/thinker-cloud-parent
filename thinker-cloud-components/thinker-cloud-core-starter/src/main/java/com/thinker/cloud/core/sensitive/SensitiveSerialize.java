@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.thinker.cloud.core.utils.DesensitizedUtil;
+import com.thinker.cloud.common.utils.DesensitizedUtil;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

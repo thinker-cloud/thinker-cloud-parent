@@ -10,7 +10,7 @@ import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import ${queryPackage}.${queryName};
 import ${converterPackage}.${converterName};
-import com.thinker.cloud.core.exception.FailException;
+import com.thinker.cloud.common.exception.FailException;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.thinker.cloud.web.error;
 
-import com.thinker.cloud.core.enums.ResponseCode;
+import com.thinker.cloud.common.enums.ResponseCode;
 import com.thinker.cloud.core.model.Result;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.RequestDispatcher;

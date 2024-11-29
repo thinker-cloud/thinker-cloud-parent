@@ -2,7 +2,7 @@ package com.thinker.cloud.core.utils.thread;
 
 
 import com.google.common.collect.Lists;
-import com.thinker.cloud.core.exception.FailException;
+import com.thinker.cloud.common.exception.FailException;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;

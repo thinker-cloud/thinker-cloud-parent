@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Lists;
-import com.thinker.cloud.core.cache.fast.IDyKey;
+import com.thinker.cloud.common.cache.fast.IDyKey;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
