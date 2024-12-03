@@ -54,8 +54,8 @@
 
         <!-- 基础依赖 -->
         <spring-boot.version>3.3.6</spring-boot.version>
-        <spring-cloud.version>2023.0.3</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
+        <spring-cloud.version>2023.0.4</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
 
         <!-- 数据库 -->
         <druid.version>1.2.23</druid.version>
@@ -66,8 +66,6 @@
         <!-- 中间件 -->
         <xxl-job.version>2.4.1</xxl-job.version>
         <redisson.version>3.34.1</redisson.version>
-        <rocketmq-client.version>5.3.0</rocketmq-client.version>
-        <spring-boot-admin.version>3.3.4</spring-boot-admin.version>
         <spring-boot-rocketmq.version>2.3.1</spring-boot-rocketmq.version>
 
         <!-- RPC 框架 -->
@@ -149,12 +147,12 @@
             <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
-                <version>${spring-boot-admin.version}</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-server</artifactId>
-                <version>${spring-boot-admin.version}</version>
+                <version>${spring-boot.version}</version>
             </dependency>
 
             <!-- dubbo -->
