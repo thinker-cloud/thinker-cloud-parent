@@ -1,4 +1,4 @@
-package com.thinker.cloud.security.token.jackson2;
+package com.thinker.cloud.security.serializer;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;

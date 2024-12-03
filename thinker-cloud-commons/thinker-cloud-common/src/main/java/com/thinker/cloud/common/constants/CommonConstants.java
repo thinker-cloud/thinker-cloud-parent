@@ -73,7 +73,12 @@ public interface CommonConstants {
     String APPLICATION_JSON_UTF8 = "application/json;charset=utf-8";
 
     /**
-     * 授权类型header
+     * 客户端授权类型
      */
-    String AUTH_TYPE_HEADER = "X-Client-Auth";
+    String AUTH_TYPE = "X-Client-Auth";
+
+    /**
+     * 请求开始时间
+     */
+    String REQUEST_START_TIME = "REQUEST-START-TIME";
 }

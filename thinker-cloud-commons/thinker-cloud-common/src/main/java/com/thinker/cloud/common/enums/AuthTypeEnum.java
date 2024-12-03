@@ -1,11 +1,12 @@
 package com.thinker.cloud.common.enums;
 
+import com.google.common.collect.Maps;
 import com.thinker.cloud.common.utils.enums.EnumCacheUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 授权认证类型
@@ -28,6 +29,13 @@ public enum AuthTypeEnum implements IEnumDict<String> {
     ;
 
     private final String path;
+    private static final Map<String, AuthTypeEnum> AUTH_PATH_MAP = Maps.newHashMap();
+
+    static {
+        for (AuthTypeEnum authTypeEnum : values()) {
+            AUTH_PATH_MAP.put(authTypeEnum.getPath(), authTypeEnum);
+        }
+    }
 
     @Override
     public String getValue() {
@@ -50,11 +58,21 @@ public enum AuthTypeEnum implements IEnumDict<String> {
     }
 
     /**
+     * 根据授权路径获取
+     *
+     * @param path path
+     * @return AuthTypeEnum
+     */
+    public static AuthTypeEnum resolverByPath(String path) {
+        return AUTH_PATH_MAP.get(path);
+    }
+
+    /**
      * 获取所有授权paths
      *
-     * @return List<String>
+     * @return Set<String>
      */
-    public static List<String> getAuthPaths() {
-        return Arrays.stream(values()).map(AuthTypeEnum::getPath).toList();
+    public static Set<String> getAuthPaths() {
+        return AUTH_PATH_MAP.keySet();
     }
 }

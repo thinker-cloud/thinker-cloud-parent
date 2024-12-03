@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinker.cloud.redis.RedisConfiguration;
 import com.thinker.cloud.security.repository.RedisOAuth2AuthorizationRepository;
 import com.thinker.cloud.security.repository.entity.RedisOAuth2Authorization;
-import com.thinker.cloud.security.token.jackson2.CustomOAuth2AuthorizationJackson2Module;
+import com.thinker.cloud.security.serializer.CustomOAuth2AuthorizationJackson2Module;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.jackson2.SecurityJackson2Modules;

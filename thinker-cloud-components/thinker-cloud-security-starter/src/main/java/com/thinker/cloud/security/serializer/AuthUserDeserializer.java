@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.thinker.cloud.security.token.jackson2;
+package com.thinker.cloud.security.serializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;

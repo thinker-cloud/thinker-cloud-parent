@@ -70,7 +70,7 @@ public class AuthUtils {
      */
     public String getAuthType(HttpServletRequest request) {
         return WebUtil.getHeader(request
-                , CommonConstants.AUTH_TYPE_HEADER
+                , CommonConstants.AUTH_TYPE
                 , AuthTypeEnum.ADMIN.getValue()
         );
     }

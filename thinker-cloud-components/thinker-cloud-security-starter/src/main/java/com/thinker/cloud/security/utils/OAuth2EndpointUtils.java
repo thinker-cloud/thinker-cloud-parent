@@ -39,7 +39,7 @@ public class OAuth2EndpointUtils {
         String paramValue = parameters.getFirst(paramName);
         if (!StringUtils.hasText(paramValue) || parameters.get(paramName).size() != 1) {
             throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST,
-                    "OAuth 2.0 Parameter: " + paramName, ACCESS_TOKEN_REQUEST_ERROR_URI));
+                    "参数异常：OAuth 2.0 Parameter: " + paramName, ACCESS_TOKEN_REQUEST_ERROR_URI));
         }
         return paramValue;
     }
