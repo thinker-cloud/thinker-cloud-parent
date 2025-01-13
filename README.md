@@ -2,27 +2,21 @@
 
 #### 介绍
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+- 基于 Spring Cloud 、Spring Boot、 OAuth2、JDK17 的 RBAC 企业快速开发平台微服务架构
 
 #### 软件架构
 
 1.  xxxx
-2.  xxxx
-3.  xxxx
 
-#### 安装教程
+#### 核心依赖
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+| 依赖                          | 版本         |
+|-----------------------------|------------|
+| Spring Boot                 | 3.3.6      |
+| Spring Cloud                | 2023.0.4   |
+| Spring Cloud Alibaba        | 2023.0.3.2 |
+| Spring Authorization Server | 1.4.0      |
+| Mybatis Plus                | 3.5.9      |
 
 #### 参与贡献
 
