@@ -18,3 +18,8 @@
 | Spring Authorization Server | 1.4.0      |
 | Mybatis Plus                | 3.5.9      |
 
+#### 下载源代码
+
+```shell
+git clone git@github.com:thinker-cloud/thinker-cloud-parent.git
+```
