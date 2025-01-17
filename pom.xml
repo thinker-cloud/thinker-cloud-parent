@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>thinker-cloud-parent</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>${revision}</version>
 	<name>thinker-cloud-parent</name>
 	<packaging>pom</packaging>
 	<description>Thinker Cloud Parent</description>
@@ -22,9 +22,6 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.encoding>UTF-8</project.build.encoding>
-
-		<!-- thinker-cloud -->
-		<thinker-cloud.version>1.0.0-SNAPSHOT</thinker-cloud.version>
 	</properties>
 
 	<modules>
@@ -39,124 +36,124 @@
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-analysis</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-common</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 
 			<!-- Thinker Cloud Starter-->
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-core-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-db-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-dubbo-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-dynamic-datasource-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-elasticsearch-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-feign-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-kafka-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-log-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-mongodb-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-mqtt-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-openapi-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-redis-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-rocketmq-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-seata-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-security-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-sentinel-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-session-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-task-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-web-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-websocket-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thinker.cloud</groupId>
 				<artifactId>thinker-cloud-zookeeper-starter</artifactId>
-				<version>${thinker-cloud.version}</version>
+				<version>${revision}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -269,6 +266,32 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<!-- 统一 revision 版本 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${flatten-maven-plugin.version}</version>
+				<configuration>
+					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+					<updatePomFile>true</updatePomFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- 打包关联最新 git commit 信息插件 -->
 			<plugin>

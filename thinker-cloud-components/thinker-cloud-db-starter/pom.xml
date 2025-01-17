@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.thinker.cloud</groupId>
 		<artifactId>thinker-cloud-components</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>${revision}</version>
 	</parent>
 
 	<artifactId>thinker-cloud-db-starter</artifactId>
@@ -41,7 +41,7 @@
 
 		<!-- clickhouse -->
 		<dependency>
-			<groupId>ru.yandex.clickhouse</groupId>
+			<groupId>com.clickhouse</groupId>
 			<artifactId>clickhouse-jdbc</artifactId>
 			<exclusions>
 				<exclusion>

@@ -10,13 +10,13 @@
 
 #### 核心依赖
 
-| 依赖                          | 版本         |
-|-----------------------------|------------|
-| Spring Boot                 | 3.3.6      |
-| Spring Cloud                | 2023.0.4   |
-| Spring Cloud Alibaba        | 2023.0.3.2 |
-| Spring Authorization Server | 1.4.0      |
-| Mybatis Plus                | 3.5.9      |
+| 依赖                          | 版本          |
+|-----------------------------|-------------|
+| Spring Boot                 | 3.4.1       |
+| Spring Cloud                | 2024.0.0    |
+| Spring Cloud Alibaba        | 2023.0.3.2  |
+| Spring Authorization Server | 1.4.1       |
+| Mybatis Plus                | 3.5.10.1    |
 
 #### 下载源代码
 

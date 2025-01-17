@@ -1,393 +1,394 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--suppress ALL -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.thinker.cloud</groupId>
-    <artifactId>thinker-cloud-dependencies</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.thinker.cloud</groupId>
+	<artifactId>thinker-cloud-dependencies</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 
-    <name>thinker-cloud-dependencies</name>
-    <packaging>pom</packaging>
-    <description>Thinker Cloud Dependencies</description>
-    <url>https://www.isexcuse.com</url>
+	<name>thinker-cloud-dependencies</name>
+	<packaging>pom</packaging>
+	<description>Thinker Cloud Dependencies</description>
+	<url>https://www.isexcuse.com</url>
 
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
-            <comments>Copyright 2014-2021 the original author or authors.
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+			<comments>Copyright 2014-2021 the original author or authors.
 
-                Licensed under the Apache License, Version 2.0 (the "License");
-                you may not use this file except in compliance with the License.
-                You may obtain a copy of the License at
+				Licensed under the Apache License, Version 2.0 (the "License");
+				you may not use this file except in compliance with the License.
+				You may obtain a copy of the License at
 
-                https://www.apache.org/licenses/LICENSE-2.0
+				https://www.apache.org/licenses/LICENSE-2.0
 
-                Unless required by applicable law or agreed to in writing, software
-                distributed under the License is distributed on an "AS IS" BASIS,
-                WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-                implied.
+				Unless required by applicable law or agreed to in writing, software
+				distributed under the License is distributed on an "AS IS" BASIS,
+				WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+				implied.
 
-                See the License for the specific language governing permissions and
-                limitations under the License.
-            </comments>
-        </license>
-    </licenses>
+				See the License for the specific language governing permissions and
+				limitations under the License.
+			</comments>
+		</license>
+	</licenses>
 
-    <developers>
-        <developer>
-            <id>admin</id>
-            <name>KwonJiYong</name>
-            <email>918513194@qq.com</email>
-            <organization>Pivotal Software, Inc.</organization>
-            <organizationUrl>https://www.isexcuse.com</organizationUrl>
-            <roles>
-                <role>Project lead</role>
-            </roles>
-        </developer>
-    </developers>
+	<developers>
+		<developer>
+			<id>admin</id>
+			<name>KwonJiYong</name>
+			<email>918513194@qq.com</email>
+			<organization>Pivotal Software, Inc.</organization>
+			<organizationUrl>https://www.isexcuse.com</organizationUrl>
+			<roles>
+				<role>Project lead</role>
+			</roles>
+		</developer>
+	</developers>
 
-    <properties>
-        <java.version>17</java.version>
-        <project.build.encoding>UTF-8</project.build.encoding>
+	<properties>
+		<java.version>17</java.version>
+		<project.build.encoding>UTF-8</project.build.encoding>
 
-        <!-- 基础依赖 -->
-        <spring-boot.version>3.3.6</spring-boot.version>
-        <spring-cloud.version>2023.0.4</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
+		<!-- 统一版本号 -->
+		<revision>1.0.0-SNAPSHOT</revision>
 
-        <!-- 数据库 -->
-        <druid.version>1.2.24</druid.version>
-        <mybatis-plus.version>3.5.9</mybatis-plus.version>
-        <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
-        <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
+		<!-- 基础依赖 -->
+		<spring-boot.version>3.4.1</spring-boot.version>
+		<spring-cloud.version>2024.0.0</spring-cloud.version>
+		<spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
 
-        <!-- 中间件 -->
-        <xxl-job.version>2.4.1</xxl-job.version>
-        <redisson.version>3.34.1</redisson.version>
-        <spring-boot-rocketmq.version>2.3.1</spring-boot-rocketmq.version>
+		<!-- 数据库 -->
+		<druid.version>1.2.24</druid.version>
+		<mybatis-plus.version>3.5.10.1</mybatis-plus.version>
+		<clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
+		<dynamic-datasource.version>4.3.1</dynamic-datasource.version>
 
-        <!-- RPC 框架 -->
-        <spring-boot-dubbo.version>3.3.2</spring-boot-dubbo.version>
+		<!-- 中间件 -->
+		<xxl-job.version>2.5.0</xxl-job.version>
+		<redisson.version>3.43.0</redisson.version>
+		<spring-boot-rocketmq.version>2.3.1</spring-boot-rocketmq.version>
 
-        <!-- 工具包 -->
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
-        <hutool.version>5.8.32</hutool.version>
-        <easypoi.version>4.5.0</easypoi.version>
-        <fastjson.version>2.0.39</fastjson.version>
-        <guava.version>32.1.2-jre</guava.version>
-        <commons-lang3.version>3.13.0</commons-lang3.version>
-        <commons-io.version>2.13.0</commons-io.version>
-        <org-jetbrains.version>13.0</org-jetbrains.version>
-        <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
+		<!-- RPC 框架 -->
+		<spring-boot-dubbo.version>3.3.2</spring-boot-dubbo.version>
 
-        <!-- openapi -->
-        <knife4j.version>4.5.0</knife4j.version>
-        <springdoc-openapi-starter.version>2.7.0</springdoc-openapi-starter.version>
-        <therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
+		<!-- 工具包 -->
+		<mapstruct.version>1.6.3</mapstruct.version>
+		<lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
+		<hutool.version>5.8.32</hutool.version>
+		<easypoi.version>4.5.0</easypoi.version>
+		<fastjson.version>2.0.54</fastjson.version>
+		<guava.version>33.4.0-jre</guava.version>
+		<commons-lang3.version>3.17.0</commons-lang3.version>
+		<commons-io.version>2.18.0</commons-io.version>
+		<org-jetbrains.version>26.0.1</org-jetbrains.version>
+		<transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
 
-        <!-- plugin -->
-        <git.commit.plugin.version>4.9.9</git.commit.plugin.version>
-        <maven.source.plugin.version>3.3.1</maven.source.plugin.version>
-        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+		<!-- openapi -->
+		<knife4j.version>4.5.0</knife4j.version>
+		<springdoc-openapi-starter.version>2.8.3</springdoc-openapi-starter.version>
+		<therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
 
-        <!-- docker -->
-        <docker.plugin.version>0.32.0</docker.plugin.version>
-        <docker.host>http://192.168.0.100:2375</docker.host>
-        <docker.registry>192.168.0.100</docker.registry>
-        <docker.namespace>thinker-cloud</docker.namespace>
-        <docker.username>username</docker.username>
-        <docker.password>password</docker.password>
-    </properties>
+		<!-- plugin -->
+		<git.commit.plugin.version>9.0.1</git.commit.plugin.version>
+		<maven.source.plugin.version>3.3.1</maven.source.plugin.version>
+		<maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- Spring Cloud -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Spring Cloud -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 
-            <!-- Spring Cloud Alibaba-->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+			<!-- Spring Cloud Alibaba-->
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring-cloud-alibaba.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 
-            <!-- 分布式任务 xxl-job -->
-            <dependency>
-                <groupId>com.xuxueli</groupId>
-                <artifactId>xxl-job-core</artifactId>
-                <version>${xxl-job.version}</version>
-            </dependency>
+			<!-- 分布式任务 xxl-job -->
+			<dependency>
+				<groupId>com.xuxueli</groupId>
+				<artifactId>xxl-job-core</artifactId>
+				<version>${xxl-job.version}</version>
+			</dependency>
 
-            <!-- 消息队列 rocketMq -->
-            <dependency>
-                <groupId>org.apache.rocketmq</groupId>
-                <artifactId>rocketmq-spring-boot-starter</artifactId>
-                <version>${spring-boot-rocketmq.version}</version>
-            </dependency>
+			<!-- 消息队列 rocketMq -->
+			<dependency>
+				<groupId>org.apache.rocketmq</groupId>
+				<artifactId>rocketmq-spring-boot-starter</artifactId>
+				<version>${spring-boot-rocketmq.version}</version>
+			</dependency>
 
-            <!-- admin 监控 -->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-client</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-server</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
+			<!-- admin 监控 -->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
 
-            <!-- dubbo -->
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-spring-boot-starter</artifactId>
-                <version>${spring-boot-dubbo.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>fastjson2</artifactId>
-                        <groupId>com.alibaba.fastjson2</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+			<!-- dubbo -->
+			<dependency>
+				<groupId>org.apache.dubbo</groupId>
+				<artifactId>dubbo-spring-boot-starter</artifactId>
+				<version>${spring-boot-dubbo.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.alibaba.fastjson2</groupId>
+						<artifactId>fastjson2</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
-            <!-- redisson -->
-            <dependency>
-                <groupId>org.redisson</groupId>
-                <artifactId>redisson-spring-boot-starter</artifactId>
-                <version>${redisson.version}</version>
-            </dependency>
+			<!-- redisson -->
+			<dependency>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson-spring-boot-starter</artifactId>
+				<version>${redisson.version}</version>
+			</dependency>
 
-            <!-- Web 模块 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot.version}</version>
-                <exclusions>
-                    <!--排除tomcat依赖-->
-                    <exclusion>
-                        <artifactId>spring-boot-starter-tomcat</artifactId>
-                        <groupId>org.springframework.boot</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+			<!-- Web 模块 -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring-boot.version}</version>
+				<exclusions>
+					<!--排除tomcat依赖-->
+					<exclusion>
+						<artifactId>spring-boot-starter-tomcat</artifactId>
+						<groupId>org.springframework.boot</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
-            <!-- clickhouse -->
-            <dependency>
-                <groupId>ru.yandex.clickhouse</groupId>
-                <artifactId>clickhouse-jdbc</artifactId>
-                <version>${clickhouse-jdbc.version}</version>
-            </dependency>
+			<!-- clickhouse -->
+			<dependency>
+				<groupId>com.clickhouse</groupId>
+				<artifactId>clickhouse-jdbc</artifactId>
+				<version>${clickhouse-jdbc.version}</version>
+			</dependency>
 
-            <!-- druid -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-3-starter</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
+			<!-- druid -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-3-starter</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
 
-            <!-- mybatis plus -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-jsqlparser</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
-                <version>${dynamic-datasource.version}</version>
-            </dependency>
+			<!-- mybatis plus -->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-generator</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-extension</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-jsqlparser</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+				<version>${dynamic-datasource.version}</version>
+			</dependency>
 
-            <!-- mapstruct -->
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-                <version>${mapstruct.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct-processor</artifactId>
-                <version>${mapstruct.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-mapstruct-binding</artifactId>
-                <version>${lombok-mapstruct.version}</version>
-            </dependency>
+			<!-- mapstruct -->
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct</artifactId>
+				<version>${mapstruct.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct-processor</artifactId>
+				<version>${mapstruct.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok-mapstruct-binding</artifactId>
+				<version>${lombok-mapstruct.version}</version>
+			</dependency>
 
-            <!-- OpenApi 依赖-->
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.therapi</groupId>
-                <artifactId>therapi-runtime-javadoc</artifactId>
-                <version>${therapi-runtime-javadoc.version}</version>
-            </dependency>
+			<!-- openapi 依赖-->
+			<dependency>
+				<groupId>com.github.xiaoymin</groupId>
+				<artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+				<version>${knife4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.xiaoymin</groupId>
+				<artifactId>knife4j-gateway-spring-boot-starter</artifactId>
+				<version>${knife4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc-openapi-starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.therapi</groupId>
+				<artifactId>therapi-runtime-javadoc</artifactId>
+				<version>${therapi-runtime-javadoc.version}</version>
+			</dependency>
 
-            <!-- HuTool依赖 -->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
+			<!-- HuTool依赖 -->
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
 
-            <!-- EasyPoi依赖 -->
-            <dependency>
-                <groupId>cn.afterturn</groupId>
-                <artifactId>easypoi-spring-boot-starter</artifactId>
-                <version>${easypoi.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.javassist</groupId>
-                        <artifactId>javassist</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+			<!-- EasyPoi依赖 -->
+			<dependency>
+				<groupId>cn.afterturn</groupId>
+				<artifactId>easypoi-spring-boot-starter</artifactId>
+				<version>${easypoi.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.javassist</groupId>
+						<artifactId>javassist</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
-            <!-- transmittable-thread-local -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>transmittable-thread-local</artifactId>
-                <version>${transmittable-thread-local.version}</version>
-            </dependency>
+			<!-- transmittable-thread-local -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>transmittable-thread-local</artifactId>
+				<version>${transmittable-thread-local.version}</version>
+			</dependency>
 
-            <!-- fastjson -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
+			<!-- fastjson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
 
-            <!-- guava -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
+			<!-- guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
 
-            <!-- commons-lang3 -->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
+			<!-- commons-lang3 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
 
-            <!-- commons-io -->
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
+			<!-- commons-io -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.jetbrains</groupId>
-                <artifactId>annotations</artifactId>
-                <version>${org-jetbrains.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+			<dependency>
+				<groupId>org.jetbrains</groupId>
+				<artifactId>annotations</artifactId>
+				<version>${org-jetbrains.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>thinker-releases</id>
-            <name>Nexus Plugin Repository</name>
-            <url>https://packages.aliyun.com/maven/repository/2417712-release-5PabZq/</url>
-        </repository>
+	<repositories>
+		<repository>
+			<id>thinker-releases</id>
+			<name>Nexus Plugin Repository</name>
+			<url>https://packages.aliyun.com/maven/repository/2417712-release-5PabZq/</url>
+		</repository>
 
-        <repository>
-            <id>thinker-snapshots</id>
-            <name>Nexus Plugin Repository</name>
-            <url>https://packages.aliyun.com/maven/repository/2417712-snapshot-5QZjTB/</url>
-        </repository>
+		<repository>
+			<id>thinker-snapshots</id>
+			<name>Nexus Plugin Repository</name>
+			<url>https://packages.aliyun.com/maven/repository/2417712-snapshot-5QZjTB/</url>
+		</repository>
 
-        <!--阿里云代理maven central和jcenter仓库-->
-        <repository>
-            <id>aliyun-cloud</id>
-            <name>Ali Yun Repository</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
+		<!--阿里云代理maven central和jcenter仓库-->
+		<repository>
+			<id>aliyun-cloud</id>
+			<name>Ali Yun Repository</name>
+			<url>https://maven.aliyun.com/repository/public</url>
+		</repository>
 
-        <!--阿里云代理Spring 官方仓库-->
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://maven.aliyun.com/repository/spring</url>
-        </repository>
+		<!--阿里云代理Spring 官方仓库-->
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://maven.aliyun.com/repository/spring</url>
+		</repository>
 
-        <!-- 腾讯云仓库 -->
-        <repository>
-            <id>tencent-cloud</id>
-            <name>Tencent Repository</name>
-            <url>https://mirrors.tencent.com/nexus/repository/maven-public/</url>
-        </repository>
-    </repositories>
+		<!-- 腾讯云仓库 -->
+		<repository>
+			<id>tencent-cloud</id>
+			<name>Tencent Repository</name>
+			<url>https://mirrors.tencent.com/nexus/repository/maven-public/</url>
+		</repository>
+	</repositories>
 
-    <distributionManagement>
-        <repository>
-            <id>thinker-releases</id>
-            <name>releases</name>
-            <url>https://packages.aliyun.com/maven/repository/2417712-release-5PabZq/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <snapshotRepository>
-            <id>thinker-snapshots</id>
-            <name>snapshots</name>
-            <url>https://packages.aliyun.com/maven/repository/2417712-snapshot-5QZjTB/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </snapshotRepository>
-    </distributionManagement>
+	<distributionManagement>
+		<repository>
+			<id>thinker-releases</id>
+			<name>releases</name>
+			<url>https://packages.aliyun.com/maven/repository/2417712-release-5PabZq/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<snapshotRepository>
+			<id>thinker-snapshots</id>
+			<name>snapshots</name>
+			<url>https://packages.aliyun.com/maven/repository/2417712-snapshot-5QZjTB/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
