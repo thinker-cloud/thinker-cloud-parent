@@ -5,7 +5,6 @@ import com.thinker.cloud.redis.cache.aspect.CacheableAspect;
 import com.thinker.cloud.redis.cache.fast.FastRedisService;
 import com.thinker.cloud.redis.cache.fast.FastStringRedisCache;
 import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
-import com.thinker.cloud.redis.cache.service.RedisClientService;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -13,6 +12,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * Redis缓存插件自动配置
@@ -24,23 +25,13 @@ import org.springframework.context.annotation.Configuration;
 public class RedisCacheAutoConfiguration {
 
     /**
-     * redis客户端服务
-     *
-     * @return BaseRedisService
-     */
-    @Bean
-    public RedisClientService redisClientService() {
-        return new RedisClientService();
-    }
-
-    /**
      * redis 增强实现
      *
      * @return FastRedisService
      */
     @Bean
-    public FastRedisService fastRedisService() {
-        return new FastRedisService();
+    public FastRedisService fastRedisService(RedisTemplate<String, Object> redisTemplate) {
+        return new FastRedisService(redisTemplate);
     }
 
     /**
@@ -49,8 +40,8 @@ public class RedisCacheAutoConfiguration {
      * @return FastStringRedisCache
      */
     @Bean
-    public FastStringRedisCache fastStringRedisCache() {
-        return new FastStringRedisCache();
+    public FastStringRedisCache fastStringRedisCache(StringRedisTemplate redisTemplate) {
+        return new FastStringRedisCache(redisTemplate);
     }
 
     /**

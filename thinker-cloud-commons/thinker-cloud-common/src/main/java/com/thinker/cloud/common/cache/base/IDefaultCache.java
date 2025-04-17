@@ -5,21 +5,21 @@ package com.thinker.cloud.common.cache.base;
  *
  * @author admin
  **/
-public interface IDefaultCache<T> extends ICache {
+public interface IDefaultCache<V> extends ICache<V> {
 
     /**
      * 构建默认缓存
      *
-     * @return T
+     * @return V
      */
-    T buildDefaultCache();
+    V buildDefaultCache();
 
     /**
      * 获取默认缓存
      *
-     * @return T
+     * @return V
      */
-    T getDefaultCache();
+    V getDefaultCache();
 
     /**
      * 删除默认缓存

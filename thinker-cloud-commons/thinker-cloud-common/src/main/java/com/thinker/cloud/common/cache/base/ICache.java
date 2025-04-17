@@ -16,12 +16,12 @@ import java.util.function.Predicate;
  *
  * @author admin
  **/
-public interface ICache {
+public interface ICache<V> {
 
     /**
-     * 最大批量缓存数量
+     * 批量操作缓存最大数量
      */
-    Integer BATCH_SET_CACHE_MAX_SIZE = 30;
+    Integer BATCH_CACHE_MAX_SIZE = 30;
 
     /**
      * 设置缓存
@@ -29,7 +29,7 @@ public interface ICache {
      * @param key   缓存key
      * @param value 缓存对象
      */
-    void setCache(@NonNull String key, @NonNull Object value);
+    void setCache(@NonNull String key, @NonNull V value);
 
     /**
      * 设置缓存
@@ -39,15 +39,15 @@ public interface ICache {
      * @param timeout  缓存时长
      * @param timeUnit 缓存单位
      */
-    void setCache(@NonNull String key, @NonNull Object value, long timeout, @NonNull TimeUnit timeUnit);
+    void setCache(@NonNull String key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit);
 
     /**
      * 批量set缓存
      *
      * @param cacheMap key、value 映射Map
      */
-    default void multiSetCache(@NonNull Map<String, Object> cacheMap) {
-        this.multiSetCache(cacheMap, BATCH_SET_CACHE_MAX_SIZE);
+    default void multiSetCache(@NonNull Map<String, V> cacheMap) {
+        this.multiSetCache(cacheMap, BATCH_CACHE_MAX_SIZE);
     }
 
     /**
@@ -56,7 +56,7 @@ public interface ICache {
      * @param cacheMap         key、value 映射Map
      * @param batchSetCacheMax 批量设置缓存最大数量，超过将按此值分批次缓存
      */
-    void multiSetCache(@NonNull Map<String, Object> cacheMap, int batchSetCacheMax);
+    void multiSetCache(@NonNull Map<String, V> cacheMap, int batchSetCacheMax);
 
     /**
      * 批量set缓存
@@ -65,8 +65,8 @@ public interface ICache {
      * @param timeout  缓存时长
      * @param timeUnit 缓存单位
      */
-    default void multiSetCache(@NonNull Map<String, Object> cacheMap, long timeout, @NonNull TimeUnit timeUnit) {
-        this.multiSetCache(cacheMap, timeout, timeUnit, BATCH_SET_CACHE_MAX_SIZE);
+    default void multiSetCache(@NonNull Map<String, V> cacheMap, long timeout, @NonNull TimeUnit timeUnit) {
+        this.multiSetCache(cacheMap, timeout, timeUnit, BATCH_CACHE_MAX_SIZE);
     }
 
     /**
@@ -77,7 +77,7 @@ public interface ICache {
      * @param timeUnit         缓存单位
      * @param batchSetCacheMax 批量设置缓存最大数量，超过将按此值分批次缓存
      */
-    void multiSetCache(@NonNull Map<String, Object> cacheMap, long timeout, @NonNull TimeUnit timeUnit, int batchSetCacheMax);
+    void multiSetCache(@NonNull Map<String, V> cacheMap, long timeout, @NonNull TimeUnit timeUnit, int batchSetCacheMax);
 
     /**
      * 是否存在缓存中
@@ -94,48 +94,46 @@ public interface ICache {
      * @return String
      */
     @Nullable
-    <T> T getCache(@NonNull String key);
+    V getCache(@NonNull String key);
 
     /**
      * 获取缓存
      *
      * @param key           缓存key
      * @param dataConvertor 缓存数据转换处理
-     * @return R
+     * @return T
      */
     @Nullable
-    <T, R> R getCache(@NonNull String key, @NonNull Function<T, R> dataConvertor);
+    <T> T getCache(@NonNull String key, @NonNull Function<V, T> dataConvertor);
 
     /**
      * 根据keys获取缓存
      *
      * @param keys 缓存key列表
-     * @return List<T>
+     * @return List<V>
      */
     @Nullable
-    default <T> List<T> getCaches(@NonNull Collection<String> keys) {
-        return this.getCaches(keys, (Predicate<T>) data -> true);
-    }
+    List<V> getCaches(@NonNull Collection<String> keys);
 
     /**
      * 根据keys获取缓存
      *
      * @param keys       缓存key列表
      * @param dataFilter 条件过滤器
-     * @return List<T>
+     * @return List<V>
      */
     @Nullable
-    <T> List<T> getCaches(@NonNull Collection<String> keys, @NonNull Predicate<T> dataFilter);
+    List<V> getCaches(@NonNull Collection<String> keys, @NonNull Predicate<V> dataFilter);
 
     /**
      * 根据keys获取缓存
      *
      * @param keys          缓存key列表
      * @param dataConvertor 缓存数据转换处理
-     * @return List<T>
+     * @return List<V>
      */
     @Nullable
-    default <T, R> List<R> getCaches(@NonNull Collection<String> keys, @NonNull Function<T, R> dataConvertor) {
+    default <T> List<T> getCaches(@NonNull Collection<String> keys, @NonNull Function<V, T> dataConvertor) {
         return this.getCaches(keys, dataConvertor, data -> true);
     }
 
@@ -145,10 +143,10 @@ public interface ICache {
      * @param keys          缓存key列表
      * @param dataConvertor 缓存数据转换处理
      * @param dataFilter    条件过滤器
-     * @return List<R>
+     * @return List<T>
      */
     @Nullable
-    <T, R> List<R> getCaches(@NonNull Collection<String> keys, @NonNull Function<T, R> dataConvertor, @NonNull Predicate<R> dataFilter);
+    <T> List<T> getCaches(@NonNull Collection<String> keys, @NonNull Function<V, T> dataConvertor, @NonNull Predicate<T> dataFilter);
 
     /**
      * 根据key删除缓存
@@ -168,15 +166,15 @@ public interface ICache {
     /**
      * 根据前缀删除所有缓存
      *
-     * @param prefix prefix
+     * @param prefix 缓存key前缀
      */
     void removeAllCache(@NonNull String prefix);
 
     /**
      * 获取key列表
      *
-     * @param keyPrefix      key前缀
+     * @param prefix 缓存key前缀
      * @return key列表
      */
-    Set<String> getKeys(String keyPrefix);
+    Set<String> getKeys(@NonNull String prefix);
 }
