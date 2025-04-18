@@ -21,7 +21,7 @@ import com.thinker.cloud.security.component.*;
 import com.thinker.cloud.security.properties.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.authorization.method.PrePostTemplateDefaults;
+import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -93,8 +93,8 @@ public class AuthorizationAutoConfiguration {
      * @return PrePostTemplateDefaults
      */
     @Bean
-    public PrePostTemplateDefaults prePostTemplateDefaults() {
-        return new PrePostTemplateDefaults();
+    public AnnotationTemplateExpressionDefaults annotationTemplateExpressionDefaults() {
+        return new AnnotationTemplateExpressionDefaults();
     }
 
     /**

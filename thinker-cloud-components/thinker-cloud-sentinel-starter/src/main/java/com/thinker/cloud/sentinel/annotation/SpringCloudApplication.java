@@ -19,7 +19,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = {"com.thinker.cloud"})
+@SpringBootApplication
 public @interface SpringCloudApplication {
 
     /**
@@ -27,7 +27,7 @@ public @interface SpringCloudApplication {
      *
      * @return the classes to exclude
      */
-    @AliasFor(annotation = EnableAutoConfiguration.class)
+    @AliasFor(annotation = EnableAutoConfiguration.class, attribute = "exclude")
     Class<?>[] exclude() default {};
 
     /**
@@ -44,5 +44,5 @@ public @interface SpringCloudApplication {
      * @since 1.3.0
      */
     @AliasFor(annotation = ComponentScan.class, attribute = "basePackages")
-    String[] scanBasePackages() default {};
+    String[] scanBasePackages() default {"com.thinker.cloud"};
 }
