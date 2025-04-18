@@ -17,6 +17,24 @@ import java.util.function.Supplier;
 public interface IFastStringCache {
 
     /**
+     * 设置缓存对象
+     *
+     * @param key   缓存key
+     * @param value 缓存对象
+     */
+    <T> void setCacheObj(@NonNull String key, @NonNull T value);
+
+    /**
+     * 设置缓存对象
+     *
+     * @param key      缓存key
+     * @param value    缓存对象
+     * @param timeout  缓存时长
+     * @param timeUnit 缓存单位
+     */
+    <T> void setCacheObj(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit);
+
+    /**
      * 获取缓存
      *
      * @param key         缓存key

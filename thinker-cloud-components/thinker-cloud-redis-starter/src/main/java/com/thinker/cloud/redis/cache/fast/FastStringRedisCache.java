@@ -6,8 +6,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson2.JSON;
-import com.google.common.collect.Lists;
 import com.thinker.cloud.common.cache.base.IFastStringCache;
+import com.thinker.cloud.common.utils.MyJsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.lang.NonNull;
@@ -27,6 +27,18 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
 
     public FastStringRedisCache(StringRedisTemplate redisTemplate) {
         super(redisTemplate);
+    }
+
+    @Override
+    public <T> void setCacheObj(@NonNull String key, @NonNull T value) {
+        Objects.requireNonNull(value, "缓存对象不能为空");
+        super.setCache(key, JSON.toJSONString(value));
+    }
+
+    @Override
+    public <T> void setCacheObj(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit) {
+        Objects.requireNonNull(value, "缓存对象不能为空");
+        super.setCache(key, JSON.toJSONString(value), timeout, timeUnit);
     }
 
     @Override
@@ -93,7 +105,8 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
         if (StrUtil.isBlank(value)) {
             return missedSupplier.get();
         }
-        return Lists.newArrayList(JSONArray.parseArray(value, entityClass));
+
+        return MyJsonUtil.toJavaList(value, entityClass);
     }
 
     @Override
@@ -108,7 +121,7 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
 
         String value = super.getCache(key);
         if (StrUtil.isNotBlank(value)) {
-            return Lists.newArrayList(JSONArray.parseArray(value, entityClass));
+            return MyJsonUtil.toJavaList(value, entityClass);
         }
 
         List<T> list = missedSupplier.get();

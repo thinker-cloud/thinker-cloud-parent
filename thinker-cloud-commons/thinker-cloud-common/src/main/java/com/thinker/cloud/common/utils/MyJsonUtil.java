@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
@@ -36,7 +37,11 @@ public class MyJsonUtil {
         return Optional.ofNullable(json).filter(CollectionUtil::isNotEmpty).map(j -> j.toJavaList(clazz)).orElse(null);
     }
 
-    public static <T> List<T> toJavaList(String json, Class<T> clazz) {
-        return Optional.ofNullable(json).map(j -> JSONArray.parseArray(j, clazz)).orElse(null);
+    public static <T, R extends T> List<T> toJavaList(String json, Class<R> clazz) {
+        List<R> list = JSONArray.parseArray(json, clazz);
+        if (list == null) {
+            return null;
+        }
+        return Lists.newArrayList(list);
     }
 }
