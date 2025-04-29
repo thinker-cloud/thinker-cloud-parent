@@ -38,15 +38,17 @@ public class DynamicMasterSlaveInterceptor implements Interceptor {
             return invocation.proceed();
         }
 
-        String pushedDataSource = null;
         try {
-            String dataSource = SqlCommandType.SELECT.equals(ms.getSqlCommandType()) ? DdConstants.SLAVE : DdConstants.MASTER;
-            pushedDataSource = DynamicDataSourceContextHolder.push(dataSource);
+            String dataSource;
+            if (SqlCommandType.SELECT.equals(ms.getSqlCommandType())) {
+                dataSource = DdConstants.SLAVE;
+            } else {
+                dataSource = DdConstants.MASTER;
+            }
+            DynamicDataSourceContextHolder.push(dataSource);
             return invocation.proceed();
         } finally {
-            if (pushedDataSource != null) {
-                DynamicDataSourceContextHolder.poll();
-            }
+            DynamicDataSourceContextHolder.clear();
         }
     }
 }

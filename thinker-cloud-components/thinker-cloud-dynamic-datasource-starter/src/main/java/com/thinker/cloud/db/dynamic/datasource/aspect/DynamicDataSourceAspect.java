@@ -9,7 +9,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import java.util.Objects;
@@ -22,9 +21,6 @@ import java.util.Objects;
 @Slf4j
 @Aspect
 public class DynamicDataSourceAspect {
-
-    @Value("${spring.datasource.dynamic.primary:master}")
-    private String primary;
 
     @Pointcut("@annotation(com.thinker.cloud.db.dynamic.datasource.annotation.Master) "
             + "|| @annotation(com.thinker.cloud.db.dynamic.datasource.annotation.Slave)")
