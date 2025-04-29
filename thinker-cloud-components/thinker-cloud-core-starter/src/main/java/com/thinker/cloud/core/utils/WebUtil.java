@@ -2,17 +2,17 @@ package com.thinker.cloud.core.utils;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
-import com.thinker.cloud.common.utils.ClassUtil;
 import com.thinker.cloud.common.exception.FailException;
+import com.thinker.cloud.common.utils.ClassUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -20,7 +20,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.util.WebUtils;
 
-import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -148,7 +147,7 @@ public class WebUtil extends WebUtils {
         return null;
     }
 
-    @NotNull
+    @NonNull
     private static String[] splitClient(String header) {
         if (header == null || !header.startsWith(BASIC_)) {
             throw new FailException("请求头中client信息为空");
@@ -294,7 +293,7 @@ public class WebUtil extends WebUtils {
      * @param defaultValue 默认值
      * @return String
      */
-    public String getHeader(@Nonnull HttpServletRequest request, String header, String defaultValue) {
+    public String getHeader(@NonNull HttpServletRequest request, @NonNull String header, String defaultValue) {
         Assert.notNull(request, "request is not null");
         Assert.hasText(header, "header is not blank");
 

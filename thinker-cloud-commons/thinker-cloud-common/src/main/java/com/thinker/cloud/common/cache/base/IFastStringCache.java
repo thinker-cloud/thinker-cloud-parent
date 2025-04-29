@@ -4,7 +4,9 @@ import com.alibaba.fastjson.TypeReference;
 import com.thinker.cloud.common.cache.fast.IDyKey;
 import org.springframework.lang.NonNull;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
@@ -21,8 +23,9 @@ public interface IFastStringCache {
      *
      * @param key   缓存key
      * @param value 缓存对象
+     * @return T
      */
-    <T> void setCacheObj(@NonNull String key, @NonNull T value);
+    <T> T setCacheObj(@NonNull String key, @NonNull T value);
 
     /**
      * 设置缓存对象
@@ -31,8 +34,9 @@ public interface IFastStringCache {
      * @param value    缓存对象
      * @param timeout  缓存时长
      * @param timeUnit 缓存单位
+     * @return T
      */
-    <T> void setCacheObj(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit);
+    <T> T setCacheObj(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit);
 
     /**
      * 获取缓存
@@ -43,8 +47,8 @@ public interface IFastStringCache {
      * @param <R>         返回类型（实际类型）
      * @return T
      */
-    default <T, R extends T> T getCache(@NonNull String key, @NonNull Class<R> entityClass) {
-        return this.getCache(key, () -> null, entityClass);
+    default <T, R extends T> T getCacheObj(@NonNull String key, @NonNull Class<R> entityClass) {
+        return this.getCacheObj(key, () -> null, entityClass);
     }
 
     /**
@@ -58,9 +62,9 @@ public interface IFastStringCache {
      * @param <R>            返回类型（实际类型）
      * @return T
      */
-    <T, R extends T> T getCache(@NonNull String key,
-                                @NonNull Supplier<T> missedSupplier,
-                                @NonNull Class<R> entityClass);
+    <T, R extends T> T getCacheObj(@NonNull String key,
+                                   @NonNull Supplier<T> missedSupplier,
+                                   @NonNull Class<R> entityClass);
 
     /**
      * 获取缓存
@@ -71,8 +75,8 @@ public interface IFastStringCache {
      * @param <R>  返回类型（实际类型）
      * @return T
      */
-    default <T, R extends T> T getCache(@NonNull String key, @NonNull TypeReference<R> type) {
-        return this.getCache(key, () -> null, type);
+    default <T, R extends T> T getCacheObj(@NonNull String key, @NonNull TypeReference<R> type) {
+        return this.getCacheObj(key, () -> null, type);
     }
 
     /**
@@ -86,9 +90,9 @@ public interface IFastStringCache {
      * @param <R>            返回类型（实际类型）
      * @return T
      */
-    <T, R extends T> T getCache(@NonNull String key,
-                                @NonNull Supplier<T> missedSupplier,
-                                @NonNull TypeReference<R> type);
+    <T, R extends T> T getCacheObj(@NonNull String key,
+                                   @NonNull Supplier<T> missedSupplier,
+                                   @NonNull TypeReference<R> type);
 
     /**
      * 获取缓存
@@ -103,10 +107,10 @@ public interface IFastStringCache {
      * @param <R>            返回类型（实际类型）
      * @return 对象
      */
-    <T, R extends T> T getCache(@NonNull String key,
-                                @NonNull Supplier<T> missedSupplier,
-                                @NonNull TimeUnit timeUnit, long expire,
-                                @NonNull Class<R> entityClass);
+    <T, R extends T> T getCacheObj(@NonNull String key,
+                                   @NonNull Supplier<T> missedSupplier,
+                                   @NonNull TimeUnit timeUnit, long expire,
+                                   @NonNull Class<R> entityClass);
 
     /**
      * 获取缓存
@@ -120,12 +124,14 @@ public interface IFastStringCache {
      * @param <R>            返回类型（实际类型）
      * @return 对象
      */
-    default <T, R extends T> T getCache(@NonNull String keyPrefix,
-                                        @NonNull IDyKey dyKey,
-                                        @NonNull Supplier<T> missedSupplier,
-                                        @NonNull Class<R> entityClass) {
-        String key = keyPrefix + ":" + dyKey;
-        return this.getCache(key, missedSupplier, entityClass);
+    default <T, R extends T> T getCacheObj(@NonNull String keyPrefix,
+                                           @NonNull IDyKey dyKey,
+                                           @NonNull Supplier<T> missedSupplier,
+                                           @NonNull Class<R> entityClass) {
+        Objects.requireNonNull(dyKey, "动态key对象不能为空");
+
+        String key = keyPrefix + ":" + dyKey.getKey();
+        return this.getCacheObj(key, missedSupplier, entityClass);
     }
 
     /**
@@ -142,13 +148,15 @@ public interface IFastStringCache {
      * @param <R>            返回类型（实际类型）
      * @return 对象
      */
-    default <T, R extends T> T getCache(@NonNull String keyPrefix,
-                                        @NonNull IDyKey dyKey,
-                                        @NonNull Supplier<T> missedSupplier,
-                                        @NonNull TimeUnit timeUnit, long expire,
-                                        @NonNull Class<R> entityClass) {
+    default <T, R extends T> T getCacheObj(@NonNull String keyPrefix,
+                                           @NonNull IDyKey dyKey,
+                                           @NonNull Supplier<T> missedSupplier,
+                                           @NonNull TimeUnit timeUnit, long expire,
+                                           @NonNull Class<R> entityClass) {
+        Objects.requireNonNull(dyKey, "动态key对象不能为空");
+
         String key = keyPrefix + ":" + dyKey.getKey();
-        return this.getCache(key, missedSupplier, timeUnit, expire, entityClass);
+        return this.getCacheObj(key, missedSupplier, timeUnit, expire, entityClass);
     }
 
     /**
@@ -202,7 +210,23 @@ public interface IFastStringCache {
                                                @NonNull Supplier<List<T>> missedSupplier,
                                                @NonNull TimeUnit timeUnit, long expire,
                                                @NonNull Class<R> entityClass) {
+        Objects.requireNonNull(dyKey, "动态key对象不能为空");
+
         String key = keyPrefix + ":" + dyKey.getKey();
         return this.getCaches(key, missedSupplier, timeUnit, expire, entityClass);
     }
+
+    /**
+     * 获取缓存
+     *
+     * @param keys           缓存keys
+     * @param missedSupplier 提供数据获取过程
+     * @param entityClass    指定返回类型class （实际类型）
+     * @param <T>            返回类型（可抽象的）
+     * @param <R>            返回类型（实际类型）
+     * @return 列表
+     */
+    <T, R extends T> List<T> getCaches(@NonNull Collection<String> keys,
+                                       @NonNull Supplier<List<T>> missedSupplier,
+                                       @NonNull Class<R> entityClass);
 }

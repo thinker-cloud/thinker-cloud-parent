@@ -8,7 +8,9 @@ import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Json工具类
@@ -39,9 +41,10 @@ public class MyJsonUtil {
 
     public static <T, R extends T> List<T> toJavaList(String json, Class<R> clazz) {
         List<R> list = JSONArray.parseArray(json, clazz);
-        if (list == null) {
-            return null;
-        }
-        return Lists.newArrayList(list);
+        return Objects.nonNull(list) ? Lists.newArrayList(list) : null;
+    }
+
+    public static <T, R extends T> List<T> toJavaList(List<String> jsons, Class<R> clazz) {
+        return Objects.nonNull(jsons) ? jsons.stream().map(value -> toJavaObject(value, clazz)).collect(Collectors.toList()) : null;
     }
 }

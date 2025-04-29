@@ -28,8 +28,9 @@ public interface ICache<V> {
      *
      * @param key   缓存key
      * @param value 缓存对象
+     * @return V
      */
-    void setCache(@NonNull String key, @NonNull V value);
+    V setCache(@NonNull String key, @NonNull V value);
 
     /**
      * 设置缓存
@@ -38,8 +39,9 @@ public interface ICache<V> {
      * @param value    缓存对象
      * @param timeout  缓存时长
      * @param timeUnit 缓存单位
+     * @return V
      */
-    void setCache(@NonNull String key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit);
+    V setCache(@NonNull String key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit);
 
     /**
      * 批量set缓存

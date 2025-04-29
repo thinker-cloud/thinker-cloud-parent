@@ -11,7 +11,9 @@ import com.thinker.cloud.common.utils.MyJsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -30,24 +32,41 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
     }
 
     @Override
-    public <T> void setCacheObj(@NonNull String key, @NonNull T value) {
-        Objects.requireNonNull(value, "缓存对象不能为空");
-        super.setCache(key, JSON.toJSONString(value));
+    public <T> T setCacheObj(@NonNull String key, @NonNull T value) {
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(value, "缓存对象不能为空");
+
+        if (value instanceof String str) {
+            super.setCache(key, str);
+        } else {
+            super.setCache(key, JSON.toJSONString(value));
+        }
+
+        return value;
     }
 
     @Override
-    public <T> void setCacheObj(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit) {
-        Objects.requireNonNull(value, "缓存对象不能为空");
-        super.setCache(key, JSON.toJSONString(value), timeout, timeUnit);
+    public <T> T setCacheObj(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit) {
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(value, "缓存对象不能为空");
+        Assert.notNull(timeUnit, "缓存单位不能为空");
+
+        if (value instanceof String str) {
+            super.setCache(key, str, timeout, timeUnit);
+        } else {
+            super.setCache(key, JSON.toJSONString(value), timeout, timeUnit);
+        }
+
+        return value;
     }
 
     @Override
-    public <T, R extends T> T getCache(@NonNull String key,
-                                       @NonNull Supplier<T> missedSupplier,
-                                       @NonNull Class<R> entityClass) {
-        Objects.requireNonNull(key, "缓存key不能为空");
-        Objects.requireNonNull(missedSupplier, "数据获取过程不能为空");
-        Objects.requireNonNull(entityClass, "指定返回类型不能为空");
+    public <T, R extends T> T getCacheObj(@NonNull String key,
+                                          @NonNull Supplier<T> missedSupplier,
+                                          @NonNull Class<R> entityClass) {
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(missedSupplier, "数据获取过程不能为空");
+        Assert.notNull(entityClass, "指定返回类型不能为空");
 
         String value = super.getCache(key);
         if (StrUtil.isBlank(value)) {
@@ -57,12 +76,12 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
     }
 
     @Override
-    public <T, R extends T> T getCache(@NonNull String key,
-                                       @NonNull Supplier<T> missedSupplier,
-                                       @NonNull TypeReference<R> type) {
-        Objects.requireNonNull(key, "缓存key不能为空");
-        Objects.requireNonNull(missedSupplier, "数据获取过程不能为空");
-        Objects.requireNonNull(type, "数据转换类型不能为空");
+    public <T, R extends T> T getCacheObj(@NonNull String key,
+                                          @NonNull Supplier<T> missedSupplier,
+                                          @NonNull TypeReference<R> type) {
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(missedSupplier, "数据获取过程不能为空");
+        Assert.notNull(type, "数据转换类型不能为空");
 
         String value = super.getCache(key);
         if (StrUtil.isBlank(value)) {
@@ -72,14 +91,14 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
     }
 
     @Override
-    public <T, R extends T> T getCache(@NonNull String key,
-                                       @NonNull Supplier<T> missedSupplier,
-                                       @NonNull TimeUnit timeUnit, long expire,
-                                       @NonNull Class<R> entityClass) {
-        Objects.requireNonNull(key, "缓存key不能为空");
-        Objects.requireNonNull(missedSupplier, "数据获取过程不能为空");
-        Objects.requireNonNull(timeUnit, "缓存单位不能为空");
-        Objects.requireNonNull(entityClass, "指定返回类型不能为空");
+    public <T, R extends T> T getCacheObj(@NonNull String key,
+                                          @NonNull Supplier<T> missedSupplier,
+                                          @NonNull TimeUnit timeUnit, long expire,
+                                          @NonNull Class<R> entityClass) {
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(missedSupplier, "数据获取过程不能为空");
+        Assert.notNull(timeUnit, "缓存单位不能为空");
+        Assert.notNull(entityClass, "指定返回类型不能为空");
 
         String value = super.getCache(key);
         if (StrUtil.isNotBlank(value)) {
@@ -97,9 +116,9 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
     public <T, R extends T> List<T> getCaches(@NonNull String key,
                                               @NonNull Supplier<List<T>> missedSupplier,
                                               @NonNull Class<R> entityClass) {
-        Objects.requireNonNull(key, "缓存key不能为空");
-        Objects.requireNonNull(missedSupplier, "数据获取过程不能为空");
-        Objects.requireNonNull(entityClass, "指定返回类型不能为空");
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(missedSupplier, "数据获取过程不能为空");
+        Assert.notNull(entityClass, "指定返回类型不能为空");
 
         String value = super.getCache(key);
         if (StrUtil.isBlank(value)) {
@@ -114,10 +133,10 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
                                               @NonNull Supplier<List<T>> missedSupplier,
                                               @NonNull TimeUnit timeUnit, long expire,
                                               @NonNull Class<R> entityClass) {
-        Objects.requireNonNull(key, "缓存key不能为空");
-        Objects.requireNonNull(missedSupplier, "数据获取过程不能为空");
-        Objects.requireNonNull(timeUnit, "缓存单位不能为空");
-        Objects.requireNonNull(entityClass, "指定返回类型不能为空");
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(missedSupplier, "数据获取过程不能为空");
+        Assert.notNull(timeUnit, "缓存单位不能为空");
+        Assert.notNull(entityClass, "指定返回类型不能为空");
 
         String value = super.getCache(key);
         if (StrUtil.isNotBlank(value)) {
@@ -129,5 +148,21 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
             super.setCache(key, JSONArray.toJSONString(list), expire, timeUnit);
         }
         return list;
+    }
+
+    @Override
+    public <T, R extends T> List<T> getCaches(@NonNull Collection<String> keys,
+                                              @NonNull Supplier<List<T>> missedSupplier,
+                                              @NonNull Class<R> entityClass) {
+        Assert.notEmpty(keys, "缓存key不能为空");
+        Assert.notNull(missedSupplier, "数据获取过程不能为空");
+        Assert.notNull(entityClass, "指定返回类型不能为空");
+
+        List<String> caches = super.getCaches(keys);
+        if (Objects.isNull(caches)) {
+            return missedSupplier.get();
+        }
+
+        return MyJsonUtil.toJavaList(caches, entityClass);
     }
 }

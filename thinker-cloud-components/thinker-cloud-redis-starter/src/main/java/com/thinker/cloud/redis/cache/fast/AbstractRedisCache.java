@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.TimeoutUtils;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -32,38 +33,42 @@ public abstract class AbstractRedisCache<V> implements ICache<V> {
     private static final StringRedisSerializer STRING_KEY_SERIALIZER = new StringRedisSerializer();
 
     @Override
-    public void setCache(@NonNull String key, @NonNull V value) {
-        Objects.requireNonNull(key, "缓存key不能为空");
-        Objects.requireNonNull(value, "缓存对象不能为空");
+    public V setCache(@NonNull String key, @NonNull V value) {
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(value, "缓存对象不能为空");
 
         redisTemplate.opsForValue().set(key, value);
+        return value;
     }
 
     @Override
-    public void setCache(@NonNull String key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit) {
-        Objects.requireNonNull(key, "缓存key不能为空");
-        Objects.requireNonNull(value, "缓存对象不能为空");
-        Objects.requireNonNull(timeUnit, "缓存单位不能为空");
+    public V setCache(@NonNull String key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit) {
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(value, "缓存对象不能为空");
+        Assert.notNull(timeUnit, "缓存单位不能为空");
 
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
+        return value;
     }
 
     @Override
     public boolean hasCache(@NonNull String key) {
-        Objects.requireNonNull(key, "缓存key不能为空");
+        Assert.hasText(key, "缓存key不能为空");
+
         return redisTemplate.hasKey(key);
     }
 
     @Override
     public V getCache(@NonNull String key) {
-        Objects.requireNonNull(key, "缓存key不能为空");
+        Assert.hasText(key, "缓存key不能为空");
+
         return redisTemplate.opsForValue().get(key);
     }
 
     @Override
     public <T> T getCache(@NonNull String key, @NonNull Function<V, T> dataConvertor) {
-        Objects.requireNonNull(key, "缓存key不能为空");
-        Objects.requireNonNull(dataConvertor, "缓存数据转换器不能为空");
+        Assert.hasText(key, "缓存key不能为空");
+        Assert.notNull(dataConvertor, "缓存数据转换器不能为空");
 
         V value = this.getCache(key);
         return Optional.ofNullable(value).map(dataConvertor).orElse(null);
@@ -71,14 +76,15 @@ public abstract class AbstractRedisCache<V> implements ICache<V> {
 
     @Override
     public List<V> getCaches(@NonNull Collection<String> keys) {
-        Objects.requireNonNull(keys, "缓存key列表不能为空");
+        Assert.notEmpty(keys, "缓存key列表不能为空");
+
         return redisTemplate.opsForValue().multiGet(keys);
     }
 
     @Override
     public List<V> getCaches(@NonNull Collection<String> keys, @NonNull Predicate<V> dataFilter) {
-        Objects.requireNonNull(keys, "缓存key列表不能为空");
-        Objects.requireNonNull(dataFilter, "缓存数据过滤器不能为空");
+        Assert.notEmpty(keys, "缓存key列表不能为空");
+        Assert.notNull(dataFilter, "缓存数据过滤器不能为空");
 
         List<V> caches = this.getCaches(keys);
         if (Objects.isNull(caches)) {
@@ -95,13 +101,9 @@ public abstract class AbstractRedisCache<V> implements ICache<V> {
 
     @Override
     public <T> List<T> getCaches(@NonNull Collection<String> keys, @NonNull Function<V, T> dataConvertor, @NonNull Predicate<T> dataFilter) {
-        Objects.requireNonNull(keys, "缓存key列表不能为空");
-        Objects.requireNonNull(dataConvertor, "缓存数据转换器不能为空");
-        Objects.requireNonNull(dataFilter, "缓存数据过滤器不能为空");
-
-        if (CollectionUtil.isEmpty(keys)) {
-            return null;
-        }
+        Assert.notEmpty(keys, "缓存key列表不能为空");
+        Assert.notNull(dataConvertor, "缓存数据转换器不能为空");
+        Assert.notNull(dataFilter, "缓存数据过滤器不能为空");
 
         List<T> allCaches;
 
@@ -135,11 +137,7 @@ public abstract class AbstractRedisCache<V> implements ICache<V> {
 
     @Override
     public void multiSetCache(@NonNull Map<String, V> cacheMap, int batchSetCacheMaxSize) {
-        Objects.requireNonNull(cacheMap, "缓存Map不能为空");
-
-        if (cacheMap.isEmpty()) {
-            return;
-        }
+        Assert.notEmpty(cacheMap, "缓存Map不能为空");
 
         // 批量缓存最大长度
         if (batchSetCacheMaxSize < 1) {
@@ -166,12 +164,8 @@ public abstract class AbstractRedisCache<V> implements ICache<V> {
 
     @Override
     public void multiSetCache(@NonNull Map<String, V> cacheMap, long timeout, @NonNull TimeUnit timeUnit, int batchSetCacheMaxSize) {
-        Objects.requireNonNull(cacheMap, "缓存Map不能为空");
-        Objects.requireNonNull(timeUnit, "缓存单位不能为空");
-
-        if (cacheMap.isEmpty()) {
-            return;
-        }
+        Assert.notEmpty(cacheMap, "缓存Map不能为空");
+        Assert.notNull(timeUnit, "缓存单位不能为空");
 
         // 批量缓存最大长度
         if (batchSetCacheMaxSize < 1) {
@@ -197,25 +191,29 @@ public abstract class AbstractRedisCache<V> implements ICache<V> {
 
     @Override
     public boolean removeCache(@NonNull String key) {
-        Objects.requireNonNull(key, "缓存key不能为空");
+        Assert.hasText(key, "缓存key不能为空");
+
         return redisTemplate.delete(key);
     }
 
     @Override
     public void removeCache(@NonNull Collection<String> keys) {
-        Objects.requireNonNull(keys, "缓存keys不能为空");
+        Assert.notEmpty(keys, "缓存keys不能为空");
+
         redisTemplate.delete(new ArrayList<>(keys));
     }
 
     @Override
     public void removeAllCache(@NonNull String prefix) {
-        Objects.requireNonNull(prefix, "缓存前缀不能为空");
+        Assert.hasText(prefix, "缓存前缀不能为空");
+
         redisTemplate.delete(this.getKeys(prefix));
     }
 
     @Override
     public Set<String> getKeys(@NonNull String prefix) {
-        Objects.requireNonNull(prefix, "缓存前缀不能为空");
+        Assert.hasText(prefix, "缓存前缀不能为空");
+
         return redisTemplate.keys(prefix + "*");
     }
 
