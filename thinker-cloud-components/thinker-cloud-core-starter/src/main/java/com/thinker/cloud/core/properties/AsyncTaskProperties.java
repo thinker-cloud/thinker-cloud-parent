@@ -2,7 +2,7 @@ package com.thinker.cloud.core.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 异步任务配置
@@ -10,7 +10,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
  * @author admin
  */
 @Data
-@RefreshScope
+@Configuration
 @ConfigurationProperties(prefix = "thinker.cloud.async.task")
 public class AsyncTaskProperties {
     /**

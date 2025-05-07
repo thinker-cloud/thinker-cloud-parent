@@ -2,7 +2,7 @@ package com.thinker.cloud.core.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * RestTemplate 配置
@@ -10,7 +10,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
  * @author admin
  */
 @Data
-@RefreshScope
+@Configuration
 @ConfigurationProperties(prefix = "thinker.cloud.rest-template")
 public class RestTemplateProperties {
 

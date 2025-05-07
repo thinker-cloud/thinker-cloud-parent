@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -26,6 +27,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 @EnableScheduling
 @AllArgsConstructor
+@ConditionalOnBean(AsyncTaskProperties.class)
 public class AsyncTaskExecutorConfiguration implements AsyncConfigurer {
 
     private final AsyncTaskProperties asyncTaskProperties;

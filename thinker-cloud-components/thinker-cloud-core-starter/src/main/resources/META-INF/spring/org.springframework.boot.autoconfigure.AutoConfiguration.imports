@@ -4,3 +4,4 @@ com.thinker.cloud.core.properties.AsyncTaskProperties
 com.thinker.cloud.core.properties.RestTemplateProperties
 com.thinker.cloud.core.aspect.expression.ExpressionResolver
 com.thinker.cloud.core.config.AsyncTaskExecutorConfiguration
+com.thinker.cloud.core.config.RestTemplateConfiguration
