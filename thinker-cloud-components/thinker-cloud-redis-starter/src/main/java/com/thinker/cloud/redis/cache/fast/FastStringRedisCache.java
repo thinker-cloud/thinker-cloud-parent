@@ -32,7 +32,7 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
     }
 
     @Override
-    public <T> T setCacheObj(@NonNull String key, @NonNull T value) {
+    public <T> void setCacheObj(@NonNull String key, @NonNull T value) {
         Assert.hasText(key, "缓存key不能为空");
         Assert.notNull(value, "缓存对象不能为空");
 
@@ -41,12 +41,10 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
         } else {
             super.setCache(key, JSON.toJSONString(value));
         }
-
-        return value;
     }
 
     @Override
-    public <T> T setCacheObj(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit) {
+    public <T> void setCacheObj(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit) {
         Assert.hasText(key, "缓存key不能为空");
         Assert.notNull(value, "缓存对象不能为空");
         Assert.notNull(timeUnit, "缓存单位不能为空");
@@ -56,8 +54,6 @@ public class FastStringRedisCache extends AbstractRedisCache<String> implements 
         } else {
             super.setCache(key, JSON.toJSONString(value), timeout, timeUnit);
         }
-
-        return value;
     }
 
     @Override

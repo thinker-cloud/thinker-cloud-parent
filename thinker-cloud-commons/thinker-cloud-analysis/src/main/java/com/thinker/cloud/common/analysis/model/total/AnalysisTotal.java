@@ -1,6 +1,7 @@
 package com.thinker.cloud.common.analysis.model.total;
 
-import javax.annotation.Nonnull;
+import org.springframework.lang.NonNull;
+
 import java.math.BigDecimal;
 
 /**
@@ -122,7 +123,7 @@ public interface AnalysisTotal extends Comparable<AnalysisTotal> {
      * @return 排序号
      */
     @Override
-    default int compareTo(@Nonnull AnalysisTotal total) {
+    default int compareTo(@NonNull AnalysisTotal total) {
         try {
             int valueSort = total.getValue().compareTo(this.getValue());
             if (valueSort == 0) {

@@ -22,9 +22,8 @@ public interface IFastCache {
      *
      * @param key   缓存key
      * @param value 缓存对象
-     * @return T
      */
-    <T> T setCache(@NonNull String key, @NonNull T value);
+    <T> void setCache(@NonNull String key, @NonNull T value);
 
     /**
      * 设置缓存对象
@@ -33,9 +32,8 @@ public interface IFastCache {
      * @param value    缓存对象
      * @param timeout  缓存时长
      * @param timeUnit 缓存单位
-     * @return T
      */
-    <T> T setCache(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit);
+    <T> void setCache(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit);
 
     /**
      * 获取缓存

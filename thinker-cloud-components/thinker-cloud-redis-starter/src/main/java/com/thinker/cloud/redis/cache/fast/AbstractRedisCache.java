@@ -33,22 +33,20 @@ public abstract class AbstractRedisCache<V> implements ICache<V> {
     private static final StringRedisSerializer STRING_KEY_SERIALIZER = new StringRedisSerializer();
 
     @Override
-    public V setCache(@NonNull String key, @NonNull V value) {
+    public void setCache(@NonNull String key, @NonNull V value) {
         Assert.hasText(key, "缓存key不能为空");
         Assert.notNull(value, "缓存对象不能为空");
 
         redisTemplate.opsForValue().set(key, value);
-        return value;
     }
 
     @Override
-    public V setCache(@NonNull String key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit) {
+    public void setCache(@NonNull String key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit) {
         Assert.hasText(key, "缓存key不能为空");
         Assert.notNull(value, "缓存对象不能为空");
         Assert.notNull(timeUnit, "缓存单位不能为空");
 
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
-        return value;
     }
 
     @Override
