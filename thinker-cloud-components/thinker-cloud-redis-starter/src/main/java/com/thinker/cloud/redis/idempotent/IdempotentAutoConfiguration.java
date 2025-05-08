@@ -3,6 +3,7 @@ package com.thinker.cloud.redis.idempotent;
 import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
 import com.thinker.cloud.redis.idempotent.aspect.IdempotentAspect;
 import org.redisson.api.RedissonClient;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
@@ -15,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * @author admin
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(RedisAutoConfiguration.class)
+@AutoConfigureAfter({RedisAutoConfiguration.class, RedissonAutoConfiguration.class})
 public class IdempotentAutoConfiguration {
 
     /**

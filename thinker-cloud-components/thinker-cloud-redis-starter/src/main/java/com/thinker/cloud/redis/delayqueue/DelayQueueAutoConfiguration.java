@@ -4,11 +4,14 @@ import com.thinker.cloud.core.thread.ThinkerThreadPoolTaskExecutor;
 import com.thinker.cloud.redis.delayqueue.executor.DelayQueueExecutorFactory;
 import com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties;
 import com.thinker.cloud.redis.delayqueue.properties.DelayQueueProperties.ThreadPoolProperties;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -21,8 +24,9 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author admin
  */
 @Slf4j
-@Configuration
-@AllArgsConstructor
+@Configuration(proxyBeanMethods = false)
+@RequiredArgsConstructor
+@AutoConfigureAfter({RedisAutoConfiguration.class, RedissonAutoConfiguration.class})
 @ConditionalOnExpression("${thinker.cloud.redis.delay-queue.enabled:false}")
 public class DelayQueueAutoConfiguration {
 

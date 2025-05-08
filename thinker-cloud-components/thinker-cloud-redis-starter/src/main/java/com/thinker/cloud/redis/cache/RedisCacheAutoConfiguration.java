@@ -6,6 +6,7 @@ import com.thinker.cloud.redis.cache.fast.FastRedisService;
 import com.thinker.cloud.redis.cache.fast.FastStringRedisCache;
 import com.thinker.cloud.redis.cache.generator.CacheKeyGenerator;
 import org.redisson.api.RedissonClient;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -21,7 +22,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @author admin
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(RedisAutoConfiguration.class)
+@AutoConfigureAfter({RedisAutoConfiguration.class, RedissonAutoConfiguration.class})
 public class RedisCacheAutoConfiguration {
 
     /**
@@ -30,6 +31,7 @@ public class RedisCacheAutoConfiguration {
      * @return FastRedisService
      */
     @Bean
+    @ConditionalOnMissingBean(FastRedisService.class)
     public FastRedisService fastRedisService(RedisTemplate<String, Object> redisTemplate) {
         return new FastRedisService(redisTemplate);
     }
@@ -40,6 +42,7 @@ public class RedisCacheAutoConfiguration {
      * @return FastStringRedisCache
      */
     @Bean
+    @ConditionalOnMissingBean(FastStringRedisCache.class)
     public FastStringRedisCache fastStringRedisCache(StringRedisTemplate redisTemplate) {
         return new FastStringRedisCache(redisTemplate);
     }

@@ -5,8 +5,9 @@ import com.thinker.cloud.redis.lock.aspect.DistributedLockAspect;
 import com.thinker.cloud.redis.lock.aspect.LockInfoProvider;
 import com.thinker.cloud.redis.lock.distributed.RedissonDistributedLock;
 import com.thinker.cloud.redis.lock.lock.LockFactory;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.redisson.api.RedissonClient;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
@@ -18,9 +19,9 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author admin
  */
-@Configuration
-@AllArgsConstructor
-@AutoConfigureAfter(RedisAutoConfiguration.class)
+@Configuration(proxyBeanMethods = false)
+@RequiredArgsConstructor
+@AutoConfigureAfter({RedisAutoConfiguration.class, RedissonAutoConfiguration.class})
 public class DistributedLockAutoConfiguration {
 
     private final RedissonClient redissonClient;
