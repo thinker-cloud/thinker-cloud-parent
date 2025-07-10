@@ -20,6 +20,7 @@ import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.thinker.cloud.common.jackson.converters.EnumDictConverter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.MessageSource;
@@ -48,6 +49,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(@NonNull FormatterRegistry formatterRegistry) {
+        // 注册枚举转换器
+        formatterRegistry.addConverterFactory(EnumDictConverter.INSTANCE);
+
         // 注册日期格式化器
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
         registrar.setTimeFormatter(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN));

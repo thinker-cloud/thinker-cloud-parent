@@ -34,12 +34,14 @@ public class EnumDictUtil {
      * @param <T>       枚举类型
      * @return 查找到的结果
      */
-    public static <T extends Enum<?> & IEnumDict<?>> Optional<T> find(Class<T> type, Predicate<T> predicate) {
-        if (type.isEnum()) {
-            for (T enumDict : type.getEnumConstants()) {
-                if (predicate.test(enumDict)) {
-                    return Optional.of(enumDict);
-                }
+    public static <T extends IEnumDict<?>> Optional<T> find(Class<T> type, Predicate<T> predicate) {
+        if (!type.isEnum()) {
+            return Optional.empty();
+        }
+
+        for (T enumDict : type.getEnumConstants()) {
+            if (predicate.test(enumDict)) {
+                return Optional.of(enumDict);
             }
         }
         return Optional.empty();
@@ -50,7 +52,7 @@ public class EnumDictUtil {
      *
      * @see this#find(Class, Predicate)
      */
-    public static <T extends Enum<?> & IEnumDict<?>> Optional<T> findByValue(Class<T> type, Object value) {
+    public static <T extends IEnumDict<?>> Optional<T> findByValue(Class<T> type, Object value) {
         return find(type, e -> e.getValue() == value || e.getValue().equals(value) || String.valueOf(e.getValue()).equalsIgnoreCase(String.valueOf(value)));
     }
 
