@@ -40,6 +40,11 @@ public class ExcelRowUtil {
             if (isScientificNotation(numericCellValue)) {
                 return NumberUtil.toStr(new BigDecimal(numericCellValue));
             }
+
+            // 处理格式问题，例：315 解析成了 315.0，去除多余小数位0
+            if (NumberUtil.isNumber(numericCellValue)) {
+                return new BigDecimal(numericCellValue).stripTrailingZeros().toPlainString();
+            }
             return numericCellValue;
         }
     }

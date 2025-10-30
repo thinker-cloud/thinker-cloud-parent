@@ -37,6 +37,10 @@
                     <artifactId>okio-jvm</artifactId>
                     <groupId>com.squareup.okio</groupId>
                 </exclusion>
+				<exclusion>
+					<groupId>com.github.luben</groupId>
+					<artifactId>zstd-jni</artifactId>
+				</exclusion>
             </exclusions>
         </dependency>
 

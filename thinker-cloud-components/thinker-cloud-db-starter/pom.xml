@@ -48,6 +48,10 @@
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
+				<exclusion>
+					<artifactId>error_prone_annotations</artifactId>
+					<groupId>com.google.errorprone</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 

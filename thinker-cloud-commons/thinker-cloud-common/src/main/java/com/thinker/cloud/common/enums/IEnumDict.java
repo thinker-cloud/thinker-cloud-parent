@@ -1,8 +1,5 @@
 package com.thinker.cloud.common.enums;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.JSONSerializer;
-import com.alibaba.fastjson.serializer.ObjectSerializer;
 import com.alibaba.fastjson2.annotation.JSONType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -10,18 +7,16 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.thinker.cloud.common.jackson.serializers.enums.EnumDictDeserializer;
 import com.thinker.cloud.common.jackson.serializers.enums.EnumDictSerializer;
 
-import java.lang.reflect.Type;
-
 /**
  * 枚举字典 支持将对象反序列化枚举,由于fastJson目前的版本还不支持从父类获取注解
  * 所以需要在实现类上注解:@JSONType(deserializer = EnumDictDeserializer.class)
  *
  * @author admin
  **/
-@JSONType(deserializer = EnumDictDeserializer.class)
+@JSONType(serializer = EnumDictSerializer.class, deserializer = EnumDictDeserializer.class)
 @JsonSerialize(using = EnumDictSerializer.class)
 @JsonDeserialize(using = EnumDictDeserializer.class)
-public interface IEnumDict<V> extends ObjectSerializer {
+public interface IEnumDict<V> {
 
     /**
      * 枚举值
@@ -47,24 +42,4 @@ public interface IEnumDict<V> extends ObjectSerializer {
         return true;
     }
 
-    /**
-     * fastJson 序列化
-     *
-     * @param jsonSerializer jsonSeriliazer
-     * @param object         object
-     * @param fieldName      fieldType
-     * @param fieldType      fieldType
-     * @param features       features
-     */
-    @Override
-    default void write(JSONSerializer jsonSerializer, Object object, Object fieldName, Type fieldType, int features) {
-        if (this.isWriteJsonObjectEnabled()) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("value", this.getValue());
-            jsonObject.put("desc", this.getDesc());
-            jsonSerializer.write(jsonObject);
-        } else {
-            jsonSerializer.write(this.getValue());
-        }
-    }
 }

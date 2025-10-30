@@ -56,39 +56,40 @@
 		<revision>1.0.0-SNAPSHOT</revision>
 
 		<!-- 基础依赖 -->
-		<spring-boot.version>3.4.6</spring-boot.version>
-		<spring-cloud.version>2024.0.1</spring-cloud.version>
-		<spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
+		<spring-boot.version>3.5.7</spring-boot.version>
+		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
 
 		<!-- 数据库 -->
-		<druid.version>1.2.24</druid.version>
-		<mybatis-plus.version>3.5.12</mybatis-plus.version>
-		<clickhouse-jdbc.version>0.8.2</clickhouse-jdbc.version>
+		<druid.version>1.2.27</druid.version>
+		<mybatis-plus.version>3.5.14</mybatis-plus.version>
+		<clickhouse-jdbc.version>0.9.2</clickhouse-jdbc.version>
 		<dynamic-datasource.version>4.3.1</dynamic-datasource.version>
 
 		<!-- 中间件 -->
-		<xxl-job.version>3.0.0</xxl-job.version>
-		<redisson.version>3.45.1</redisson.version>
-		<spring-boot-rocketmq.version>2.3.3</spring-boot-rocketmq.version>
+		<xxl-job.version>3.2.0</xxl-job.version>
+		<redisson.version>3.52.0</redisson.version>
+		<spring-boot-admin.version>3.5.5</spring-boot-admin.version>
+		<spring-boot-rocketmq.version>2.3.4</spring-boot-rocketmq.version>
 
 		<!-- RPC 框架 -->
-		<spring-boot-dubbo.version>3.3.4</spring-boot-dubbo.version>
+		<spring-boot-dubbo.version>3.3.5</spring-boot-dubbo.version>
 
 		<!-- 工具包 -->
 		<mapstruct.version>1.6.3</mapstruct.version>
 		<lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
-		<hutool.version>5.8.37</hutool.version>
+		<hutool.version>5.8.41</hutool.version>
 		<easypoi.version>4.5.0</easypoi.version>
-		<fastjson.version>2.0.54</fastjson.version>
-		<guava.version>33.4.8-jre</guava.version>
-		<commons-lang3.version>3.17.0</commons-lang3.version>
-		<commons-io.version>2.19.0</commons-io.version>
+		<fastjson.version>2.0.60</fastjson.version>
+		<guava.version>33.5.0-jre</guava.version>
+		<commons-lang3.version>3.19.0</commons-lang3.version>
+		<commons-io.version>2.20.0</commons-io.version>
 		<org-jetbrains.version>26.0.2</org-jetbrains.version>
 		<transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
 
 		<!-- openapi -->
 		<knife4j.version>4.5.0</knife4j.version>
-		<springdoc-openapi-starter.version>2.8.6</springdoc-openapi-starter.version>
+		<springdoc-openapi-starter.version>3.0.0-M1</springdoc-openapi-starter.version>
 		<therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
 
 		<!-- plugin -->
@@ -143,12 +144,12 @@
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-client</artifactId>
-				<version>${spring-boot.version}</version>
+				<version>${spring-boot-admin.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-server</artifactId>
-				<version>${spring-boot.version}</version>
+				<version>${spring-boot-admin.version}</version>
 			</dependency>
 
 			<!-- dubbo -->
@@ -156,12 +157,6 @@
 				<groupId>org.apache.dubbo</groupId>
 				<artifactId>dubbo-spring-boot-starter</artifactId>
 				<version>${spring-boot-dubbo.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>com.alibaba.fastjson2</groupId>
-						<artifactId>fastjson2</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<!-- redisson -->
@@ -176,13 +171,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
 				<version>${spring-boot.version}</version>
-				<exclusions>
-					<!--排除tomcat依赖-->
-					<exclusion>
-						<artifactId>spring-boot-starter-tomcat</artifactId>
-						<groupId>org.springframework.boot</groupId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<!-- clickhouse -->
@@ -277,16 +265,6 @@
 				<groupId>cn.afterturn</groupId>
 				<artifactId>easypoi-spring-boot-starter</artifactId>
 				<version>${easypoi.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.javassist</groupId>
-						<artifactId>javassist</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<!-- transmittable-thread-local -->

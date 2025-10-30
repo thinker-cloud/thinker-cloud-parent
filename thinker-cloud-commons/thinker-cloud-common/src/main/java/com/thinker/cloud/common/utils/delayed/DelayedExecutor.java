@@ -18,11 +18,14 @@ import java.util.function.Consumer;
  */
 @Slf4j
 public class DelayedExecutor<Task extends DelayedTask<?>> {
+
     private ExecutorService executorService;
-    @Getter
-    private final DelayQueue<Task> delayedTasks = new DelayQueue<>();
     private final Lock lock = new ReentrantLock();
     private final Condition condition = lock.newCondition();
+
+    @Getter
+    private final DelayQueue<Task> delayedTasks = new DelayQueue<>();
+    @Getter
     private volatile boolean isStart;
 
     private DelayedExecutor() {
@@ -57,10 +60,6 @@ public class DelayedExecutor<Task extends DelayedTask<?>> {
                            TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory) {
         this(execute, new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
                 threadFactory, new ThreadPoolExecutor.CallerRunsPolicy()));
-    }
-
-    public boolean isStart() {
-        return isStart;
     }
 
     public void destroyTasks(Object reference) {
