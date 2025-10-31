@@ -51,6 +51,8 @@ import java.time.Duration;
 
 /**
  * Redis connection configuration using Lettuce.
+ * <p>
+ * 因为官方该类只能在同包名下访问，所以这里单独复制出来改成public了，使 RedisConfiguration 能引用
  *
  * @author Mark Paluch
  * @author Andy Wilkinson
@@ -61,7 +63,7 @@ import java.time.Duration;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(RedisClient.class)
 @ConditionalOnProperty(name = "spring.data.redis.client-type", havingValue = "lettuce", matchIfMissing = true)
-class LettuceConnectionConfiguration extends RedisConnectionConfiguration {
+public class LettuceConnectionConfiguration extends RedisConnectionConfiguration {
 
     LettuceConnectionConfiguration(RedisProperties properties,
                                    ObjectProvider<RedisStandaloneConfiguration> standaloneConfigurationProvider,
