@@ -108,7 +108,7 @@ public class ExcelUtil {
         try (FileInputStream inputStream = new FileInputStream(zipFile)) {
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setContentType("application/octet-stream;charset=utf-8");
-            String filename = URLEncoder.encode(zipFile.getName(), StandardCharsets.UTF_8.name());
+            String filename = URLEncoder.encode(zipFile.getName(), StandardCharsets.UTF_8);
             response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename + ".zip");
             @Cleanup OutputStream outputStream = response.getOutputStream();
             int len;
